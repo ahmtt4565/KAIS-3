@@ -185,7 +185,8 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Exchange Rates Display on Dashboard"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -195,3 +196,5 @@ agent_communication:
     message: "Implemented live exchange rate integration. Added fetch_exchange_rates() function that pulls data from exchangerate-api.com free API (165 currencies). Scheduled to run daily at midnight UTC and on startup. Created two API endpoints: 1) /api/exchange-rates to get all current rates, 2) /api/exchange-rates/convert for currency conversion with amount, from_currency, and to_currency params. Backend logs show successful rate fetch. Ready for testing. Please test both endpoints with various currency pairs (e.g., USD to EUR, TRY to USD, EUR to GBP, etc.)"
   - agent: "testing"
     message: "✅ EXCHANGE RATE TESTING COMPLETE: All 4 backend tasks tested successfully (30/30 tests passed). Fixed critical routing conflict where /exchange-rates/{base_currency} was intercepting /exchange-rates/convert requests. Both endpoints now working perfectly: 1) GET /api/exchange-rates returns 165 currencies with USD base, 2) GET /api/exchange-rates/convert handles all conversion scenarios with proper error handling. Data fetching, scheduling, persistence, and caching all verified. Ready for main agent to summarize and finish."
+  - agent: "main"
+    message: "Added exchange rates display to Dashboard frontend. Created beautiful teal-themed card showing 4 popular pairs (USD→TRY, USD→EUR, USD→GBP, USD→JPY) with live rates. Card positioned between Giveaway and Filter sections. Shows last updated timestamp and 'Live' badge. Integrated with existing fetchData function to load rates on dashboard mount. Ready for frontend testing to verify display and data loading."
