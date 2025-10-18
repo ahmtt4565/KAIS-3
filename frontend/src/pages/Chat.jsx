@@ -632,9 +632,8 @@ export default function Chat({ user, logout }) {
                         <div className="relative">
                           <div
                             onClick={(e) => {
-                              e.stopPropagation();
                               if (isOwnMessage) {
-                                handleMessageLongPress(msg);
+                                handleMessageLongPress(msg, e);
                               }
                             }}
                             className={`max-w-[75%] md:max-w-[60%] rounded-3xl px-4 py-2.5 ${
