@@ -2909,6 +2909,38 @@ async def check_expired_exchanges():
     except Exception as e:
         logger.error(f"❌ Error checking expired exchanges: {e}")
 
+async def fetch_exchange_rates():
+    """Fetch live currency exchange rates and store in database"""
+    try:
+        # Using exchangerate-api.com free tier (1,500 requests/month)
+        # Base currency: USD
+        api_url = "https://api.exchangerate-api.com/v4/latest/USD"
+        
+        response = requests.get(api_url, timeout=10)
+        response.raise_for_status()
+        
+        data = response.json()
+        
+        # Prepare exchange rate document
+        exchange_rate_doc = {
+            "id": str(uuid.uuid4()),
+            "base_currency": data.get("base", "USD"),
+            "rates": data.get("rates", {}),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
+            "timestamp": data.get("time_last_updated", None)
+        }
+        
+        # Store in database (replace existing rates)
+        await db.exchange_rates.delete_many({})  # Clear old rates
+        await db.exchange_rates.insert_one(exchange_rate_doc)
+        
+        logger.info(f"💱 Successfully updated exchange rates with {len(exchange_rate_doc['rates'])} currencies")
+        
+    except requests.exceptions.RequestException as e:
+        logger.error(f"❌ Error fetching exchange rates from API: {e}")
+    except Exception as e:
+        logger.error(f"❌ Error updating exchange rates in database: {e}")
+
 @app.on_event("startup")
 async def startup_scheduler():
     """Uygulaması başladığında scheduler'ı başlat"""
