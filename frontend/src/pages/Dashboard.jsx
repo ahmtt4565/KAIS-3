@@ -802,13 +802,13 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
         {/* Listings */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
+            <h3 className="text-2xl font-bold italic text-center flex-1 text-gray-800 dark:text-white">
               Featured Listings
             </h3>
             <Button
               onClick={() => navigate('/listings')}
               variant="outline"
-              className="border-teal-600 text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-900"
+              className="hidden md:flex border-teal-600 text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-900"
             >
               View All Listings ({filteredListings.length})
             </Button>
