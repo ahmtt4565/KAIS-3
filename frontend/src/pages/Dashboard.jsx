@@ -782,7 +782,7 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                 {/* Info Text & Button */}
                 <div className="flex items-center justify-between border-t border-teal-200 dark:border-teal-700 pt-3">
                   <div className="text-xs text-teal-600 dark:text-teal-400">
-                    💱 Rates updated daily • Base: {exchangeRates.base_currency}
+                    💱 Rates updated every 5 hours • Base: {exchangeRates.base_currency}
                   </div>
                   <Button
                     size="sm"
