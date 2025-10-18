@@ -245,7 +245,6 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
       setNotifications(notificationsRes.data);
       setGiveaway(giveawayRes.data);
       setMyParticipation(participationRes.data);
-      console.log('📊 Exchange Rates Data:', ratesRes.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
