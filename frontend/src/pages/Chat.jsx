@@ -60,6 +60,11 @@ export default function Chat({ user, logout }) {
   const [bothUsersLocation, setBothUsersLocation] = useState(null);
   const [selectedMessage, setSelectedMessage] = useState(null); // For showing delete menu
   const [selectedChatForDelete, setSelectedChatForDelete] = useState(null); // For deleting entire chat
+  
+  // Typing indicator states
+  const [isTyping, setIsTyping] = useState(false);
+  const [otherUserTyping, setOtherUserTyping] = useState(false);
+  const typingTimeoutRef = useRef(null);
 
   useEffect(() => {
     if (!user) {
