@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Star, MapPin, DollarSign, MessageSquare, ArrowLeft, Instagram, Plus, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { ArrowLeft, Star, MapPin, Globe, DollarSign, Plus, Moon, Sun, MessageSquare, Headphones, LogOut, Copy } from "lucide-react";
