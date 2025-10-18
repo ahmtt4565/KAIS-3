@@ -2666,6 +2666,82 @@ async def reject_participation(
     
     return {"message": "Katılım reddedildi"}
 
+# Exchange Rates Routes
+@api_router.get("/exchange-rates")
+async def get_exchange_rates():
+    """Get current exchange rates"""
+    try:
+        # Fetch latest exchange rates from database
+        rate_data = await db.exchange_rates.find_one({}, {"_id": 0}, sort=[("last_updated", -1)])
+        
+        if not rate_data:
+            # If no rates in database, fetch them now
+            await fetch_exchange_rates()
+            rate_data = await db.exchange_rates.find_one({}, {"_id": 0}, sort=[("last_updated", -1)])
+            
+            if not rate_data:
+                raise HTTPException(status_code=503, detail="Exchange rates not available")
+        
+        return rate_data
+        
+    except Exception as e:
+        logger.error(f"❌ Error fetching exchange rates: {e}")
+        raise HTTPException(status_code=500, detail="Error fetching exchange rates")
+
+@api_router.get("/exchange-rates/convert")
+async def convert_currency(
+    amount: float,
+    from_currency: str,
+    to_currency: str
+):
+    """Convert amount from one currency to another"""
+    try:
+        # Get latest rates
+        rate_data = await db.exchange_rates.find_one({}, {"_id": 0}, sort=[("last_updated", -1)])
+        
+        if not rate_data:
+            raise HTTPException(status_code=503, detail="Exchange rates not available")
+        
+        rates = rate_data.get("rates", {})
+        base = rate_data.get("base_currency", "USD")
+        
+        # Convert currencies
+        from_currency = from_currency.upper()
+        to_currency = to_currency.upper()
+        
+        if from_currency not in rates and from_currency != base:
+            raise HTTPException(status_code=400, detail=f"Currency {from_currency} not supported")
+        
+        if to_currency not in rates and to_currency != base:
+            raise HTTPException(status_code=400, detail=f"Currency {to_currency} not supported")
+        
+        # Calculate conversion
+        # If from_currency is base, just multiply by to rate
+        if from_currency == base:
+            converted_amount = amount * rates.get(to_currency, 1)
+        # If to_currency is base, divide by from rate
+        elif to_currency == base:
+            converted_amount = amount / rates.get(from_currency, 1)
+        # Otherwise, convert through base
+        else:
+            amount_in_base = amount / rates.get(from_currency, 1)
+            converted_amount = amount_in_base * rates.get(to_currency, 1)
+        
+        return {
+            "amount": amount,
+            "from_currency": from_currency,
+            "to_currency": to_currency,
+            "converted_amount": round(converted_amount, 2),
+            "rate": round(converted_amount / amount, 6) if amount > 0 else 0,
+            "last_updated": rate_data.get("last_updated")
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"❌ Error converting currency: {e}")
+        raise HTTPException(status_code=500, detail="Error converting currency")
+
 # Include the router in the main app
 app.include_router(api_router)
 
