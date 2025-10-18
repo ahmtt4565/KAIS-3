@@ -2697,9 +2697,12 @@ async def convert_currency(
     """Convert amount from one currency to another"""
     try:
         # Get latest rates
+        logger.info(f"🔍 Converting {amount} {from_currency} to {to_currency}")
         rate_data = await db.exchange_rates.find_one({}, {"_id": 0}, sort=[("last_updated", -1)])
+        logger.info(f"🔍 Rate data found: {rate_data is not None}")
         
         if not rate_data:
+            logger.error("❌ No exchange rate data found in database")
             raise HTTPException(status_code=503, detail="Exchange rates not available")
         
         rates = rate_data.get("rates", {})
