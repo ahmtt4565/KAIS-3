@@ -663,11 +663,14 @@ export default function Chat({ user, logout }) {
                           {/* Delete menu - Instagram style */}
                           {isOwnMessage && isSelected && (
                             <div 
+                              data-delete-menu
                               className="absolute top-full mt-2 right-0 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 py-1 z-50 min-w-[140px] animate-in fade-in slide-in-from-top-2 duration-200"
-                              onClick={(e) => e.stopPropagation()}
                             >
                               <button
-                                onClick={() => deleteMessage(msg.id)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  deleteMessage(msg.id);
+                                }}
                                 className="w-full px-4 py-3 text-left text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors flex items-center gap-3 text-sm font-medium"
                               >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
