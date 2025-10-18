@@ -305,19 +305,23 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
 
         {/* Popular Currency Pairs */}
         {exchangeRates && exchangeRates.rates && (
-          <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-            <CardHeader className="border-b border-gray-200 dark:border-gray-700">
-              <div className="flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-teal-600" />
-                <CardTitle className="text-lg font-bold">Popular Exchange Rates</CardTitle>
+          <Card className="shadow-2xl border-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl">
+            <CardHeader className="border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-gray-700 dark:to-gray-800">
+              <div className="flex items-center gap-3">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 shadow-lg">
+                  <TrendingUp className="w-6 h-6 text-white" />
+                </div>
+                <CardTitle className="text-2xl font-black text-gray-900 dark:text-white">
+                  Popular Exchange Rates
+                </CardTitle>
               </div>
             </CardHeader>
-            <CardContent className="p-4">
+            <CardContent className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* USD to TRY */}
                 {exchangeRates.rates.TRY && (
                   <div 
-                    className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors cursor-pointer border border-gray-200 dark:border-gray-600"
+                    className="group p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-gray-700 dark:to-gray-800 hover:from-blue-100 hover:to-cyan-100 dark:hover:from-gray-600 dark:hover:to-gray-700 transition-all duration-300 cursor-pointer border-2 border-blue-200 dark:border-blue-800 hover:border-blue-400 shadow-lg hover:shadow-2xl hover:scale-105 transform"
                     onClick={() => {
                       setFromCurrency('USD');
                       setToCurrency('TRY');
@@ -326,12 +330,14 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">USD → TRY</p>
-                        <p className="text-2xl font-bold text-teal-600 dark:text-teal-400">
+                        <p className="text-sm font-bold text-gray-600 dark:text-gray-400 mb-2 flex items-center gap-2">
+                          <span>🇺🇸</span> USD → <span>🇹🇷</span> TRY
+                        </p>
+                        <p className="text-3xl font-black text-teal-600 dark:text-teal-400 group-hover:text-teal-700 transition-colors">
                           ₺{exchangeRates.rates.TRY.toFixed(2)}
                         </p>
                       </div>
-                      <div className="text-3xl">💵➜₺</div>
+                      <div className="text-5xl group-hover:scale-125 transition-transform">💵➜₺</div>
                     </div>
                   </div>
                 )}
@@ -339,7 +345,7 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
                 {/* USD to EUR */}
                 {exchangeRates.rates.EUR && (
                   <div 
-                    className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors cursor-pointer border border-gray-200 dark:border-gray-600"
+                    className="group p-6 rounded-2xl bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-700 dark:to-gray-800 hover:from-green-100 hover:to-emerald-100 dark:hover:from-gray-600 dark:hover:to-gray-700 transition-all duration-300 cursor-pointer border-2 border-green-200 dark:border-green-800 hover:border-green-400 shadow-lg hover:shadow-2xl hover:scale-105 transform"
                     onClick={() => {
                       setFromCurrency('USD');
                       setToCurrency('EUR');
@@ -348,12 +354,14 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">USD → EUR</p>
-                        <p className="text-2xl font-bold text-teal-600 dark:text-teal-400">
+                        <p className="text-sm font-bold text-gray-600 dark:text-gray-400 mb-2 flex items-center gap-2">
+                          <span>🇺🇸</span> USD → <span>🇪🇺</span> EUR
+                        </p>
+                        <p className="text-3xl font-black text-teal-600 dark:text-teal-400 group-hover:text-teal-700 transition-colors">
                           €{exchangeRates.rates.EUR.toFixed(4)}
                         </p>
                       </div>
-                      <div className="text-3xl">💵➜€</div>
+                      <div className="text-5xl group-hover:scale-125 transition-transform">💵➜€</div>
                     </div>
                   </div>
                 )}
@@ -361,7 +369,7 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
                 {/* EUR to TRY */}
                 {exchangeRates.rates.EUR && exchangeRates.rates.TRY && (
                   <div 
-                    className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors cursor-pointer border border-gray-200 dark:border-gray-600"
+                    className="group p-6 rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-700 dark:to-gray-800 hover:from-purple-100 hover:to-pink-100 dark:hover:from-gray-600 dark:hover:to-gray-700 transition-all duration-300 cursor-pointer border-2 border-purple-200 dark:border-purple-800 hover:border-purple-400 shadow-lg hover:shadow-2xl hover:scale-105 transform"
                     onClick={() => {
                       setFromCurrency('EUR');
                       setToCurrency('TRY');
@@ -370,12 +378,14 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">EUR → TRY</p>
-                        <p className="text-2xl font-bold text-teal-600 dark:text-teal-400">
+                        <p className="text-sm font-bold text-gray-600 dark:text-gray-400 mb-2 flex items-center gap-2">
+                          <span>🇪🇺</span> EUR → <span>🇹🇷</span> TRY
+                        </p>
+                        <p className="text-3xl font-black text-teal-600 dark:text-teal-400 group-hover:text-teal-700 transition-colors">
                           ₺{(exchangeRates.rates.TRY / exchangeRates.rates.EUR).toFixed(2)}
                         </p>
                       </div>
-                      <div className="text-3xl">€➜₺</div>
+                      <div className="text-5xl group-hover:scale-125 transition-transform">€➜₺</div>
                     </div>
                   </div>
                 )}
@@ -383,7 +393,7 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
                 {/* GBP to TRY */}
                 {exchangeRates.rates.GBP && exchangeRates.rates.TRY && (
                   <div 
-                    className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors cursor-pointer border border-gray-200 dark:border-gray-600"
+                    className="group p-6 rounded-2xl bg-gradient-to-br from-orange-50 to-red-50 dark:from-gray-700 dark:to-gray-800 hover:from-orange-100 hover:to-red-100 dark:hover:from-gray-600 dark:hover:to-gray-700 transition-all duration-300 cursor-pointer border-2 border-orange-200 dark:border-orange-800 hover:border-orange-400 shadow-lg hover:shadow-2xl hover:scale-105 transform"
                     onClick={() => {
                       setFromCurrency('GBP');
                       setToCurrency('TRY');
@@ -392,12 +402,14 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">GBP → TRY</p>
-                        <p className="text-2xl font-bold text-teal-600 dark:text-teal-400">
+                        <p className="text-sm font-bold text-gray-600 dark:text-gray-400 mb-2 flex items-center gap-2">
+                          <span>🇬🇧</span> GBP → <span>🇹🇷</span> TRY
+                        </p>
+                        <p className="text-3xl font-black text-teal-600 dark:text-teal-400 group-hover:text-teal-700 transition-colors">
                           ₺{(exchangeRates.rates.TRY / exchangeRates.rates.GBP).toFixed(2)}
                         </p>
                       </div>
-                      <div className="text-3xl">£➜₺</div>
+                      <div className="text-5xl group-hover:scale-125 transition-transform">£➜₺</div>
                     </div>
                   </div>
                 )}
