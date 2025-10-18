@@ -290,17 +290,17 @@ export default function AllListings({ user, logout, unreadCount = 0 }) {
                 className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-md transition-shadow cursor-pointer overflow-hidden group"
                 onClick={() => navigate(`/listing/${listing.id}`)}
               >
-                <div className="flex items-stretch">
+                <div className="flex flex-col sm:flex-row items-stretch">
                   {/* Left colored stripe */}
-                  <div className="w-1 bg-gradient-to-b from-yellow-400 to-orange-500 group-hover:w-2 transition-all"></div>
+                  <div className="h-1 sm:h-auto sm:w-1 bg-gradient-to-r sm:bg-gradient-to-b from-yellow-400 to-orange-500 group-hover:h-2 sm:group-hover:h-auto sm:group-hover:w-2 transition-all"></div>
                   
                   {/* Content */}
-                  <div className="flex-1 p-4">
-                    <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1 p-3 sm:p-4">
+                    <div className="flex flex-col sm:flex-row items-start justify-between gap-3 sm:gap-4">
                       {/* Main Info */}
-                      <div className="flex-1 min-w-0">
+                      <div className="flex-1 min-w-0 w-full">
                         {/* Title Row */}
-                        <div className="flex items-center gap-3 mb-2">
+                        <div className="flex items-center gap-2 sm:gap-3 mb-2 flex-wrap">
                           <span className="px-2 py-0.5 text-xs font-semibold rounded bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
                             {getCountryShortName(listing.country)}
                           </span>
@@ -310,38 +310,38 @@ export default function AllListings({ user, logout, unreadCount = 0 }) {
                         </div>
 
                         {/* Exchange Info */}
-                        <div className="flex items-center gap-4 mb-2">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 mb-2">
                           <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-600 dark:text-gray-400">Sending:</span>
-                            <span className="text-lg font-bold text-gray-900 dark:text-white">
+                            <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Sending:</span>
+                            <span className="text-base sm:text-lg font-bold text-gray-900 dark:text-white">
                               {listing.from_amount.toLocaleString()} {listing.from_currency}
                             </span>
                           </div>
-                          <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="hidden sm:block w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                           </svg>
                           <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-600 dark:text-gray-400">Receiving:</span>
-                            <span className="text-lg font-bold text-orange-600 dark:text-orange-400">
+                            <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Receiving:</span>
+                            <span className="text-base sm:text-lg font-bold text-orange-600 dark:text-orange-400">
                               {listing.to_amount ? `${listing.to_amount.toLocaleString()} ${listing.to_currency}` : "Negotiable"}
                             </span>
                           </div>
                         </div>
 
                         {/* Location & Description */}
-                        <div className="flex items-center gap-4 text-sm">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
                           <div className="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-                            <MapPin className="w-4 h-4" />
+                            <MapPin className="w-3 h-3 sm:w-4 sm:h-4" />
                             <span>{listing.city}</span>
                           </div>
-                          <span className="text-gray-500 dark:text-gray-500">•</span>
-                          <p className="text-gray-600 dark:text-gray-400 truncate flex-1">
+                          <span className="hidden sm:inline text-gray-500 dark:text-gray-500">•</span>
+                          <p className="text-gray-600 dark:text-gray-400 line-clamp-2 sm:line-clamp-1 flex-1">
                             {listing.description}
                           </p>
                         </div>
 
                         {/* Footer */}
-                        <div className="flex items-center gap-3 mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
+                        <div className="flex items-center gap-3 mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-100 dark:border-gray-700">
                           <span className="text-xs text-gray-500 dark:text-gray-400">
                             @{listing.username}
                           </span>
@@ -349,10 +349,10 @@ export default function AllListings({ user, logout, unreadCount = 0 }) {
                       </div>
 
                       {/* Right Action */}
-                      <div className="flex flex-col items-end justify-between">
+                      <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-between gap-2 w-full sm:w-auto">
                         <Button
                           size="sm"
-                          className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold"
+                          className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold flex-1 sm:flex-none"
                           onClick={(e) => {
                             e.stopPropagation();
                             navigate(`/listing/${listing.id}`);
