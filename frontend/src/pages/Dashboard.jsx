@@ -450,7 +450,7 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                   data-testid="exchange-nav-btn"
                   className="rounded-full hover:bg-teal-50 dark:hover:bg-teal-900/30 hover:text-teal-600 dark:hover:text-teal-400 transition-all"
                 >
-                  💱 Döviz
+                  💱 Exchange
                 </Button>
 
                 <Button
