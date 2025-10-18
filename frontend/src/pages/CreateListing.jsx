@@ -123,7 +123,7 @@ export default function CreateListing({ user, logout }) {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Card className="border-2 border-teal-100 dark:border-gray-700">
           <CardHeader>
-            <CardTitle className="text-3xl">Döviz Değişim İlanı Oluştur</CardTitle>
+            <CardTitle className="text-3xl">Create Currency Exchange Listing</CardTitle>
             <CardDescription>Fill in the details about the currency you want to exchange</CardDescription>
           </CardHeader>
           <CardContent>
