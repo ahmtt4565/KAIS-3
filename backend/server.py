@@ -2992,8 +2992,19 @@ async def startup_scheduler():
         replace_existing=True
     )
     
+    # Fetch exchange rates daily at 00:00 UTC
+    scheduler.add_job(
+        fetch_exchange_rates,
+        CronTrigger(hour=0, minute=0),  # Every day at midnight UTC
+        id="fetch_exchange_rates",
+        replace_existing=True
+    )
+    
+    # Fetch exchange rates immediately on startup
+    asyncio.create_task(fetch_exchange_rates())
+    
     scheduler.start()
-    logger.info("🚀 Scheduler başlatıldı - Çekiliş, destek, follow-up, otomatik silme, süre dolmuş ilanlar ve takaslar aktif")
+    logger.info("🚀 Scheduler başlatıldı - Çekiliş, destek, follow-up, otomatik silme, süre dolmuş ilanlar, takaslar ve döviz kurları aktif")
 
 @app.on_event("shutdown")
 async def shutdown_all():
