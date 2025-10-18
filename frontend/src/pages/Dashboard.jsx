@@ -292,6 +292,19 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Onboarding Tutorial - Sadece ilk giriş */}
+      {showTutorial && (
+        <OnboardingTutorial 
+          onComplete={() => {
+            setShowTutorial(false);
+            // Update user object
+            if (user) {
+              setUser({ ...user, has_seen_tutorial: true });
+            }
+          }} 
+        />
+      )}
+
       {/* Modern Header with Glass Effect - Hide on scroll down */}
       <header className={`bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 shadow-sm transition-transform duration-300 ${
         showHeader ? 'translate-y-0' : '-translate-y-full'
