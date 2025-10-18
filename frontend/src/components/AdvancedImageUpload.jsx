@@ -68,7 +68,7 @@ export default function AdvancedImageUpload({ onImageSelect, existingImages = []
           className="flex items-center gap-2"
         >
           <Upload className="w-4 h-4" />
-          Fotoğraf Ekle
+          Add Photo
         </Button>
         
         <input
@@ -81,7 +81,7 @@ export default function AdvancedImageUpload({ onImageSelect, existingImages = []
         />
         
         <span className="text-sm text-gray-500">
-          {images.length} fotoğraf
+          {images.length} photo{images.length !== 1 ? 's' : ''}
         </span>
       </div>
 
