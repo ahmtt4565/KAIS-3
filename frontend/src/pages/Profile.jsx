@@ -468,6 +468,7 @@ export default function Profile({ user, logout, unreadCount = 0 }) {
                       id="photo-upload"
                       type="file"
                       accept="image/*"
+                      capture="environment"
                       onChange={handlePhotoUpload}
                       className="hidden"
                       disabled={uploadingPhoto}
