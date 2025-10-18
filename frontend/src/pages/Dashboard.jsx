@@ -656,6 +656,10 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                   href="https://instagram.com/kaissocial" 
                   target="_blank" 
                   rel="noopener noreferrer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.open('https://instagram.com/kaissocial', '_blank', 'noopener,noreferrer');
+                  }}
                   className="flex-shrink-0 w-full md:w-auto"
                 >
                   <button className="group/btn w-full md:w-auto px-4 py-2 md:px-5 md:py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 hover:from-purple-700 hover:via-pink-700 hover:to-orange-700 text-white text-sm font-bold rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2">
