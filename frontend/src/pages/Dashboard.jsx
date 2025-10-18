@@ -35,6 +35,11 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
   const [processingGoogleAuth, setProcessingGoogleAuth] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
   
+  // Pull-to-refresh states
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [pullStartY, setPullStartY] = useState(0);
+  const [pullDistance, setPullDistance] = useState(0);
+  
   // Scroll behavior states
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
