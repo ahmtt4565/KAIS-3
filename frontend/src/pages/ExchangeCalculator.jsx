@@ -281,131 +281,131 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
           </CardContent>
         </Card>
 
-        {/* Popular Currency Pairs - Simplified */}
+        {/* Popular Currency Pairs - Modern but Clean */}
         {exchangeRates && exchangeRates.rates && (
           <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
             <CardHeader className="border-b border-gray-200 dark:border-gray-700 pb-3">
-              <CardTitle className="text-base font-semibold">Popular Rates</CardTitle>
+              <CardTitle className="text-lg font-semibold">Popular Rates</CardTitle>
             </CardHeader>
-            <CardContent className="p-3">
-              <div className="space-y-2">
+            <CardContent className="p-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {/* USD to AED */}
                 {exchangeRates.rates.AED && (
                   <div 
-                    className="flex items-center justify-between p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors"
+                    className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 hover:from-teal-50 hover:to-cyan-50 dark:hover:from-gray-600 dark:hover:to-gray-700 cursor-pointer transition-all border border-gray-200 dark:border-gray-600"
                     onClick={() => {
                       setFromCurrency('USD');
                       setToCurrency('AED');
                       setAmount(1);
                     }}
                   >
-                    <span className="text-sm text-gray-600 dark:text-gray-400">USD → AED</span>
-                    <span className="text-sm font-bold text-gray-900 dark:text-white">{exchangeRates.rates.AED.toFixed(2)}</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">USD → AED</span>
+                    <span className="text-base font-bold text-teal-600 dark:text-teal-400">{exchangeRates.rates.AED.toFixed(2)}</span>
                   </div>
                 )}
 
                 {/* TRY to AED */}
                 {exchangeRates.rates.AED && exchangeRates.rates.TRY && (
                   <div 
-                    className="flex items-center justify-between p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors"
+                    className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 hover:from-teal-50 hover:to-cyan-50 dark:hover:from-gray-600 dark:hover:to-gray-700 cursor-pointer transition-all border border-gray-200 dark:border-gray-600"
                     onClick={() => {
                       setFromCurrency('TRY');
                       setToCurrency('AED');
                       setAmount(1);
                     }}
                   >
-                    <span className="text-sm text-gray-600 dark:text-gray-400">TRY → AED</span>
-                    <span className="text-sm font-bold text-gray-900 dark:text-white">{(exchangeRates.rates.AED / exchangeRates.rates.TRY).toFixed(4)}</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">TRY → AED</span>
+                    <span className="text-base font-bold text-teal-600 dark:text-teal-400">{(exchangeRates.rates.AED / exchangeRates.rates.TRY).toFixed(4)}</span>
                   </div>
                 )}
 
                 {/* EUR to USD */}
                 {exchangeRates.rates.EUR && (
                   <div 
-                    className="flex items-center justify-between p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors"
+                    className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 hover:from-teal-50 hover:to-cyan-50 dark:hover:from-gray-600 dark:hover:to-gray-700 cursor-pointer transition-all border border-gray-200 dark:border-gray-600"
                     onClick={() => {
                       setFromCurrency('EUR');
                       setToCurrency('USD');
                       setAmount(1);
                     }}
                   >
-                    <span className="text-sm text-gray-600 dark:text-gray-400">EUR → USD</span>
-                    <span className="text-sm font-bold text-gray-900 dark:text-white">{(1 / exchangeRates.rates.EUR).toFixed(4)}</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">EUR → USD</span>
+                    <span className="text-base font-bold text-teal-600 dark:text-teal-400">{(1 / exchangeRates.rates.EUR).toFixed(4)}</span>
                   </div>
                 )}
 
                 {/* USD to GBP */}
                 {exchangeRates.rates.GBP && (
                   <div 
-                    className="flex items-center justify-between p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors"
+                    className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 hover:from-teal-50 hover:to-cyan-50 dark:hover:from-gray-600 dark:hover:to-gray-700 cursor-pointer transition-all border border-gray-200 dark:border-gray-600"
                     onClick={() => {
                       setFromCurrency('USD');
                       setToCurrency('GBP');
                       setAmount(1);
                     }}
                   >
-                    <span className="text-sm text-gray-600 dark:text-gray-400">USD → GBP</span>
-                    <span className="text-sm font-bold text-gray-900 dark:text-white">{exchangeRates.rates.GBP.toFixed(4)}</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">USD → GBP</span>
+                    <span className="text-base font-bold text-teal-600 dark:text-teal-400">{exchangeRates.rates.GBP.toFixed(4)}</span>
                   </div>
                 )}
 
                 {/* USD to TRY */}
                 {exchangeRates.rates.TRY && (
                   <div 
-                    className="flex items-center justify-between p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors"
+                    className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 hover:from-teal-50 hover:to-cyan-50 dark:hover:from-gray-600 dark:hover:to-gray-700 cursor-pointer transition-all border border-gray-200 dark:border-gray-600"
                     onClick={() => {
                       setFromCurrency('USD');
                       setToCurrency('TRY');
                       setAmount(1);
                     }}
                   >
-                    <span className="text-sm text-gray-600 dark:text-gray-400">USD → TRY</span>
-                    <span className="text-sm font-bold text-gray-900 dark:text-white">{exchangeRates.rates.TRY.toFixed(2)}</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">USD → TRY</span>
+                    <span className="text-base font-bold text-teal-600 dark:text-teal-400">{exchangeRates.rates.TRY.toFixed(2)}</span>
                   </div>
                 )}
 
                 {/* USD to EUR */}
                 {exchangeRates.rates.EUR && (
                   <div 
-                    className="flex items-center justify-between p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors"
+                    className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 hover:from-teal-50 hover:to-cyan-50 dark:hover:from-gray-600 dark:hover:to-gray-700 cursor-pointer transition-all border border-gray-200 dark:border-gray-600"
                     onClick={() => {
                       setFromCurrency('USD');
                       setToCurrency('EUR');
                       setAmount(1);
                     }}
                   >
-                    <span className="text-sm text-gray-600 dark:text-gray-400">USD → EUR</span>
-                    <span className="text-sm font-bold text-gray-900 dark:text-white">{exchangeRates.rates.EUR.toFixed(4)}</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">USD → EUR</span>
+                    <span className="text-base font-bold text-teal-600 dark:text-teal-400">{exchangeRates.rates.EUR.toFixed(4)}</span>
                   </div>
                 )}
 
                 {/* EUR to TRY */}
                 {exchangeRates.rates.EUR && exchangeRates.rates.TRY && (
                   <div 
-                    className="flex items-center justify-between p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors"
+                    className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 hover:from-teal-50 hover:to-cyan-50 dark:hover:from-gray-600 dark:hover:to-gray-700 cursor-pointer transition-all border border-gray-200 dark:border-gray-600"
                     onClick={() => {
                       setFromCurrency('EUR');
                       setToCurrency('TRY');
                       setAmount(1);
                     }}
                   >
-                    <span className="text-sm text-gray-600 dark:text-gray-400">EUR → TRY</span>
-                    <span className="text-sm font-bold text-gray-900 dark:text-white">{(exchangeRates.rates.TRY / exchangeRates.rates.EUR).toFixed(2)}</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">EUR → TRY</span>
+                    <span className="text-base font-bold text-teal-600 dark:text-teal-400">{(exchangeRates.rates.TRY / exchangeRates.rates.EUR).toFixed(2)}</span>
                   </div>
                 )}
 
                 {/* GBP to TRY */}
                 {exchangeRates.rates.GBP && exchangeRates.rates.TRY && (
                   <div 
-                    className="flex items-center justify-between p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors"
+                    className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 hover:from-teal-50 hover:to-cyan-50 dark:hover:from-gray-600 dark:hover:to-gray-700 cursor-pointer transition-all border border-gray-200 dark:border-gray-600"
                     onClick={() => {
                       setFromCurrency('GBP');
                       setToCurrency('TRY');
                       setAmount(1);
                     }}
                   >
-                    <span className="text-sm text-gray-600 dark:text-gray-400">GBP → TRY</span>
-                    <span className="text-sm font-bold text-gray-900 dark:text-white">{(exchangeRates.rates.TRY / exchangeRates.rates.GBP).toFixed(2)}</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">GBP → TRY</span>
+                    <span className="text-base font-bold text-teal-600 dark:text-teal-400">{(exchangeRates.rates.TRY / exchangeRates.rates.GBP).toFixed(2)}</span>
                   </div>
                 )}
               </div>
