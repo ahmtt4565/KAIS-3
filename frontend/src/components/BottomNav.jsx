@@ -16,6 +16,11 @@ export default function BottomNav({ user, unreadCount = 0 }) {
     { path: "/chat", icon: MessageSquare, label: "Messages", badge: unreadCount },
     { path: user ? `/profile/${user.id}` : "/profile", icon: User, label: "Profile" },
   ];
+  
+  // Add admin nav item if user is admin
+  if (user?.role === "admin") {
+    rightNavItems.unshift({ path: "/admin", icon: Shield, label: "Admin", color: "purple" });
+  }
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-t border-gray-200 dark:border-gray-700 shadow-xl z-40 md:hidden">
