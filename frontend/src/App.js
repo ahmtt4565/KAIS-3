@@ -369,7 +369,17 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={user ? <Navigate to="/dashboard" /> : <LandingPage setUser={setUser} />} />
-              <Route path="/dashboard" element={user ? <Dashboard user={user} logout={logout} unreadCount={unreadCount} /> : <Navigate to="/" />} />
+              <Route 
+                path="/dashboard" 
+                element={
+                  <Dashboard 
+                    user={user} 
+                    logout={logout} 
+                    unreadCount={unreadCount} 
+                    setUser={setUser}
+                  />
+                } 
+              />
               <Route path="/listings" element={user ? <AllListings user={user} logout={logout} unreadCount={unreadCount} /> : <Navigate to="/" />} />
               <Route path="/create" element={user ? <CreateListing user={user} logout={logout} /> : <Navigate to="/" />} />
               <Route path="/listing/:id" element={user ? <ListingDetail user={user} logout={logout} /> : <Navigate to="/" />} />
