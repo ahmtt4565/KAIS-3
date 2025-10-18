@@ -86,10 +86,10 @@ export default function LandingPage({ setUser }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-100 via-teal-50 to-orange-100 relative overflow-hidden">
+    <div className="min-h-screen bg-white relative overflow-hidden">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-teal-100/20 to-orange-100/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-teal-50/30 to-orange-50/30"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
           <div className="text-center mb-16">
