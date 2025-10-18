@@ -382,7 +382,7 @@ export default function AdminSupport({ user }) {
                   <div className="flex gap-2">
                     <Input
                       value={message}
-                      onChange={(e) => setMessage(e.target.value)}
+                      onChange={handleTyping}
                       onKeyPress={(e) => e.key === "Enter" && sendReply()}
                       placeholder="Cevabınızı yazın..."
                       disabled={sending || selectedConversation.status === "closed"}
