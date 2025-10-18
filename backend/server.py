@@ -2999,12 +2999,14 @@ async def fetch_exchange_rates():
         
         data = response.json()
         
+        current_time = datetime.now(timezone.utc)
+        
         # Prepare exchange rate document
         exchange_rate_doc = {
             "id": str(uuid.uuid4()),
             "base_currency": data.get("base", "USD"),
             "rates": data.get("rates", {}),
-            "last_updated": datetime.now(timezone.utc).isoformat(),
+            "last_updated": current_time.isoformat(),
             "timestamp": data.get("time_last_updated", None)
         }
         
@@ -3012,7 +3014,24 @@ async def fetch_exchange_rates():
         await db.exchange_rates.delete_many({})  # Clear old rates
         await db.exchange_rates.insert_one(exchange_rate_doc)
         
-        logger.info(f"💱 Successfully updated exchange rates with {len(exchange_rate_doc['rates'])} currencies")
+        # Save historical data for trend analysis
+        historical_doc = {
+            "id": str(uuid.uuid4()),
+            "base_currency": data.get("base", "USD"),
+            "rates": data.get("rates", {}),
+            "recorded_at": current_time.isoformat(),
+            "date": current_time.strftime("%Y-%m-%d"),
+            "timestamp": current_time.timestamp()
+        }
+        await db.exchange_rate_history.insert_one(historical_doc)
+        
+        # Clean up old historical data (keep only last 30 days)
+        thirty_days_ago = current_time - timedelta(days=30)
+        await db.exchange_rate_history.delete_many({
+            "recorded_at": {"$lt": thirty_days_ago.isoformat()}
+        })
+        
+        logger.info(f"💱 Successfully updated exchange rates with {len(exchange_rate_doc['rates'])} currencies and saved to history")
         
     except requests.exceptions.RequestException as e:
         logger.error(f"❌ Error fetching exchange rates from API: {e}")
