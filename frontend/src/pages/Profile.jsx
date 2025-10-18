@@ -36,6 +36,66 @@ export default function Profile({ user, logout, unreadCount = 0 }) {
   });
   const [locationSharing, setLocationSharing] = useState(false);
   const [updatingLocation, setUpdatingLocation] = useState(false);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const [photoPreview, setPhotoPreview] = useState(null);
+
+  const handlePhotoUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: "Invalid file",
+        description: "Please select an image file",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Validate file size (2MB)
+    if (file.size > 2 * 1024 * 1024) {
+      toast({
+        title: "File too large",
+        description: "Maximum file size is 2MB",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setUploadingPhoto(true);
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await axios.post(`${API}/user/upload-profile-photo`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      setProfileUser({
+        ...profileUser,
+        profile_photo: response.data.profile_photo
+      });
+
+      toast({
+        title: "Success!",
+        description: "Profile photo updated successfully"
+      });
+    } catch (error) {
+      console.error("Error uploading photo:", error);
+      toast({
+        title: "Error",
+        description: "Failed to upload photo",
+        variant: "destructive"
+      });
+    } finally {
+      setUploadingPhoto(false);
+    }
+  };
 
   useEffect(() => {
     fetchProfileData();
