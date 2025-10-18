@@ -97,6 +97,41 @@ export default function Profile({ user, logout, unreadCount = 0 }) {
     }
   };
 
+  const handlePhotoDelete = async () => {
+    if (!window.confirm("Are you sure you want to remove your profile photo?")) {
+      return;
+    }
+
+    setUploadingPhoto(true);
+
+    try {
+      await axios.delete(`${API}/user/delete-profile-photo`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      setProfileUser({
+        ...profileUser,
+        profile_photo: null
+      });
+
+      toast({
+        title: "Success!",
+        description: "Profile photo removed successfully"
+      });
+    } catch (error) {
+      console.error("Error deleting photo:", error);
+      toast({
+        title: "Error",
+        description: "Failed to delete photo",
+        variant: "destructive"
+      });
+    } finally {
+      setUploadingPhoto(false);
+    }
+  };
+
   useEffect(() => {
     fetchProfileData();
   }, [userId]);
