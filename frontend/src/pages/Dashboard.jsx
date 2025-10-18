@@ -247,6 +247,7 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
       setGiveaway(giveawayRes.data);
       setMyParticipation(participationRes.data);
       setExchangeRates(ratesRes.data);
+      console.log('📊 Exchange Rates Data:', ratesRes.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
