@@ -183,7 +183,7 @@ export default function ExchangeCalculator({ user }) {
             {/* To Currency */}
             <div className="space-y-2">
               <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                Dönüştürülecek Para Birimi
+                To Currency
               </label>
               <select
                 value={toCurrency}
