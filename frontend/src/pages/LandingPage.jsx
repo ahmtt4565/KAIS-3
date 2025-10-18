@@ -166,8 +166,7 @@ export default function LandingPage({ setUser }) {
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-3 mb-6">
-              <KaisLogo className="w-16 h-16" />
+            <div className="mb-6">
               <h1 className="text-6xl font-bold bg-gradient-to-r from-teal-600 to-orange-500 bg-clip-text text-transparent">
                 KAIS
               </h1>
