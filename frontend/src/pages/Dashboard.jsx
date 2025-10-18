@@ -792,7 +792,7 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                     }}
                     className="bg-teal-600 hover:bg-teal-700 text-white text-xs px-3 py-1"
                   >
-                    Detaylı Hesapla →
+                    Calculate →
                   </Button>
                 </div>
               </CardContent>
