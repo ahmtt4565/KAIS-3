@@ -19,6 +19,11 @@ export default function AdminSupport({ user }) {
   const [loading, setLoading] = useState(true);
   const messagesEndRef = useRef(null);
   const lastConversationsRef = useRef([]);
+  
+  // Typing indicator
+  const [isTyping, setIsTyping] = useState(false);
+  const [userTyping, setUserTyping] = useState(false);
+  const typingTimeoutRef = useRef(null);
 
   useEffect(() => {
     if (!user || user.role !== "admin") {
