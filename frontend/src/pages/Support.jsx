@@ -358,37 +358,40 @@ export default function Support({ user, logout }) {
         </div>
       </header>
 
-      {/* Messages Area - Ultra optimized */}
-      <div className="max-w-4xl mx-auto px-4 py-1.5 pb-20 md:pb-3">
-        <Card className="border-2 border-teal-100 dark:border-gray-700 dark:bg-gray-800 shadow-2xl overflow-hidden">
-          <CardHeader className="bg-gradient-to-r from-teal-500 to-orange-500 text-white border-b py-2">
+      {/* Messages Area - Mobile Optimized */}
+      <div className="max-w-4xl mx-auto px-2 sm:px-4 py-2 pb-24 md:pb-4">
+        <Card className="border-2 border-teal-100 dark:border-gray-700 dark:bg-gray-800 shadow-xl overflow-hidden">
+          <CardHeader className="bg-gradient-to-r from-teal-500 to-orange-500 text-white border-b py-3 sm:py-4">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-sm flex items-center gap-1.5">
-                <MessageCircle className="w-4 h-4" />
+              <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                <MessageCircle className="w-5 h-5" />
                 Support Chat
               </CardTitle>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setSoundEnabled(!soundEnabled)}
-                className="text-white hover:bg-white/20 h-7 w-7"
+                className="text-white hover:bg-white/20 h-8 w-8"
               >
-                {soundEnabled ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
+                {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
               </Button>
             </div>
-            <p className="text-[10px] text-white/90 mt-0.5">
+            <p className="text-xs sm:text-sm text-white/90 mt-1">
               Real-time • 3-5 min response
             </p>
           </CardHeader>
           
           <CardContent className="p-0">
-            {/* Messages - Ultra compact for keyboard visibility */}
-            <div className="h-[35vh] md:h-[40vh] overflow-y-auto p-2 space-y-1.5 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+            {/* Messages - Better height for mobile */}
+            <div className="h-[calc(100vh-20rem)] sm:h-[50vh] overflow-y-auto p-3 sm:p-4 space-y-2 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
               {conversation?.messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center">
-                  <MessageCircle className="w-10 h-10 text-teal-300 dark:text-teal-600 mb-1.5 animate-bounce" />
-                  <p className="text-gray-500 dark:text-gray-400 text-xs font-medium">
+                  <MessageCircle className="w-16 h-16 text-teal-300 dark:text-teal-600 mb-3 animate-bounce" />
+                  <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">
                     No messages yet
+                  </p>
+                  <p className="text-gray-400 dark:text-gray-500 text-xs mt-1">
+                    Start a conversation with our support team
                   </p>
                 </div>
               ) : (
@@ -401,41 +404,41 @@ export default function Support({ user, logout }) {
                       } animate-in fade-in slide-in-from-bottom-2 duration-300`}
                     >
                       <div
-                        className={`max-w-[75%] ${
+                        className={`max-w-[85%] sm:max-w-[75%] ${
                           msg.sender_id === "system"
                             ? "bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/30 border-2 border-yellow-300"
                             : msg.sender_type === "user"
                             ? "bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/30"
                             : "bg-gradient-to-br from-orange-400 to-orange-500 text-white shadow-lg shadow-orange-500/30"
-                        } rounded-xl px-2.5 py-1.5 transform hover:scale-105 transition-transform`}
+                        } rounded-2xl px-3 py-2 sm:px-4 sm:py-2.5 transform hover:scale-105 transition-transform`}
                       >
-                        <div className="flex items-center gap-1 mb-0.5">
+                        <div className="flex items-center gap-1.5 mb-1">
                           {msg.sender_id === "system" ? (
-                            <MessageCircle className="w-2.5 h-2.5 text-yellow-300" />
+                            <MessageCircle className="w-3.5 h-3.5 text-yellow-300" />
                           ) : msg.sender_type === "admin" ? (
-                            <Shield className="w-2.5 h-2.5 text-white" />
+                            <Shield className="w-3.5 h-3.5 text-white" />
                           ) : (
-                            <UserIcon className="w-2.5 h-2.5 text-white" />
+                            <UserIcon className="w-3.5 h-3.5 text-white" />
                           )}
-                          <span className="font-semibold text-[10px] text-white">
+                          <span className="font-semibold text-xs text-white">
                             {msg.sender_id === "system" ? "KAIS 🤖" : msg.sender_type === "admin" ? "Support" : "You"}
                           </span>
                         </div>
-                        <p className="text-[11px] leading-relaxed break-words whitespace-pre-wrap text-white">
+                        <p className="text-sm leading-relaxed break-words whitespace-pre-wrap text-white">
                           {msg.message}
                         </p>
                         {msg.image_url && (
-                          <div className="mt-1">
+                          <div className="mt-2">
                             <img 
                               src={`${API}${msg.image_url}`}
                               alt="Attachment"
-                              className="max-w-full h-auto rounded-lg mt-1 cursor-pointer hover:opacity-90 active:opacity-75 transition-opacity touch-manipulation"
+                              className="max-w-full h-auto rounded-lg cursor-pointer hover:opacity-90 active:opacity-75 transition-opacity"
                               onClick={() => window.open(`${API}${msg.image_url}`, '_blank')}
-                              style={{ maxHeight: '200px' }}
+                              style={{ maxHeight: '250px' }}
                             />
                           </div>
                         )}
-                        <p className="text-[9px] mt-0.5 text-white/80">
+                        <p className="text-[10px] mt-1 text-white/80">
                           {format(new Date(msg.timestamp), "HH:mm")}
                         </p>
                       </div>
@@ -445,15 +448,15 @@ export default function Support({ user, logout }) {
                   {/* Typing Indicator */}
                   {isTypingAdmin && (
                     <div className="flex justify-start animate-in fade-in slide-in-from-left-2">
-                      <div className="bg-gradient-to-br from-orange-400 to-orange-500 text-white rounded-xl px-2.5 py-1.5 shadow-lg shadow-orange-500/30">
-                        <div className="flex items-center gap-1">
-                          <Shield className="w-2.5 h-2.5 text-white" />
-                          <div className="flex gap-0.5">
-                            <div className="w-1 h-1 bg-white rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
-                            <div className="w-1 h-1 bg-white rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
-                            <div className="w-1 h-1 bg-white rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
+                      <div className="bg-gradient-to-br from-orange-400 to-orange-500 text-white rounded-2xl px-3 py-2 shadow-lg shadow-orange-500/30">
+                        <div className="flex items-center gap-1.5">
+                          <Shield className="w-3.5 h-3.5 text-white" />
+                          <div className="flex gap-1">
+                            <div className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
+                            <div className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
+                            <div className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
                           </div>
-                          <span className="text-[9px] text-white">typing...</span>
+                          <span className="text-xs text-white">typing...</span>
                         </div>
                       </div>
                     </div>
@@ -464,28 +467,28 @@ export default function Support({ user, logout }) {
               )}
             </div>
 
-            {/* Input Area - Ultra Compact with Image Support */}
-            <form onSubmit={sendMessage} className="border-t dark:border-gray-700 bg-white dark:bg-gray-800 p-1.5">
-              {/* Image Preview - Better for mobile */}
+            {/* Input Area - Mobile Friendly */}
+            <form onSubmit={sendMessage} className="border-t dark:border-gray-700 bg-white dark:bg-gray-800 p-3 sm:p-4">
+              {/* Image Preview */}
               {imagePreview && (
-                <div className="mb-2 relative inline-block">
+                <div className="mb-3 relative inline-block">
                   <img 
                     src={imagePreview} 
                     alt="Preview" 
-                    className="h-24 md:h-20 rounded-lg border-2 border-teal-500"
+                    className="h-32 sm:h-24 rounded-lg border-2 border-teal-500"
                   />
                   <button
                     type="button"
                     onClick={handleRemoveImage}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1.5 md:p-1 hover:bg-red-600 active:scale-95 touch-manipulation shadow-lg"
+                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 active:scale-95 shadow-lg"
                   >
-                    <X className="w-4 h-4 md:w-3 md:h-3" />
+                    <X className="w-4 h-4" />
                   </button>
                 </div>
               )}
               
-              <div className="flex gap-1.5">
-                {/* Hidden file input with mobile camera AND gallery support */}
+              <div className="flex gap-2">
+                {/* Hidden file input */}
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -495,15 +498,15 @@ export default function Support({ user, logout }) {
                   multiple={false}
                 />
                 
-                {/* Image button - Larger on mobile */}
+                {/* Image button */}
                 <Button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={sending || uploadingImage || !connected}
-                  className="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 px-2 md:px-2 h-10 md:h-8 rounded-lg touch-manipulation"
+                  className="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 px-3 h-12 sm:h-10 rounded-lg shrink-0"
                   title="Add Image/Photo"
                 >
-                  <ImageIcon className="w-5 h-5 md:w-3.5 md:h-3.5" />
+                  <ImageIcon className="w-5 h-5" />
                 </Button>
                 
                 <Input
@@ -513,20 +516,18 @@ export default function Support({ user, logout }) {
                     handleTyping();
                   }}
                   placeholder="Type message..."
-                  className="flex-1 border border-teal-200 dark:border-gray-600 focus:border-teal-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 rounded-lg h-10 md:h-8 text-sm md:text-xs px-3 md:px-2 touch-manipulation"
+                  className="flex-1 border-2 border-teal-200 dark:border-gray-600 focus:border-teal-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 rounded-lg h-12 sm:h-10 text-base px-4"
                   disabled={sending || uploadingImage || !connected}
                 />
                 <Button
                   type="submit"
                   disabled={sending || uploadingImage || (!message.trim() && !selectedImage) || !connected}
-                  className="bg-gradient-to-r from-teal-600 to-orange-500 hover:from-teal-700 hover:to-orange-600 text-white px-4 md:px-3 h-10 md:h-8 rounded-lg shadow-lg hover:shadow-xl transform active:scale-95 transition-all text-sm md:text-xs touch-manipulation"
+                  className="bg-gradient-to-r from-teal-600 to-orange-500 hover:from-teal-700 hover:to-orange-600 text-white px-4 sm:px-5 h-12 sm:h-10 rounded-lg shadow-lg hover:shadow-xl transform active:scale-95 transition-all shrink-0"
                 >
                   {sending || uploadingImage ? (
-                    <Loader2 className="w-4 h-4 md:w-3 md:h-3 animate-spin" />
+                    <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
-                    <>
-                      <Send className="w-4 h-4 md:w-3 md:h-3" />
-                    </>
+                    <Send className="w-5 h-5" />
                   )}
                 </Button>
               </div>
@@ -534,25 +535,25 @@ export default function Support({ user, logout }) {
           </CardContent>
         </Card>
 
-        {/* Help Info - Ultra Compact */}
-        <div className="mt-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg border border-teal-100 dark:border-gray-700 p-2 shadow-lg">
-          <div className="grid grid-cols-2 gap-2 text-xs">
-            <div className="flex items-center gap-1.5">
-              <div className="p-1 bg-teal-100 dark:bg-teal-900/30 rounded">
-                <MessageCircle className="w-3 h-3 text-teal-600 dark:text-teal-400" />
+        {/* Help Info - Cleaner */}
+        <div className="mt-3 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg border border-teal-100 dark:border-gray-700 p-4 shadow-lg">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4">
+            <div className="flex items-center gap-2">
+              <div className="p-2 bg-teal-100 dark:bg-teal-900/30 rounded-lg">
+                <MessageCircle className="w-4 h-4 text-teal-600 dark:text-teal-400" />
               </div>
               <div>
-                <span className="font-bold text-gray-900 dark:text-white block text-[10px]">Response</span>
-                <span className="text-gray-600 dark:text-gray-300 text-[9px]">3-5 min</span>
+                <span className="font-bold text-gray-900 dark:text-white block text-xs sm:text-sm">Response</span>
+                <span className="text-gray-600 dark:text-gray-300 text-xs">3-5 min</span>
               </div>
             </div>
-            <div className="flex items-center gap-1.5">
-              <div className="p-1 bg-orange-100 dark:bg-orange-900/30 rounded">
-                <Shield className="w-3 h-3 text-orange-500" />
+            <div className="flex items-center gap-2">
+              <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                <Shield className="w-4 h-4 text-orange-500" />
               </div>
               <div>
-                <span className="font-bold text-gray-900 dark:text-white block text-[10px]">Support</span>
-                <span className="text-gray-600 dark:text-gray-300 text-[9px]">24/7</span>
+                <span className="font-bold text-gray-900 dark:text-white block text-xs sm:text-sm">Support</span>
+                <span className="text-gray-600 dark:text-gray-300 text-xs">24/7</span>
               </div>
             </div>
           </div>
