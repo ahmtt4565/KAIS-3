@@ -37,13 +37,13 @@ export default function CreateListing({ user, logout }) {
     for (let file of files) {
       // Check file size (5MB limit)
       if (file.size > 5 * 1024 * 1024) {
-        setError(`Dosya ${file.name} çok büyük. Maximum 5MB olmalı.`);
+        setError(`File ${file.name} is too large. Maximum 5MB allowed.`);
         continue;
       }
       
       // Check file type
       if (!file.type.startsWith('image/')) {
-        setError(`Dosya ${file.name} geçerli bir resim formatı değil.`);
+        setError(`File ${file.name} is not a valid image format.`);
         continue;
       }
       
