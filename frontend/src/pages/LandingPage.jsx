@@ -545,14 +545,14 @@ export default function LandingPage({ setUser }) {
           <div className="grid md:grid-cols-3 gap-8">
             <div>
               <h3 className="text-xl font-bold mb-4">KAIS</h3>
-              <p className="text-gray-400">Kullanıcılar arası güvenli döviz değişim platformu</p>
+              <p className="text-gray-400">Peer-to-peer secure currency exchange platform</p>
             </div>
             <div>
-              <h4 className="text-lg font-semibold mb-4">Yasal</h4>
+              <h4 className="text-lg font-semibold mb-4">Legal</h4>
               <ul className="space-y-2">
                 <li>
                   <a href="/terms-of-service" className="text-gray-400 hover:text-white transition-colors">
-                    Kullanım Koşulları
+                    Terms of Service
                   </a>
                 </li>
                 <li>
@@ -568,19 +568,19 @@ export default function LandingPage({ setUser }) {
               </ul>
             </div>
             <div>
-              <h4 className="text-lg font-semibold mb-4">Hakkında</h4>
+              <h4 className="text-lg font-semibold mb-4">About</h4>
               <ul className="space-y-2">
                 <li>
                   <a href="/about" className="text-gray-400 hover:text-white transition-colors">
-                    KAIS Hakkında
+                    About KAIS
                   </a>
                 </li>
               </ul>
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-6 text-center text-gray-400 text-sm">
-            <p>&copy; {new Date().getFullYear()} KAIS. Tüm hakları saklıdır.</p>
-            <p className="mt-2">Platform sadece ilan ve iletişim hizmeti sunmaktadır. Kullanıcılar arası işlemlerden KAIS sorumlu değildir.</p>
+            <p>&copy; {new Date().getFullYear()} KAIS. All rights reserved.</p>
+            <p className="mt-2">Platform only provides listing and communication services. KAIS is not responsible for transactions between users.</p>
           </div>
         </div>
       </footer>
