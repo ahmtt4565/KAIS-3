@@ -175,6 +175,7 @@ class User(BaseModel):
     location_sharing_enabled: bool = False
     current_location: Optional[dict] = None  # {"latitude": float, "longitude": float}
     has_seen_tutorial: bool = False  # Rehberi gördü mü?
+    profile_photo: Optional[str] = None  # Profile photo URL
 
 class ListingCreate(BaseModel):
     from_currency: str
