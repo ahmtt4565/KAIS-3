@@ -1,0 +1,13 @@
+<svg width="400" height="80" viewBox="0 0 400 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- KAIS Logo - Simplified version with gradient text -->
+  <defs>
+    <linearGradient id="kaisGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f97316;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#fb923c;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#14b8a6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- KAIS Text with Gradient -->
+  <text x="10" y="60" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="url(#kaisGradient)">KAIS</text>
+</svg>
