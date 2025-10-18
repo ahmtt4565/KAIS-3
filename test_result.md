@@ -166,17 +166,17 @@ backend:
         comment: "✅ TESTED: Fixed routing conflict with parameterized endpoint. All conversion scenarios working: USD↔EUR, TRY↔USD, EUR↔GBP, zero amounts, large amounts. Proper error handling for invalid currencies (400) and missing params (422). Math calculations accurate. Response time < 2s."
 
 frontend:
-  - task: "Exchange Rates Display (Future)"
-    implemented: false
+  - task: "Exchange Rates Display on Dashboard"
+    implemented: true
     working: "NA"
-    file: "TBD"
+    file: "/app/frontend/src/pages/Dashboard.jsx"
     stuck_count: 0
-    priority: "medium"
-    needs_retesting: false
+    priority: "high"
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Frontend integration not yet implemented. Backend API is ready for frontend consumption."
+        comment: "Added exchange rates card to Dashboard between Giveaway and Filter sections. Displays 4 popular currency pairs: USD→TRY, USD→EUR, USD→GBP, USD→JPY with live rates. Card shows last updated time and 'Live' badge. Uses teal gradient design matching app theme. Fetches data from /api/exchange-rates endpoint on dashboard load."
 
 metadata:
   created_by: "main_agent"
