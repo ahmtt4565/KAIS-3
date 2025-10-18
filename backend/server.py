@@ -826,7 +826,7 @@ async def forgot_password(request: PasswordResetRequest):
     # Send email
     email_sent = send_email(
         to_email=request.email,
-        subject="KAIS - Şifre Sıfırlama Talebi",
+        subject="🔐 KAIS - Şifre Sıfırlama Talebi",
         html_content=html_content
     )
     
