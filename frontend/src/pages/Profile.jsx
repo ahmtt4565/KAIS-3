@@ -417,7 +417,7 @@ export default function Profile({ user, logout, unreadCount = 0 }) {
             <Card className="border-2 border-teal-100 dark:border-gray-700 dark:bg-gray-800">
               <CardContent className="pt-6">
                 <div className="text-center mb-6">
-                  {/* Avatar with Upload - Only for own profile */}
+                  {/* Avatar with Upload/Delete - Only for own profile */}
                   <div className="relative w-24 h-24 mx-auto mb-4">
                     {profileUser?.profile_photo ? (
                       <img 
@@ -433,20 +433,36 @@ export default function Profile({ user, logout, unreadCount = 0 }) {
                       </div>
                     )}
                     
-                    {/* Upload button - only for own profile */}
+                    {/* Buttons - only for own profile */}
                     {userId === user?.id && (
-                      <label 
-                        htmlFor="photo-upload"
-                        className="absolute bottom-0 right-0 bg-teal-500 hover:bg-teal-600 text-white rounded-full p-2 cursor-pointer shadow-lg transform hover:scale-110 transition-all"
-                        title="Upload photo"
-                      >
-                        {uploadingPhoto ? (
-                          <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
-                        ) : (
-                          <Plus className="w-4 h-4" />
+                      <>
+                        {/* Upload button */}
+                        <label 
+                          htmlFor="photo-upload"
+                          className="absolute bottom-0 right-0 bg-teal-500 hover:bg-teal-600 text-white rounded-full p-2 cursor-pointer shadow-lg transform hover:scale-110 transition-all"
+                          title="Upload photo"
+                        >
+                          {uploadingPhoto ? (
+                            <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
+                          ) : (
+                            <Plus className="w-4 h-4" />
+                          )}
+                        </label>
+                        
+                        {/* Delete button - only show if photo exists */}
+                        {profileUser?.profile_photo && (
+                          <button
+                            onClick={handlePhotoDelete}
+                            className="absolute top-0 right-0 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 shadow-lg transform hover:scale-110 transition-all"
+                            title="Remove photo"
+                            disabled={uploadingPhoto}
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
                         )}
-                      </label>
+                      </>
                     )}
+                    
                     <input
                       id="photo-upload"
                       type="file"
