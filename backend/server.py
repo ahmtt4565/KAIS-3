@@ -497,6 +497,15 @@ async def get_me(current_user: dict = Depends(get_current_user)):
     current_user.pop('password', None)
     return current_user
 
+@api_router.post("/auth/mark-tutorial-seen")
+async def mark_tutorial_seen(current_user: dict = Depends(get_current_user)):
+    """Mark tutorial as seen for current user"""
+    await db.users.update_one(
+        {"id": current_user['id']},
+        {"$set": {"has_seen_tutorial": True}}
+    )
+    return {"message": "Tutorial marked as seen"}
+
 @api_router.get("/user/{user_id}")
 async def get_user_by_id(user_id: str, current_user: dict = Depends(get_current_user)):
     """Get user data by user ID"""
