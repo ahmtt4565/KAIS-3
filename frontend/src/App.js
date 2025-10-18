@@ -387,6 +387,7 @@ function App() {
               <Route path="/chat" element={user ? <Chat user={user} logout={logout} unreadCount={unreadCount} /> : <Navigate to="/" />} />
               <Route path="/chat/:listingId/:userId" element={user ? <Chat user={user} logout={logout} unreadCount={unreadCount} /> : <Navigate to="/" />} />
               <Route path="/support" element={user ? <Support user={user} logout={logout} /> : <Navigate to="/" />} />
+              <Route path="/exchange" element={user ? <ExchangeCalculator user={user} logout={logout} /> : <Navigate to="/" />} />
               <Route path="/profile/:userId" element={user ? <Profile user={user} logout={logout} unreadCount={unreadCount} /> : <Navigate to="/" />} />
             <Route path="/about" element={<About user={user} logout={logout} />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
