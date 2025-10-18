@@ -690,7 +690,7 @@ export default function Chat({ user, logout }) {
                 <div className="flex items-center gap-3">
                   <Input
                     value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
+                    onChange={handleTyping}
                     onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
                     placeholder="Send message..."
                     disabled={sending}
