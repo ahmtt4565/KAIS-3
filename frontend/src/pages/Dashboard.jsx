@@ -747,12 +747,12 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                     </div>
                   )}
 
-                  {/* USD to JPY */}
-                  {exchangeRates.rates.JPY && (
+                  {/* USD to AED */}
+                  {exchangeRates.rates.AED && (
                     <div className="bg-white dark:bg-gray-700 rounded-lg p-3 border border-teal-200 dark:border-teal-800 hover:shadow-md transition-shadow">
-                      <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">USD → JPY</div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">USD → AED</div>
                       <div className="text-lg font-bold text-teal-600 dark:text-teal-400">
-                        ¥{exchangeRates.rates.JPY.toFixed(2)}
+                        {exchangeRates.rates.AED.toFixed(2)} د.إ
                       </div>
                     </div>
                   )}
