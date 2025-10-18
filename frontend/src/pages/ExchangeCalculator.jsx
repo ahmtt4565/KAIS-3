@@ -142,7 +142,7 @@ export default function ExchangeCalculator({ user }) {
             {/* From Currency */}
             <div className="space-y-2">
               <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                Çevirmek İstediğiniz Miktar
+                Amount to Convert
               </label>
               <div className="flex gap-3">
                 <div className="flex-1">
@@ -150,7 +150,7 @@ export default function ExchangeCalculator({ user }) {
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
-                    placeholder="Miktar giriniz"
+                    placeholder="Enter amount"
                     className="h-14 text-lg font-semibold border-2 border-teal-300 dark:border-teal-700 focus:border-teal-500"
                   />
                 </div>
