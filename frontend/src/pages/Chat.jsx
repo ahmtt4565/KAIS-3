@@ -295,27 +295,6 @@ export default function Chat({ user, logout }) {
     }
   };
 
-  // Close delete menu when clicking anywhere
-  useEffect(() => {
-    if (!selectedMessage) return;
-    
-    const handleClickOutside = (e) => {
-      setSelectedMessage(null);
-    };
-    
-    // Add listener with a small delay to prevent immediate close
-    const timeoutId = setTimeout(() => {
-      document.addEventListener('click', handleClickOutside, { capture: true });
-      document.addEventListener('touchend', handleClickOutside, { capture: true });
-    }, 100);
-    
-    return () => {
-      clearTimeout(timeoutId);
-      document.removeEventListener('click', handleClickOutside, { capture: true });
-      document.removeEventListener('touchend', handleClickOutside, { capture: true });
-    };
-  }, [selectedMessage]);
-
   const scrollToBottom = () => {
     setTimeout(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
