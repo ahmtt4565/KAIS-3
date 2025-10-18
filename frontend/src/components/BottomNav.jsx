@@ -31,6 +31,7 @@ export default function BottomNav({ user, unreadCount = 0 }) {
           {navItems.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.path);
+            const isTeal = item.color === "teal";
             
             return (
               <button
@@ -38,7 +39,9 @@ export default function BottomNav({ user, unreadCount = 0 }) {
                 onClick={() => navigate(item.path)}
                 className={`flex flex-col items-center justify-center px-3 py-2 rounded-xl transition-all relative ${
                   active
-                    ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 shadow-sm"
+                    ? isTeal
+                      ? "text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30 shadow-sm"
+                      : "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 shadow-sm"
                     : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
                 }`}
               >
