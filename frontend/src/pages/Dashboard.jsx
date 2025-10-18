@@ -329,7 +329,34 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div 
+      className="min-h-screen bg-gray-50 dark:bg-gray-900"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      {/* Pull to Refresh Indicator */}
+      {pullDistance > 0 && (
+        <div 
+          className="fixed top-0 left-0 right-0 z-40 flex items-center justify-center bg-gradient-to-r from-teal-500 to-orange-500 text-white transition-all duration-300"
+          style={{ 
+            height: `${pullDistance}px`,
+            opacity: pullDistance / 60
+          }}
+        >
+          {isRefreshing ? (
+            <div className="flex items-center gap-2">
+              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-white"></div>
+              <span className="text-sm font-medium">Yenileniyor...</span>
+            </div>
+          ) : (
+            <span className="text-sm font-medium">
+              {pullDistance > 60 ? '↓ Bırakın' : '↓ Yenilemek için çekin'}
+            </span>
+          )}
+        </div>
+      )}
+
       {/* Onboarding Tutorial - Sadece ilk giriş */}
       {showTutorial && (
         <OnboardingTutorial 
