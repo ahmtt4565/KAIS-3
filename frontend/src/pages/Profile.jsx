@@ -382,10 +382,44 @@ export default function Profile({ user, logout, unreadCount = 0 }) {
             <Card className="border-2 border-teal-100 dark:border-gray-700 dark:bg-gray-800">
               <CardContent className="pt-6">
                 <div className="text-center mb-6">
-                  <div className="w-24 h-24 bg-gradient-to-br from-teal-500 to-orange-400 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-4xl font-bold text-white">
-                      {profileUser?.username?.charAt(0).toUpperCase()}
-                    </span>
+                  {/* Avatar with Upload - Only for own profile */}
+                  <div className="relative w-24 h-24 mx-auto mb-4">
+                    {profileUser?.profile_photo ? (
+                      <img 
+                        src={`${API}${profileUser.profile_photo}`}
+                        alt={profileUser?.username}
+                        className="w-24 h-24 rounded-full object-cover border-4 border-teal-500"
+                      />
+                    ) : (
+                      <div className="w-24 h-24 bg-gradient-to-br from-teal-500 to-orange-400 rounded-full flex items-center justify-center">
+                        <span className="text-4xl font-bold text-white">
+                          {profileUser?.username?.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                    )}
+                    
+                    {/* Upload button - only for own profile */}
+                    {userId === user?.id && (
+                      <label 
+                        htmlFor="photo-upload"
+                        className="absolute bottom-0 right-0 bg-teal-500 hover:bg-teal-600 text-white rounded-full p-2 cursor-pointer shadow-lg transform hover:scale-110 transition-all"
+                        title="Upload photo"
+                      >
+                        {uploadingPhoto ? (
+                          <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
+                        ) : (
+                          <Plus className="w-4 h-4" />
+                        )}
+                      </label>
+                    )}
+                    <input
+                      id="photo-upload"
+                      type="file"
+                      accept="image/*"
+                      onChange={handlePhotoUpload}
+                      className="hidden"
+                      disabled={uploadingPhoto}
+                    />
                   </div>
                   <h2 className="text-2xl font-bold mb-2 dark:text-white">{profileUser?.username}</h2>
                   
