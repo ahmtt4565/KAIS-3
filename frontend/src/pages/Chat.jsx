@@ -288,38 +288,31 @@ export default function Chat({ user, logout }) {
     }
   };
 
-  const handleMessageLongPress = (msg) => {
+  const handleMessageLongPress = (msg, e) => {
+    if (e) e.stopPropagation();
     if (msg.sender_id === user.id) {
-      setSelectedMessage(msg.id);
+      setSelectedMessage(selectedMessage === msg.id ? null : msg.id);
     }
   };
 
-  // Close delete menu when clicking outside
+  // Close delete menu when clicking anywhere
   useEffect(() => {
+    if (!selectedMessage) return;
+    
     const handleClickOutside = (e) => {
-      // Check if click is outside the delete menu
-      if (selectedMessage) {
-        const deleteMenus = document.querySelectorAll('[data-delete-menu]');
-        let clickedInsideMenu = false;
-        
-        deleteMenus.forEach(menu => {
-          if (menu.contains(e.target)) {
-            clickedInsideMenu = true;
-          }
-        });
-        
-        if (!clickedInsideMenu) {
-          setSelectedMessage(null);
-        }
-      }
+      setSelectedMessage(null);
     };
     
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('touchstart', handleClickOutside);
+    // Add listener with a small delay to prevent immediate close
+    const timeoutId = setTimeout(() => {
+      document.addEventListener('click', handleClickOutside, { capture: true });
+      document.addEventListener('touchend', handleClickOutside, { capture: true });
+    }, 100);
     
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
+      clearTimeout(timeoutId);
+      document.removeEventListener('click', handleClickOutside, { capture: true });
+      document.removeEventListener('touchend', handleClickOutside, { capture: true });
     };
   }, [selectedMessage]);
 
