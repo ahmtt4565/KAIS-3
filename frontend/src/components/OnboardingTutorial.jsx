@@ -75,18 +75,18 @@ export default function OnboardingTutorial({ onComplete }) {
   const step = tutorialSteps[currentStep];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full mx-4 p-8 animate-in fade-in zoom-in duration-300">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+      <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full p-6 sm:p-8 animate-in fade-in zoom-in duration-300">
         {/* Close button */}
         <button
           onClick={handleSkip}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Step indicator */}
-        <div className="flex justify-center gap-2 mb-6">
+        <div className="flex justify-center gap-2 mb-4 sm:mb-6">
           {tutorialSteps.map((_, index) => (
             <div
               key={index}
@@ -102,12 +102,12 @@ export default function OnboardingTutorial({ onComplete }) {
         </div>
 
         {/* Content */}
-        <div className="text-center mb-8">
-          <div className="text-6xl mb-4 animate-bounce">{step.image}</div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="text-5xl sm:text-6xl mb-3 sm:mb-4 animate-bounce">{step.image}</div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3">
             {step.title}
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed px-2">
             {step.description}
           </p>
         </div>
@@ -118,16 +118,16 @@ export default function OnboardingTutorial({ onComplete }) {
             <Button
               variant="outline"
               onClick={handlePrevious}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 text-sm sm:text-base"
             >
               <ArrowLeft className="w-4 h-4" />
-              Geri
+              <span className="hidden sm:inline">Geri</span>
             </Button>
           ) : (
             <Button
               variant="ghost"
               onClick={handleSkip}
-              className="text-gray-500 dark:text-gray-400"
+              className="text-gray-500 dark:text-gray-400 text-sm sm:text-base"
             >
               Atla
             </Button>
@@ -135,7 +135,7 @@ export default function OnboardingTutorial({ onComplete }) {
 
           <Button
             onClick={handleNext}
-            className="flex items-center gap-2 bg-gradient-to-r from-teal-500 to-orange-500 hover:from-teal-600 hover:to-orange-600 text-white"
+            className="flex items-center gap-2 bg-gradient-to-r from-teal-500 to-orange-500 hover:from-teal-600 hover:to-orange-600 text-white text-sm sm:text-base"
           >
             {currentStep === tutorialSteps.length - 1 ? 'Başlayalım' : 'İleri'}
             <ArrowRight className="w-4 h-4" />
@@ -143,7 +143,7 @@ export default function OnboardingTutorial({ onComplete }) {
         </div>
 
         {/* Step counter */}
-        <div className="text-center mt-4 text-sm text-gray-500 dark:text-gray-400">
+        <div className="text-center mt-3 sm:mt-4 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
           {currentStep + 1} / {tutorialSteps.length}
         </div>
       </div>
