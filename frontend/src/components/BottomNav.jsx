@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { Home, MessageSquare, Plus, User, Shield, Headphones, List } from "lucide-react";
+import { Home, MessageSquare, Plus, User, Shield, Headphones, List, DollarSign } from "lucide-react";
 
 export default function BottomNav({ user, unreadCount = 0 }) {
   const navigate = useNavigate();
