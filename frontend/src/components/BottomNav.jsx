@@ -10,6 +10,7 @@ export default function BottomNav({ user, unreadCount = 0 }) {
   const navItems = [
     { path: "/dashboard", icon: Home, label: "Home" },
     { path: "/listings", icon: List, label: "Listings" },
+    { path: "/exchange", icon: DollarSign, label: "Döviz", color: "teal" },
   ];
 
   const rightNavItems = [
