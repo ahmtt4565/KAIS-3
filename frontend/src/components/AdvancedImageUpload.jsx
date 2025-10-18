@@ -139,10 +139,10 @@ export default function AdvancedImageUpload({ onImageSelect, existingImages = []
         >
           <ImageIcon className="w-12 h-12 mx-auto mb-3 text-gray-400" />
           <p className="text-gray-600 dark:text-gray-400 mb-2">
-            Fotoğraf eklemek için tıklayın
+            Click to add photos
           </p>
           <p className="text-sm text-gray-500">
-            veya sürükleyip bırakın
+            or drag and drop
           </p>
         </div>
       )}
@@ -150,7 +150,7 @@ export default function AdvancedImageUpload({ onImageSelect, existingImages = []
       {/* Tips */}
       <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
         <p className="text-sm text-blue-800 dark:text-blue-200">
-          💡 <strong>İpucu:</strong> Birden fazla fotoğraf ekleyebilirsiniz. İlk fotoğraf kapak resmi olacaktır.
+          💡 <strong>Tip:</strong> You can add multiple photos. The first photo will be the cover image.
         </p>
       </div>
     </div>
