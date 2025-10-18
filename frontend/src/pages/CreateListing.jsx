@@ -242,7 +242,7 @@ export default function CreateListing({ user, logout }) {
 
               {/* Photo Upload - Advanced */}
               <div>
-                <Label>Fotoğraflar (Opsiyonel - Maksimum 3 adet)</Label>
+                <Label>Photos (Optional - Maximum 3)</Label>
                 <div className="mt-2">
                   <AdvancedImageUpload 
                     onImageSelect={(images) => {
