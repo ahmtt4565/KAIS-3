@@ -620,44 +620,203 @@ async def forgot_password(request: PasswordResetRequest):
     <html>
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
-            body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
-            .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
-            .header {{ background: linear-gradient(135deg, #14b8a6 0%, #f97316 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }}
-            .content {{ background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }}
-            .button {{ display: inline-block; background: #14b8a6; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; margin: 20px 0; font-weight: bold; }}
-            .footer {{ text-align: center; margin-top: 20px; color: #666; font-size: 12px; }}
-            .warning {{ background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; }}
+            * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+            body {{ 
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+                background: #f3f4f6;
+                padding: 20px;
+            }}
+            .email-wrapper {{
+                max-width: 600px;
+                margin: 0 auto;
+                background: white;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            }}
+            .header {{
+                background: linear-gradient(135deg, #14b8a6 0%, #0d9488 50%, #f97316 100%);
+                padding: 40px 30px;
+                text-align: center;
+            }}
+            .logo {{
+                font-size: 48px;
+                font-weight: 800;
+                color: white;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                letter-spacing: 2px;
+                margin-bottom: 10px;
+            }}
+            .tagline {{
+                color: rgba(255,255,255,0.95);
+                font-size: 14px;
+                letter-spacing: 1px;
+            }}
+            .content {{
+                padding: 40px 30px;
+                background: white;
+            }}
+            .greeting {{
+                font-size: 24px;
+                font-weight: 600;
+                color: #111827;
+                margin-bottom: 20px;
+            }}
+            .message {{
+                font-size: 16px;
+                color: #4b5563;
+                line-height: 1.8;
+                margin-bottom: 16px;
+            }}
+            .button-container {{
+                text-align: center;
+                margin: 35px 0;
+            }}
+            .button {{
+                display: inline-block;
+                background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+                color: white !important;
+                padding: 16px 40px;
+                text-decoration: none;
+                border-radius: 12px;
+                font-weight: 600;
+                font-size: 16px;
+                box-shadow: 0 4px 14px rgba(20, 184, 166, 0.4);
+                transition: all 0.3s ease;
+            }}
+            .button:hover {{
+                box-shadow: 0 6px 20px rgba(20, 184, 166, 0.5);
+                transform: translateY(-2px);
+            }}
+            .divider {{
+                height: 1px;
+                background: linear-gradient(to right, transparent, #e5e7eb, transparent);
+                margin: 30px 0;
+            }}
+            .link-box {{
+                background: #f9fafb;
+                border: 2px dashed #d1d5db;
+                border-radius: 8px;
+                padding: 16px;
+                word-break: break-all;
+                font-size: 13px;
+                color: #6b7280;
+                margin: 20px 0;
+            }}
+            .info-box {{
+                background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+                border-left: 4px solid #f59e0b;
+                padding: 20px;
+                border-radius: 8px;
+                margin: 25px 0;
+            }}
+            .info-title {{
+                font-weight: 700;
+                color: #92400e;
+                font-size: 16px;
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+            }}
+            .info-list {{
+                margin-left: 20px;
+                color: #78350f;
+            }}
+            .info-list li {{
+                margin: 8px 0;
+                font-size: 14px;
+            }}
+            .footer {{
+                background: #f9fafb;
+                padding: 30px;
+                text-align: center;
+                border-top: 1px solid #e5e7eb;
+            }}
+            .footer-text {{
+                color: #6b7280;
+                font-size: 13px;
+                line-height: 1.6;
+            }}
+            .social-links {{
+                margin: 20px 0;
+            }}
+            .social-links a {{
+                color: #14b8a6;
+                text-decoration: none;
+                margin: 0 10px;
+                font-weight: 500;
+            }}
+            .copyright {{
+                color: #9ca3af;
+                font-size: 12px;
+                margin-top: 20px;
+            }}
         </style>
     </head>
     <body>
-        <div class="container">
+        <div class="email-wrapper">
             <div class="header">
-                <h1>KAIS - Şifre Sıfırlama</h1>
+                <div class="logo">KAIS</div>
+                <div class="tagline">Peer-to-Peer Currency Exchange</div>
             </div>
+            
             <div class="content">
-                <h2>Merhaba {user.get('username', 'Kullanıcı')},</h2>
-                <p>Hesabınız için şifre sıfırlama talebinde bulundunuz.</p>
-                <p>Şifrenizi sıfırlamak için aşağıdaki butona tıklayın:</p>
-                <p style="text-align: center;">
-                    <a href="{reset_link}" class="button">Şifremi Sıfırla</a>
+                <div class="greeting">Merhaba {user.get('username', 'Kullanıcı')} 👋</div>
+                
+                <p class="message">
+                    Hesabınız için bir şifre sıfırlama talebi aldık. Güvenliğiniz bizim için önemli!
                 </p>
-                <p>Veya aşağıdaki linki tarayıcınıza kopyalayın:</p>
-                <p style="word-break: break-all; background: white; padding: 10px; border-radius: 5px;">
+                
+                <p class="message">
+                    Yeni bir şifre belirlemek için aşağıdaki butona tıklayın:
+                </p>
+                
+                <div class="button-container">
+                    <a href="{reset_link}" class="button">🔐 Şifremi Şimdi Sıfırla</a>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <p class="message" style="font-size: 14px; color: #6b7280;">
+                    Buton çalışmıyorsa, aşağıdaki linki kopyalayıp tarayıcınıza yapıştırın:
+                </p>
+                
+                <div class="link-box">
                     {reset_link}
-                </p>
-                <div class="warning">
-                    <strong>⚠️ Önemli:</strong>
-                    <ul>
-                        <li>Bu link 1 saat geçerlidir</li>
-                        <li>Sadece bir kez kullanılabilir</li>
-                        <li>Eğer bu isteği siz yapmadıysanız, bu emaili görmezden gelin</li>
+                </div>
+                
+                <div class="info-box">
+                    <div class="info-title">⚠️ Önemli Güvenlik Bilgileri</div>
+                    <ul class="info-list">
+                        <li>Bu link <strong>1 saat</strong> süreyle geçerlidir</li>
+                        <li>Link yalnızca <strong>tek kullanımlık</strong>tır</li>
+                        <li>Bu talebi <strong>siz yapmadıysanız</strong>, bu e-postayı görmezden gelin</li>
+                        <li>KAIS ekibi asla şifrenizi sormaz</li>
                     </ul>
                 </div>
+                
+                <p class="message" style="font-size: 14px; color: #9ca3af; margin-top: 30px;">
+                    Herhangi bir sorunuz mu var? Destek ekibimiz size yardımcı olmak için burada!
+                </p>
             </div>
+            
             <div class="footer">
-                <p>Bu email KAIS tarafından otomatik olarak gönderilmiştir.</p>
-                <p>&copy; 2024 KAIS - Peer-to-Peer Currency Exchange</p>
+                <p class="footer-text">
+                    Bu e-posta <strong>KAIS</strong> tarafından otomatik olarak gönderilmiştir.
+                </p>
+                
+                <div class="social-links">
+                    <a href="https://github-kais-sync.preview.emergentagent.com">Website</a> •
+                    <a href="#">Destek</a> •
+                    <a href="#">Gizlilik</a>
+                </div>
+                
+                <p class="copyright">
+                    &copy; 2024 KAIS. Tüm hakları saklıdır.<br>
+                    Güvenli ve hızlı para transferi platformu
+                </p>
             </div>
         </div>
     </body>
