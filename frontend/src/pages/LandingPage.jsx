@@ -519,21 +519,21 @@ export default function LandingPage({ setUser }) {
                 <span className="text-2xl font-bold text-teal-600">1</span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Create or Search Listing</h3>
-              <p className="text-gray-600 dark:text-gray-300">Create a listing for the currency you want to exchange or browse existing offers.</p>
+              <p className="text-gray-600">Create a listing for the currency you want to exchange or browse existing offers.</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-teal-600">2</span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Connect & Chat</h3>
-              <p className="text-gray-600 dark:text-gray-300">Discuss details and message users directly to arrange your meetup.</p>
+              <p className="text-gray-600">Discuss details and message users directly to arrange your meetup.</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-teal-600">3</span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Meet & Exchange</h3>
-              <p className="text-gray-600 dark:text-gray-300">Meet in person, exchange currency, and rate your experience</p>
+              <p className="text-gray-600">Meet in person, exchange currency, and rate your experience</p>
             </div>
           </div>
         </div>
