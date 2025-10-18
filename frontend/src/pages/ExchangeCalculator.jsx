@@ -233,7 +233,7 @@ export default function ExchangeCalculator({ user }) {
             <CardHeader className="border-b border-gray-200 dark:border-gray-700">
               <div className="flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-teal-600" />
-                <CardTitle className="text-lg font-bold">Popüler Döviz Kurları</CardTitle>
+                <CardTitle className="text-lg font-bold">Popular Exchange Rates</CardTitle>
               </div>
             </CardHeader>
             <CardContent className="p-4">
