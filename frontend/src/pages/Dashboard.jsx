@@ -67,7 +67,16 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
           // Store JWT token
           localStorage.setItem('token', response.data.jwt_token);
           
-          console.log('✅ Token stored, redirecting to dashboard...');
+          console.log('✅ Token stored');
+          
+          // Get user data
+          const userResponse = await axios.get(`${API}/auth/me`);
+          console.log('✅ User data fetched:', userResponse.data);
+          
+          // Set user in parent component
+          if (setUser) {
+            setUser(userResponse.data);
+          }
           
           // Clean URL and redirect to dashboard
           window.location.href = '/dashboard';
@@ -80,11 +89,15 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
         }
       } else {
         console.log('⚠️ No session_id found in URL');
+        // If no session_id and no user, redirect to home
+        if (!user) {
+          navigate('/');
+        }
       }
     };
     
     processGoogleSession();
-  }, [navigate]);
+  }, [navigate, setUser, user]);
 
   // Scroll handler
   useEffect(() => {
