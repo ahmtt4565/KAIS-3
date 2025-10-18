@@ -133,7 +133,15 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
   useEffect(() => {
     fetchData();
     requestNotificationPermission();
+    checkTutorial();
   }, []);
+
+  // Check if user should see tutorial
+  const checkTutorial = () => {
+    if (user && !user.has_seen_tutorial) {
+      setShowTutorial(true);
+    }
+  };
 
   useEffect(() => {
     applyFilters();
