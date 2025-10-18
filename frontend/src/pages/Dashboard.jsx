@@ -713,7 +713,10 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
         {/* Exchange Rates Card */}
         {!ratesLoading && exchangeRates && exchangeRates.rates && (
           <div className="mb-4">
-            <Card className="border-2 border-teal-200 dark:border-teal-900/50 bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-gray-800 dark:to-gray-800 overflow-hidden shadow-md">
+            <Card 
+              className="border-2 border-teal-200 dark:border-teal-900/50 bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-gray-800 dark:to-gray-800 overflow-hidden shadow-md hover:shadow-lg transition-all cursor-pointer"
+              onClick={() => navigate('/exchange')}
+            >
               <CardContent className="p-3 md:p-4">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-4">
@@ -734,7 +737,7 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                 </div>
 
                 {/* Popular Rates Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
                   {/* USD to TRY */}
                   {exchangeRates.rates.TRY && (
                     <div className="bg-white dark:bg-gray-700 rounded-lg p-3 border border-teal-200 dark:border-teal-800 hover:shadow-md transition-shadow">
@@ -776,9 +779,21 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                   )}
                 </div>
 
-                {/* Info Text */}
-                <div className="mt-3 text-xs text-center text-teal-600 dark:text-teal-400">
-                  💱 Rates updated daily • Base: {exchangeRates.base_currency}
+                {/* Info Text & Button */}
+                <div className="flex items-center justify-between border-t border-teal-200 dark:border-teal-700 pt-3">
+                  <div className="text-xs text-teal-600 dark:text-teal-400">
+                    💱 Rates updated daily • Base: {exchangeRates.base_currency}
+                  </div>
+                  <Button
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate('/exchange');
+                    }}
+                    className="bg-teal-600 hover:bg-teal-700 text-white text-xs px-3 py-1"
+                  >
+                    Detaylı Hesapla →
+                  </Button>
                 </div>
               </CardContent>
             </Card>
