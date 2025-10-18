@@ -16,6 +16,11 @@ const tutorialSteps = [
     image: "➕"
   },
   {
+    title: "Döviz Kurlarını Takip Et 💱",
+    description: "Exchange sayfasından 150+ para birimi için güncel kurları görün ve hesaplama yapın.",
+    image: "💱"
+  },
+  {
     title: "Yakındaki İlanları Gör 📍",
     description: "Konumunuza yakın takasları haritada görüntüleyin ve uygun olanları bulun.",
     image: "🗺️"
