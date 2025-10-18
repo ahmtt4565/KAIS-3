@@ -390,6 +390,9 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
           <p className="mt-1">Base currency: USD</p>
         </div>
       </div>
+
+      {/* Bottom Navigation for Mobile */}
+      <BottomNav user={user} unreadCount={unreadCount} />
     </div>
   );
 }
