@@ -5,10 +5,12 @@ import { API } from "../App";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeftRight, TrendingUp, DollarSign, ArrowLeft } from "lucide-react";
+import { ArrowLeftRight, TrendingUp, DollarSign, MessageSquare, User, LogOut, Bell } from "lucide-react";
 import { CURRENCIES } from "../data/countries-currencies";
+import KaisLogo from "@/components/KaisLogo";
+import BottomNav from "@/components/BottomNav";
 
-export default function ExchangeCalculator({ user }) {
+export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
   const navigate = useNavigate();
   const [amount, setAmount] = useState(100);
   const [fromCurrency, setFromCurrency] = useState("USD");
