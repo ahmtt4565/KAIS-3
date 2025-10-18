@@ -613,8 +613,17 @@ export default function Chat({ user, logout }) {
                 </div>
               </div>
 
+              {/* Overlay for closing delete menu */}
+              {selectedMessage && (
+                <div 
+                  className="fixed inset-0 z-40"
+                  onClick={() => setSelectedMessage(null)}
+                  onTouchEnd={() => setSelectedMessage(null)}
+                />
+              )}
+
               {/* Messages - Instagram Style */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-white dark:bg-gray-900">
+              <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-white dark:bg-gray-900 relative">
                 {messages.length === 0 ? (
                   <div className="text-center text-gray-500 dark:text-gray-400 mt-8">
                     <p>Send a message to start conversation</p>
