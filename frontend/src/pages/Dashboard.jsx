@@ -701,10 +701,7 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
         </div>
 
         {/* Exchange Rates Card */}
-        {(() => {
-          console.log('💱 Rates Check:', { ratesLoading, exchangeRates: !!exchangeRates, hasRates: !!exchangeRates?.rates });
-          return !ratesLoading && exchangeRates && exchangeRates.rates;
-        })() && (
+        {!ratesLoading && exchangeRates && exchangeRates.rates && (
           <div className="mb-4">
             <Card className="border-2 border-teal-200 dark:border-teal-900/50 bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-gray-800 dark:to-gray-800 overflow-hidden shadow-md">
               <CardContent className="p-3 md:p-4">
