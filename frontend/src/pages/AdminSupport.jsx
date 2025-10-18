@@ -88,6 +88,8 @@ export default function AdminSupport({ user }) {
     if (!message.trim() || !selectedConversation) return;
 
     setSending(true);
+    setIsTyping(false); // Stop typing when sending
+    
     try {
       await axios.post(
         `${API}/admin/support/${selectedConversation.id}/reply`,
@@ -115,6 +117,37 @@ export default function AdminSupport({ user }) {
       setSending(false);
     }
   };
+
+  // Handle typing indicator
+  const handleTyping = (e) => {
+    setMessage(e.target.value);
+    
+    // Start typing
+    if (!isTyping) {
+      setIsTyping(true);
+    }
+    
+    // Clear existing timeout
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+    
+    // Set new timeout to stop typing after 2 seconds of no input
+    typingTimeoutRef.current = setTimeout(() => {
+      setIsTyping(false);
+    }, 2000);
+  };
+
+  // Simulate user typing (in real app, this would come from WebSocket)
+  useEffect(() => {
+    if (selectedConversation && Math.random() > 0.7) {
+      const timeout = setTimeout(() => {
+        setUserTyping(true);
+        setTimeout(() => setUserTyping(false), 3000);
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }
+  }, [selectedConversation?.messages]);
 
   const closeConversation = async (conversationId) => {
     try {
