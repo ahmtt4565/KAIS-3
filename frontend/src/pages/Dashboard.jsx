@@ -637,6 +637,10 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                       href="https://instagram.com/kaissocial" 
                       target="_blank" 
                       rel="noopener noreferrer"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.open('https://instagram.com/kaissocial', '_blank', 'noopener,noreferrer');
+                      }}
                       className="group/link block"
                     >
                       <h3 className="text-lg md:text-xl font-black bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent group-hover/link:from-purple-700 group-hover/link:via-pink-700 group-hover/link:to-orange-700 transition-all flex items-center gap-1.5">
