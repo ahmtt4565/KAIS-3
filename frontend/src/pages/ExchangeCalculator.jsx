@@ -291,7 +291,95 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
               </div>
             </CardHeader>
             <CardContent className="p-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {/* USD to AED */}
+                {exchangeRates.rates.AED && (
+                  <div 
+                    className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors cursor-pointer border border-gray-200 dark:border-gray-600"
+                    onClick={() => {
+                      setFromCurrency('USD');
+                      setToCurrency('AED');
+                      setAmount(1);
+                    }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">USD → AED</p>
+                        <p className="text-2xl font-bold text-teal-600 dark:text-teal-400">
+                          {exchangeRates.rates.AED.toFixed(2)} د.إ
+                        </p>
+                      </div>
+                      <div className="text-3xl">💵</div>
+                    </div>
+                  </div>
+                )}
+
+                {/* TRY to AED */}
+                {exchangeRates.rates.AED && exchangeRates.rates.TRY && (
+                  <div 
+                    className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors cursor-pointer border border-gray-200 dark:border-gray-600"
+                    onClick={() => {
+                      setFromCurrency('TRY');
+                      setToCurrency('AED');
+                      setAmount(1);
+                    }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">TRY → AED</p>
+                        <p className="text-2xl font-bold text-teal-600 dark:text-teal-400">
+                          {(exchangeRates.rates.AED / exchangeRates.rates.TRY).toFixed(4)} د.إ
+                        </p>
+                      </div>
+                      <div className="text-3xl">₺</div>
+                    </div>
+                  </div>
+                )}
+
+                {/* EUR to USD */}
+                {exchangeRates.rates.EUR && (
+                  <div 
+                    className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors cursor-pointer border border-gray-200 dark:border-gray-600"
+                    onClick={() => {
+                      setFromCurrency('EUR');
+                      setToCurrency('USD');
+                      setAmount(1);
+                    }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">EUR → USD</p>
+                        <p className="text-2xl font-bold text-teal-600 dark:text-teal-400">
+                          ${(1 / exchangeRates.rates.EUR).toFixed(4)}
+                        </p>
+                      </div>
+                      <div className="text-3xl">💶</div>
+                    </div>
+                  </div>
+                )}
+
+                {/* USD to GBP */}
+                {exchangeRates.rates.GBP && (
+                  <div 
+                    className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors cursor-pointer border border-gray-200 dark:border-gray-600"
+                    onClick={() => {
+                      setFromCurrency('USD');
+                      setToCurrency('GBP');
+                      setAmount(1);
+                    }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">USD → GBP</p>
+                        <p className="text-2xl font-bold text-teal-600 dark:text-teal-400">
+                          £{exchangeRates.rates.GBP.toFixed(4)}
+                        </p>
+                      </div>
+                      <div className="text-3xl">💷</div>
+                    </div>
+                  </div>
+                )}
+
                 {/* USD to TRY */}
                 {exchangeRates.rates.TRY && (
                   <div 
