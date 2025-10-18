@@ -230,7 +230,7 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
 
   const fetchData = async () => {
     try {
-      const [listingsRes, notificationsRes, giveawayRes, participationRes] = await Promise.all([
+      const [listingsRes, notificationsRes, giveawayRes, participationRes, ratesRes] = await Promise.all([
         axios.get(`${API}/listings`),
         axios.get(`${API}/notifications`, {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
@@ -238,17 +238,20 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
         axios.get(`${API}/giveaway/active`).catch(() => ({ data: null })),
         axios.get(`${API}/giveaway/my-participation`, {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-        }).catch(() => ({ data: null }))
+        }).catch(() => ({ data: null })),
+        axios.get(`${API}/exchange-rates`).catch(() => ({ data: null }))
       ]);
       setListings(listingsRes.data);
       setFilteredListings(listingsRes.data);
       setNotifications(notificationsRes.data);
       setGiveaway(giveawayRes.data);
       setMyParticipation(participationRes.data);
+      setExchangeRates(ratesRes.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
       setLoading(false);
+      setRatesLoading(false);
     }
   };
 
