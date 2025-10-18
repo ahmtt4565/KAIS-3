@@ -45,13 +45,24 @@ export default function Dashboard({ user, logout, unreadCount = 0 }) {
       const params = new URLSearchParams(hash.substring(1));
       const session_id = params.get('session_id');
       
+      console.log('🔍 Google OAuth Debug:', {
+        hash,
+        session_id,
+        fullUrl: window.location.href
+      });
+      
       if (session_id) {
+        console.log('✅ Session ID found, processing...');
         setProcessingGoogleAuth(true);
         try {
           const response = await axios.post(`${API}/auth/google/session`, { session_id });
           
+          console.log('✅ Backend response:', response.data);
+          
           // Store JWT token
           localStorage.setItem('token', response.data.jwt_token);
+          
+          console.log('✅ Token stored, reloading...');
           
           // Clean URL fragment
           window.location.hash = '';
@@ -59,11 +70,13 @@ export default function Dashboard({ user, logout, unreadCount = 0 }) {
           // Reload page to get user data
           window.location.reload();
         } catch (error) {
-          console.error('Google auth error:', error);
+          console.error('❌ Google auth error:', error.response?.data || error.message);
           setProcessingGoogleAuth(false);
           // Redirect to landing page on error
           navigate('/');
         }
+      } else {
+        console.log('⚠️ No session_id found in URL');
       }
     };
     
