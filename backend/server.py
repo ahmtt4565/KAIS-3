@@ -1937,6 +1937,58 @@ async def upload_support_image(file: UploadFile = File(...), current_user: dict 
         logger.error(f"❌ Error uploading image: {e}")
         raise HTTPException(status_code=500, detail="Error uploading image")
 
+@api_router.post("/user/upload-profile-photo")
+async def upload_profile_photo(file: UploadFile = File(...), current_user: dict = Depends(get_current_user)):
+    """Upload profile photo for user"""
+    try:
+        # Validate file type
+        allowed_types = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
+        if file.content_type not in allowed_types:
+            raise HTTPException(status_code=400, detail="Invalid file type. Only JPEG, PNG, WebP allowed.")
+        
+        # Validate file size (max 2MB for profile photos)
+        file_content = await file.read()
+        if len(file_content) > 2 * 1024 * 1024:
+            raise HTTPException(status_code=400, detail="File too large. Max 2MB allowed.")
+        
+        # Create uploads directory
+        upload_dir = Path("/app/backend/uploads/profiles")
+        upload_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Delete old profile photo if exists
+        old_photo = current_user.get('profile_photo')
+        if old_photo:
+            old_path = Path(f"/app/backend{old_photo}")
+            if old_path.exists():
+                old_path.unlink()
+        
+        # Generate unique filename
+        file_extension = file.filename.split('.')[-1]
+        unique_filename = f"profile_{current_user['id']}.{file_extension}"
+        file_path = upload_dir / unique_filename
+        
+        # Save file
+        with open(file_path, "wb") as f:
+            f.write(file_content)
+        
+        # Update user profile
+        photo_url = f"/uploads/profiles/{unique_filename}"
+        await db.users.update_one(
+            {"id": current_user['id']},
+            {"$set": {"profile_photo": photo_url}}
+        )
+        
+        logger.info(f"👤 Profile photo uploaded: {photo_url} by user {current_user['id']}")
+        
+        return {
+            "success": True,
+            "profile_photo": photo_url
+        }
+    
+    except Exception as e:
+        logger.error(f"❌ Error uploading profile photo: {e}")
+        raise HTTPException(status_code=500, detail="Error uploading profile photo")
+
 # Admin typing indicator
 @api_router.post("/admin/support/{conversation_id}/typing")
 async def admin_set_typing(conversation_id: str, data: dict, admin_user: dict = Depends(get_admin_user)):
