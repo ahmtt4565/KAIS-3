@@ -692,7 +692,6 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                   <button className="group/btn px-3 py-1.5 sm:px-4 sm:py-2 md:px-5 md:py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 hover:from-purple-700 hover:via-pink-700 hover:to-orange-700 text-white text-xs sm:text-sm font-bold rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2">
                     <Instagram className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     <span className="hidden sm:inline">Follow</span>
-                    <span className="sm:hidden">Go</span>
                   </button>
                 </a>
               </div>
