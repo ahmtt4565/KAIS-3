@@ -644,11 +644,13 @@ export default function Chat({ user, logout }) {
                           {isOwnMessage && isSelected && (
                             <div 
                               className="absolute top-full mt-2 right-0 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 py-1 z-50 min-w-[140px] animate-in fade-in slide-in-from-top-2 duration-200"
+                              onClick={(e) => e.stopPropagation()}
                             >
                               <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   deleteMessage(msg.id);
+                                  setSelectedMessage(null);
                                 }}
                                 className="w-full px-4 py-3 text-left text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors flex items-center gap-3 text-sm font-medium"
                               >
