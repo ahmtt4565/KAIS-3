@@ -2667,6 +2667,12 @@ async def reject_participation(
     return {"message": "Katılım reddedildi"}
 
 # Exchange Rates Routes
+@api_router.get("/exchange-rates/test")
+async def test_endpoint():
+    """Test endpoint to verify routing works"""
+    print("🧪 TEST ENDPOINT CALLED")
+    return {"message": "Test endpoint works", "timestamp": datetime.now(timezone.utc).isoformat()}
+
 @api_router.get("/exchange-rates")
 async def get_exchange_rates():
     """Get current exchange rates"""
