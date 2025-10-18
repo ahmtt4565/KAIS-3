@@ -510,9 +510,9 @@ export default function LandingPage({ setUser }) {
       </div>
 
       {/* How it Works */}
-      <div className="bg-white dark:bg-gray-800 py-16">
+      <div className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800 dark:text-white">How It Works</h2>
+          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">How It Works</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
