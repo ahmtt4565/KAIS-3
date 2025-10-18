@@ -25,6 +25,8 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [giveaway, setGiveaway] = useState(null);
   const [myParticipation, setMyParticipation] = useState(null);
+  const [exchangeRates, setExchangeRates] = useState(null);
+  const [ratesLoading, setRatesLoading] = useState(true);
   const [filters, setFilters] = useState({
     country: "",
     from_currency: "",
