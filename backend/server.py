@@ -613,7 +613,7 @@ async def forgot_password(request: PasswordResetRequest):
     })
     
     # Create reset link
-    reset_link = f"https://github-kais-sync.preview.emergentagent.com/reset-password?token={reset_token}"
+    reset_link = f"https://kais-mobile-mvp.preview.emergentagent.com/reset-password?token={reset_token}"
     
     # Create HTML email content
     html_content = f"""
@@ -809,7 +809,7 @@ async def forgot_password(request: PasswordResetRequest):
                 </p>
                 
                 <div class="social-links">
-                    <a href="https://github-kais-sync.preview.emergentagent.com">Website</a> •
+                    <a href="https://kais-mobile-mvp.preview.emergentagent.com">Website</a> •
                     <a href="#">Destek</a> •
                     <a href="#">Gizlilik</a>
                 </div>
