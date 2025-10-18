@@ -424,14 +424,42 @@ class GiveawayParticipationCreate(BaseModel):
 # Auth Routes
 @api_router.post("/auth/register")
 async def register(user_data: UserRegister):
-    # Check if user exists
+    # Check if email exists
     existing_user = await db.users.find_one({"email": user_data.email})
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
     
+    # Validate username
+    username = user_data.username.strip()
+    
+    # 1. Convert to lowercase
+    username_lower = username.lower()
+    
+    # 2. Check if username has uppercase letters (reject if yes)
+    if username != username_lower:
+        raise HTTPException(status_code=400, detail="Username must be lowercase only")
+    
+    # 3. Check if username contains "kais" (case insensitive)
+    if "kais" in username_lower:
+        raise HTTPException(status_code=400, detail="Username cannot contain 'kais'")
+    
+    # 4. Check if username is "admin"
+    if username_lower == "admin":
+        raise HTTPException(status_code=400, detail="This username is reserved and cannot be used")
+    
+    # 5. Check if username already exists (case insensitive)
+    existing_username = await db.users.find_one({
+        "$or": [
+            {"username": username},
+            {"username": {"$regex": f"^{username}$", "$options": "i"}}
+        ]
+    })
+    if existing_username:
+        raise HTTPException(status_code=400, detail="Username already taken")
+    
     # Validate password confirmation if provided
     if user_data.confirmPassword and user_data.password != user_data.confirmPassword:
-        raise HTTPException(status_code=400, detail="Şifreler uyuşmuyor")
+        raise HTTPException(status_code=400, detail="Passwords do not match")
     
     # Üye numarası oluştur - 1000'den başlat
     # En son üye numarasını bul
@@ -452,9 +480,9 @@ async def register(user_data: UserRegister):
     
     member_number = f"#K{new_num:05d}"  # #K01000 formatında
     
-    # Create user
+    # Create user with validated lowercase username
     user = User(
-        username=user_data.username,
+        username=username_lower,
         email=user_data.email,
         country=user_data.country,
         languages=user_data.languages,
