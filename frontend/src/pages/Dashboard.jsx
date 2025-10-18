@@ -38,21 +38,26 @@ export default function Dashboard({ user, logout, unreadCount = 0 }) {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  // Google OAuth - Check for session_id in URL fragment
+  // Google OAuth - Check for session_id in URL hash or query params
   useEffect(() => {
     const processGoogleSession = async () => {
+      // Check both hash fragment and query parameters
       const hash = window.location.hash;
-      const params = new URLSearchParams(hash.substring(1));
-      const session_id = params.get('session_id');
+      const searchParams = new URLSearchParams(window.location.search);
+      const hashParams = new URLSearchParams(hash.substring(1));
+      
+      // Try to get session_id from either source
+      let session_id = hashParams.get('session_id') || searchParams.get('session_id');
       
       console.log('🔍 Google OAuth Debug:', {
         hash,
+        search: window.location.search,
         session_id,
         fullUrl: window.location.href
       });
       
       if (session_id) {
-        console.log('✅ Session ID found, processing...');
+        console.log('✅ Session ID found, processing...', session_id);
         setProcessingGoogleAuth(true);
         try {
           const response = await axios.post(`${API}/auth/google/session`, { session_id });
@@ -62,16 +67,14 @@ export default function Dashboard({ user, logout, unreadCount = 0 }) {
           // Store JWT token
           localStorage.setItem('token', response.data.jwt_token);
           
-          console.log('✅ Token stored, reloading...');
+          console.log('✅ Token stored, redirecting to dashboard...');
           
-          // Clean URL fragment
-          window.location.hash = '';
-          
-          // Reload page to get user data
-          window.location.reload();
+          // Clean URL and redirect to dashboard
+          window.location.href = '/dashboard';
         } catch (error) {
           console.error('❌ Google auth error:', error.response?.data || error.message);
           setProcessingGoogleAuth(false);
+          alert('Google login failed. Please try again.');
           // Redirect to landing page on error
           navigate('/');
         }
