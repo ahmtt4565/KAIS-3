@@ -585,28 +585,28 @@ export default function LandingPage({ setUser }) {
       {/* How it Works */}
       <div className="bg-white dark:bg-gray-800 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800 dark:text-white">Nasıl Çalışır</h2>
+          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800 dark:text-white">How It Works</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-teal-600">1</span>
               </div>
-              <h3 className="text-xl font-semibold mb-2">İlan Oluştur veya Ara</h3>
-              <p className="text-gray-600 dark:text-gray-300">Değiştirmek istediğiniz para birimi için ilan oluşturun veya mevcut tekliflere göz atın.</p>
+              <h3 className="text-xl font-semibold mb-2">Create or Search Listing</h3>
+              <p className="text-gray-600 dark:text-gray-300">Create a listing for the currency you want to exchange or browse existing offers.</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-teal-600">2</span>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Bağlan & Sohbet Et</h3>
-              <p className="text-gray-600 dark:text-gray-300">Detayları belirleyin ve buluşmayı ayarlamak için kullanıcılarla doğrudan mesajlaşın.</p>
+              <h3 className="text-xl font-semibold mb-2">Connect & Chat</h3>
+              <p className="text-gray-600 dark:text-gray-300">Discuss details and message users directly to arrange your meetup.</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-teal-600">3</span>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Tanışma & Değişim</h3>
-              <p className="text-gray-600 dark:text-gray-300">Yüz yüze buluşun, döviz değişin ve deneyiminizi değerlendirin</p>
+              <h3 className="text-xl font-semibold mb-2">Meet & Exchange</h3>
+              <p className="text-gray-600 dark:text-gray-300">Meet in person, exchange currency, and rate your experience</p>
             </div>
           </div>
         </div>
