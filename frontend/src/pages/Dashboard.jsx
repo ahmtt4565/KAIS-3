@@ -898,7 +898,6 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                               </Button>
                             </div>
                           </div>
-                          </div>
                         </div>
                       </div>
                     </div>
