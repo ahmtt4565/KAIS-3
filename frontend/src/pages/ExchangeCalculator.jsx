@@ -173,21 +173,18 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
 
       <div className="max-w-4xl mx-auto px-4 py-6 md:py-8 pb-24 md:pb-8">
         {/* Main Calculator Card */}
-        <Card className="shadow-2xl border-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl mb-6 overflow-hidden">
-          <CardHeader className="border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-teal-500 via-cyan-500 to-blue-500 text-white relative overflow-hidden">
-            {/* Animated background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-teal-400/20 via-cyan-400/20 to-blue-400/20 animate-pulse"></div>
-            
-            <div className="flex items-center gap-3 relative z-10">
-              <div className="p-4 rounded-2xl bg-white/20 backdrop-blur-sm shadow-xl">
-                <DollarSign className="w-8 h-8 text-white" />
+        <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 mb-6">
+          <CardHeader className="border-b border-gray-200 dark:border-gray-700 pb-4">
+            <div className="flex items-center gap-3">
+              <div className="p-3 rounded-lg bg-teal-500">
+                <DollarSign className="w-6 h-6 text-white" />
               </div>
               <div>
-                <CardTitle className="text-3xl font-black text-white drop-shadow-lg">
+                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">
                   Currency Converter
                 </CardTitle>
                 {lastUpdated && (
-                  <p className="text-sm text-white/90 mt-1 font-medium">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                     Last updated: {new Date(lastUpdated).toLocaleString('en-US')}
                   </p>
                 )}
@@ -195,26 +192,26 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
             </div>
           </CardHeader>
 
-          <CardContent className="p-6 md:p-8 space-y-6">
+          <CardContent className="p-6 space-y-6">
             {/* From Currency */}
-            <div className="space-y-3">
-              <label className="text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide flex items-center gap-2">
-                <span className="text-xl">💰</span> Amount to Convert
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                Amount to Convert
               </label>
               <div className="flex gap-3">
-                <div className="flex-1 relative">
+                <div className="flex-1">
                   <Input
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="Enter amount"
-                    className="h-16 text-2xl font-bold border-3 border-teal-300 dark:border-teal-700 focus:border-teal-500 rounded-xl shadow-lg hover:shadow-xl transition-all bg-gradient-to-r from-white to-gray-50 dark:from-gray-700 dark:to-gray-800"
+                    className="h-12 text-lg font-semibold"
                   />
                 </div>
                 <select
                   value={fromCurrency}
                   onChange={(e) => setFromCurrency(e.target.value)}
-                  className="h-16 px-5 text-lg font-bold border-3 border-teal-300 dark:border-teal-700 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-4 focus:ring-teal-500/50 focus:border-teal-500 min-w-[140px] shadow-lg hover:shadow-xl transition-all cursor-pointer"
+                  className="h-12 px-4 text-base font-semibold border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 min-w-[130px]"
                 >
                   {CURRENCIES.map(currency => (
                     <option key={currency} value={currency}>
@@ -225,30 +222,27 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
               </div>
             </div>
 
-            {/* Swap Button - Ultra Modern */}
-            <div className="flex justify-center relative">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-20 h-1 bg-gradient-to-r from-transparent via-teal-300 to-transparent"></div>
-              </div>
+            {/* Swap Button */}
+            <div className="flex justify-center">
               <Button
                 onClick={swapCurrencies}
                 variant="outline"
-                size="lg"
-                className="relative z-10 rounded-2xl border-3 border-teal-500 bg-gradient-to-br from-teal-500 to-cyan-500 text-white hover:from-teal-600 hover:to-cyan-600 shadow-2xl hover:shadow-teal-500/50 hover:scale-110 transition-all duration-300 p-4"
+                size="icon"
+                className="rounded-full border-2 border-teal-500 text-teal-600 hover:bg-teal-50"
               >
-                <ArrowLeftRight className="w-7 h-7 animate-pulse" />
+                <ArrowLeftRight className="w-5 h-5" />
               </Button>
             </div>
 
             {/* To Currency */}
-            <div className="space-y-3">
-              <label className="text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide flex items-center gap-2">
-                <span className="text-xl">🎯</span> To Currency
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                To Currency
               </label>
               <select
                 value={toCurrency}
                 onChange={(e) => setToCurrency(e.target.value)}
-                className="w-full h-16 px-5 text-lg font-bold border-3 border-teal-300 dark:border-teal-700 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-4 focus:ring-teal-500/50 focus:border-teal-500 shadow-lg hover:shadow-xl transition-all cursor-pointer"
+                className="w-full h-12 px-4 text-base font-semibold border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
               >
                 {CURRENCIES.map(currency => (
                   <option key={currency} value={currency}>
@@ -258,46 +252,30 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
               </select>
             </div>
 
-            {/* Result Display - Ultra Modern with Animation */}
+            {/* Result Display */}
             {result && (
-              <div className="mt-8 relative">
-                {/* Glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-teal-500 via-cyan-500 to-blue-500 rounded-3xl blur-xl opacity-60 animate-pulse"></div>
-                
-                <div className="relative p-8 rounded-3xl bg-gradient-to-br from-teal-500 via-cyan-500 to-blue-500 text-white shadow-2xl transform hover:scale-105 transition-all duration-300">
-                  <div className="text-center space-y-6">
-                    <div>
-                      <p className="text-base opacity-90 font-semibold mb-2 flex items-center justify-center gap-2">
-                        <span className="text-2xl">💵</span>
-                        {amount} {fromCurrency} =
-                      </p>
-                      <div className="flex items-center justify-center gap-3">
-                        <span className="text-5xl md:text-6xl">
-                          {getCurrencySymbol(toCurrency)}
-                        </span>
-                        <p className="text-5xl md:text-7xl font-black tracking-tight">
-                          {result.converted_amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </p>
-                        <span className="text-3xl font-bold opacity-90">
-                          {toCurrency}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="pt-6 border-t-2 border-white/30">
-                      <p className="text-base opacity-95 font-semibold flex items-center justify-center gap-2">
-                        <span>📊</span>
-                        Exchange Rate: 1 {fromCurrency} = {result.rate.toFixed(6)} {toCurrency}
-                      </p>
-                    </div>
+              <div className="mt-6 p-6 rounded-lg bg-teal-50 dark:bg-teal-900/20 border-2 border-teal-500">
+                <div className="text-center space-y-3">
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {amount} {fromCurrency} =
+                    </p>
+                    <p className="text-4xl font-bold text-teal-600 dark:text-teal-400 mt-2">
+                      {getCurrencySymbol(toCurrency)} {result.converted_amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {toCurrency}
+                    </p>
+                  </div>
+                  <div className="pt-3 border-t border-teal-200 dark:border-teal-800">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      1 {fromCurrency} = {result.rate.toFixed(6)} {toCurrency}
+                    </p>
                   </div>
                 </div>
               </div>
             )}
 
             {loading && (
-              <div className="text-center py-8">
-                <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-teal-500 border-t-transparent shadow-lg"></div>
-                <p className="mt-4 text-teal-600 font-semibold">Calculating...</p>
+              <div className="text-center py-6">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-teal-500 border-t-transparent"></div>
               </div>
             )}
           </CardContent>
