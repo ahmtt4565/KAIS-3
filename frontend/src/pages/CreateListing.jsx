@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, DollarSign, Upload, X } from "lucide-react";
 import KaisLogo from "@/components/KaisLogo";
+import AdvancedImageUpload from "@/components/AdvancedImageUpload";
 
 import { CURRENCIES, COUNTRIES } from "../data/countries-currencies";
 import { getCountryShortName } from "../data/countries-currencies";
