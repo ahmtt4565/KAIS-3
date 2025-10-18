@@ -2695,6 +2695,7 @@ async def convert_currency(
     to_currency: str
 ):
     """Convert amount from one currency to another"""
+    print(f"🚀 CONVERT FUNCTION CALLED: {amount} {from_currency} to {to_currency}")
     try:
         # Get latest rates
         print(f"🔍 Converting {amount} {from_currency} to {to_currency}")
