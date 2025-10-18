@@ -655,7 +655,6 @@ export default function Chat({ user, logout }) {
                           {/* Delete menu - Instagram style */}
                           {isOwnMessage && isSelected && (
                             <div 
-                              data-delete-menu
                               className="absolute top-full mt-2 right-0 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 py-1 z-50 min-w-[140px] animate-in fade-in slide-in-from-top-2 duration-200"
                             >
                               <button
