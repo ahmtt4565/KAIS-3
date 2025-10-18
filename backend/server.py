@@ -1990,6 +1990,40 @@ async def upload_profile_photo(file: UploadFile = File(...), current_user: dict 
         logger.error(f"❌ Error uploading profile photo: {e}")
         raise HTTPException(status_code=500, detail="Error uploading profile photo")
 
+@api_router.delete("/user/delete-profile-photo")
+async def delete_profile_photo(current_user: dict = Depends(get_current_user)):
+    """Delete profile photo for user"""
+    try:
+        old_photo = current_user.get('profile_photo')
+        
+        if not old_photo:
+            raise HTTPException(status_code=404, detail="No profile photo to delete")
+        
+        # Delete file from disk
+        old_path = Path(f"/app/backend{old_photo}")
+        if old_path.exists():
+            old_path.unlink()
+            logger.info(f"🗑️ Profile photo file deleted: {old_photo}")
+        
+        # Update user profile - remove photo
+        await db.users.update_one(
+            {"id": current_user['id']},
+            {"$set": {"profile_photo": None}}
+        )
+        
+        logger.info(f"👤 Profile photo removed for user {current_user['id']}")
+        
+        return {
+            "success": True,
+            "message": "Profile photo deleted successfully"
+        }
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"❌ Error deleting profile photo: {e}")
+        raise HTTPException(status_code=500, detail="Error deleting profile photo")
+
 # Admin typing indicator
 @api_router.post("/admin/support/{conversation_id}/typing")
 async def admin_set_typing(conversation_id: str, data: dict, admin_user: dict = Depends(get_admin_user)):
