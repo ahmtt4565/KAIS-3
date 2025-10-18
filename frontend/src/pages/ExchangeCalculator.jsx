@@ -332,8 +332,8 @@ export default function ExchangeCalculator({ user }) {
 
         {/* Info */}
         <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
-          <p>💱 Kurlar günlük olarak güncellenmektedir</p>
-          <p className="mt-1">Baz para birimi: USD</p>
+          <p>💱 Rates are updated daily</p>
+          <p className="mt-1">Base currency: USD</p>
         </div>
       </div>
     </div>
