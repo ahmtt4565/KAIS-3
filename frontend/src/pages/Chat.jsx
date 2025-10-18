@@ -173,6 +173,8 @@ export default function Chat({ user, logout }) {
     if (!newMessage.trim() || !selectedChat) return;
 
     setSending(true);
+    setIsTyping(false); // Stop typing indicator
+    
     try {
       await axios.post(
         `${API}/messages`,
@@ -194,6 +196,38 @@ export default function Chat({ user, logout }) {
       setSending(false);
     }
   };
+
+  // Handle typing indicator
+  const handleTyping = (e) => {
+    setNewMessage(e.target.value);
+    
+    // Start typing
+    if (!isTyping) {
+      setIsTyping(true);
+    }
+    
+    // Clear existing timeout
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+    
+    // Set new timeout to stop typing after 2 seconds of no input
+    typingTimeoutRef.current = setTimeout(() => {
+      setIsTyping(false);
+    }, 2000);
+  };
+
+  // Simulate other user typing (in a real app, this would come from WebSocket)
+  useEffect(() => {
+    if (selectedChat && Math.random() > 0.7) {
+      // Randomly show typing indicator for demo
+      const timeout = setTimeout(() => {
+        setOtherUserTyping(true);
+        setTimeout(() => setOtherUserTyping(false), 3000);
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }
+  }, [messages, selectedChat]);
 
   const deleteMessage = async (messageId) => {
     try {
