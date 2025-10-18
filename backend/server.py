@@ -622,8 +622,9 @@ class PasswordReset(BaseModel):
 async def forgot_password(request: PasswordResetRequest):
     user = await db.users.find_one({"email": request.email})
     if not user:
-        # Security: Don't reveal if email exists
-        return {"message": "Eğer email kayıtlıysa, şifre sıfırlama linki gönderildi."}
+        # Don't send email if user doesn't exist
+        # Return error to prevent spam
+        raise HTTPException(status_code=404, detail="No account found with this email address")
     
     # Create reset token (valid for 1 hour)
     reset_token = create_access_token({
