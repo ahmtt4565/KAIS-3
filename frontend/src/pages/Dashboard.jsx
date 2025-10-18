@@ -635,27 +635,27 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
       </header>
 
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 md:py-6">
-        {/* Instagram Card - Modern & Compact */}
-        <div className="mb-4">
-          <Card className="relative overflow-hidden border-0 bg-white dark:bg-gray-900 shadow-lg hover:shadow-xl transition-all duration-300 group">
+        {/* Instagram Card - Compact for Mobile */}
+        <div className="mb-3 sm:mb-4">
+          <Card className="relative overflow-hidden border-0 bg-white dark:bg-gray-900 shadow-md hover:shadow-lg transition-all duration-300 group">
             {/* Subtle gradient line at top */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500"></div>
+            <div className="absolute top-0 left-0 right-0 h-0.5 sm:h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500"></div>
             
-            <CardContent className="p-4 md:p-6">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <CardContent className="p-3 sm:p-4 md:p-6">
+              <div className="flex flex-row items-center justify-between gap-2 sm:gap-4">
                 {/* Left Side - Instagram Info */}
-                <div className="flex items-center gap-3 md:gap-4">
-                  {/* Instagram Logo - Compact */}
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 rounded-xl blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                    <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
-                      <Instagram className="w-6 h-6 md:w-7 md:h-7 text-white" />
+                <div className="flex items-center gap-2 sm:gap-3 md:gap-4 min-w-0 flex-1">
+                  {/* Instagram Logo - Smaller on mobile */}
+                  <div className="relative flex-shrink-0">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 rounded-lg sm:rounded-xl blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                    <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-lg sm:rounded-xl bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
+                      <Instagram className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-white" />
                     </div>
                   </div>
                   
-                  {/* Text Content - Compact */}
-                  <div className="space-y-0.5">
-                    <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">Follow us</p>
+                  {/* Text Content - Smaller on mobile */}
+                  <div className="space-y-0 sm:space-y-0.5 min-w-0 flex-1">
+                    <p className="text-[10px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">Follow us</p>
                     <a 
                       href="https://instagram.com/kaissocial" 
                       target="_blank" 
@@ -666,19 +666,19 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                       }}
                       className="group/link block"
                     >
-                      <h3 className="text-lg md:text-xl font-black bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent group-hover/link:from-purple-700 group-hover/link:via-pink-700 group-hover/link:to-orange-700 transition-all flex items-center gap-1.5">
+                      <h3 className="text-base sm:text-lg md:text-xl font-black bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent group-hover/link:from-purple-700 group-hover/link:via-pink-700 group-hover/link:to-orange-700 transition-all flex items-center gap-1 sm:gap-1.5 truncate">
                         @kaissocial
-                        <ArrowRight className="w-4 h-4 text-pink-500 opacity-0 group-hover/link:opacity-100 transform -translate-x-1 group-hover/link:translate-x-0 transition-all" />
+                        <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 text-pink-500 opacity-0 group-hover/link:opacity-100 transform -translate-x-1 group-hover/link:translate-x-0 transition-all flex-shrink-0" />
                       </h3>
                     </a>
-                    <p className="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-1.5">
-                      <Sparkles className="w-3 h-3 text-pink-500" />
-                      Updates & giveaways
+                    <p className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400 flex items-center gap-1 sm:gap-1.5">
+                      <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-pink-500 flex-shrink-0" />
+                      <span className="truncate">Updates & giveaways</span>
                     </p>
                   </div>
                 </div>
 
-                {/* Right Side - CTA Button - Compact */}
+                {/* Right Side - CTA Button - Smaller on mobile */}
                 <a 
                   href="https://instagram.com/kaissocial" 
                   target="_blank" 
@@ -687,12 +687,12 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                     e.preventDefault();
                     window.open('https://instagram.com/kaissocial', '_blank', 'noopener,noreferrer');
                   }}
-                  className="flex-shrink-0 w-full md:w-auto"
+                  className="flex-shrink-0"
                 >
-                  <button className="group/btn w-full md:w-auto px-4 py-2 md:px-5 md:py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 hover:from-purple-700 hover:via-pink-700 hover:to-orange-700 text-white text-sm font-bold rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2">
-                    <Instagram className="w-4 h-4" />
-                    <span>Follow</span>
-                    <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
+                  <button className="group/btn px-3 py-1.5 sm:px-4 sm:py-2 md:px-5 md:py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 hover:from-purple-700 hover:via-pink-700 hover:to-orange-700 text-white text-xs sm:text-sm font-bold rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2">
+                    <Instagram className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <span className="hidden sm:inline">Follow</span>
+                    <span className="sm:hidden">Go</span>
                   </button>
                 </a>
               </div>
