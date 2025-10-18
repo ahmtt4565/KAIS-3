@@ -692,6 +692,81 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
           />
         </div>
 
+        {/* Exchange Rates Card */}
+        {!ratesLoading && exchangeRates && exchangeRates.rates && (
+          <div className="mb-4">
+            <Card className="border-2 border-teal-200 dark:border-teal-900/50 bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-gray-800 dark:to-gray-800 overflow-hidden shadow-md">
+              <CardContent className="p-3 md:p-4">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-xl bg-gradient-to-br from-teal-500 to-cyan-500 shadow-lg">
+                      <DollarSign className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg text-teal-800 dark:text-teal-400">Live Exchange Rates</h3>
+                      <p className="text-xs text-teal-700 dark:text-teal-500 font-medium">
+                        Updated: {exchangeRates.last_updated ? format(new Date(exchangeRates.last_updated), "dd MMM HH:mm") : "Now"}
+                      </p>
+                    </div>
+                  </div>
+                  <Badge className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 text-xs">
+                    Live
+                  </Badge>
+                </div>
+
+                {/* Popular Rates Grid */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {/* USD to TRY */}
+                  {exchangeRates.rates.TRY && (
+                    <div className="bg-white dark:bg-gray-700 rounded-lg p-3 border border-teal-200 dark:border-teal-800 hover:shadow-md transition-shadow">
+                      <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">USD → TRY</div>
+                      <div className="text-lg font-bold text-teal-600 dark:text-teal-400">
+                        ₺{exchangeRates.rates.TRY.toFixed(2)}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* USD to EUR */}
+                  {exchangeRates.rates.EUR && (
+                    <div className="bg-white dark:bg-gray-700 rounded-lg p-3 border border-teal-200 dark:border-teal-800 hover:shadow-md transition-shadow">
+                      <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">USD → EUR</div>
+                      <div className="text-lg font-bold text-teal-600 dark:text-teal-400">
+                        €{exchangeRates.rates.EUR.toFixed(4)}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* USD to GBP */}
+                  {exchangeRates.rates.GBP && (
+                    <div className="bg-white dark:bg-gray-700 rounded-lg p-3 border border-teal-200 dark:border-teal-800 hover:shadow-md transition-shadow">
+                      <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">USD → GBP</div>
+                      <div className="text-lg font-bold text-teal-600 dark:text-teal-400">
+                        £{exchangeRates.rates.GBP.toFixed(4)}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* USD to JPY */}
+                  {exchangeRates.rates.JPY && (
+                    <div className="bg-white dark:bg-gray-700 rounded-lg p-3 border border-teal-200 dark:border-teal-800 hover:shadow-md transition-shadow">
+                      <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">USD → JPY</div>
+                      <div className="text-lg font-bold text-teal-600 dark:text-teal-400">
+                        ¥{exchangeRates.rates.JPY.toFixed(2)}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Info Text */}
+                <div className="mt-3 text-xs text-center text-teal-600 dark:text-teal-400">
+                  💱 Rates updated daily • Base: {exchangeRates.base_currency}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
         {/* Filter Card */}
         <div className="mb-4">
           <Card className="border-2 border-orange-200 dark:border-orange-900/50 bg-gradient-to-br from-orange-50 to-yellow-50 dark:from-gray-800 dark:to-gray-800 overflow-hidden shadow-md">
