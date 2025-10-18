@@ -73,6 +73,7 @@ export default function BottomNav({ user, unreadCount = 0 }) {
           {rightNavItems.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.path);
+            const isAdmin = item.color === "purple";
             
             return (
               <button
@@ -80,7 +81,9 @@ export default function BottomNav({ user, unreadCount = 0 }) {
                 onClick={() => navigate(item.path)}
                 className={`flex flex-col items-center justify-center px-3 py-2 rounded-xl transition-all relative ${
                   active
-                    ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 shadow-sm"
+                    ? isAdmin 
+                      ? "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30 shadow-sm"
+                      : "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 shadow-sm"
                     : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
                 }`}
               >
