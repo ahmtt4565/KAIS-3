@@ -860,7 +860,7 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                           </div>
 
                           {/* Right Action */}
-                          <div className="flex flex-col items-end justify-between">
+                          <div className="flex flex-col items-end justify-between gap-2">
                             <Button
                               size="sm"
                               className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold"
@@ -871,6 +871,33 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                             >
                               Detail
                             </Button>
+                            
+                            {/* Share Buttons */}
+                            <div className="flex items-center gap-1">
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                className="h-8 w-8 p-0 text-green-600 hover:text-green-700 hover:bg-green-50 dark:hover:bg-green-900/20"
+                                onClick={(e) => shareToWhatsApp(listing, e)}
+                                title="Share on WhatsApp"
+                              >
+                                <Share2 className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                className="h-8 w-8 p-0 text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                                onClick={(e) => copyListingLink(listing, e)}
+                                title="Copy link"
+                              >
+                                {copiedId === listing.id ? (
+                                  <Check className="w-4 h-4 text-green-600" />
+                                ) : (
+                                  <Copy className="w-4 h-4" />
+                                )}
+                              </Button>
+                            </div>
+                          </div>
                           </div>
                         </div>
                       </div>
