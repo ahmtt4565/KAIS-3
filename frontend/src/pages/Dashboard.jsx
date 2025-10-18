@@ -181,6 +181,29 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
     }
   };
 
+  // Share listing functions
+  const [copiedId, setCopiedId] = useState(null);
+
+  const shareToWhatsApp = (listing, e) => {
+    e.stopPropagation();
+    const url = `${window.location.origin}/listing/${listing.id}`;
+    const text = `Check out this currency exchange on KAIS!\n\n💱 ${listing.from_amount} ${listing.from_currency} → ${listing.to_amount || 'Negotiable'} ${listing.to_currency}\n📍 ${listing.city}, ${listing.country}\n\n`;
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text + url)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  const copyListingLink = async (listing, e) => {
+    e.stopPropagation();
+    const url = `${window.location.origin}/listing/${listing.id}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopiedId(listing.id);
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
   useEffect(() => {
     applyFilters();
   }, [filters, listings]);
