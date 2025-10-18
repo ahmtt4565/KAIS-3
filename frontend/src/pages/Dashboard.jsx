@@ -16,7 +16,7 @@ import KaisLogo from "@/components/KaisLogo";
 import { CURRENCIES, COUNTRIES } from "../data/countries-currencies";
 import { getCountryShortName } from "../data/countries-currencies";
 
-export default function Dashboard({ user, logout, unreadCount = 0 }) {
+export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
   const navigate = useNavigate();
   const [listings, setListings] = useState([]);
   const [filteredListings, setFilteredListings] = useState([]);
