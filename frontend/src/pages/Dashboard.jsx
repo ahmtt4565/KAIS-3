@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Bell, Plus, MessageSquare, LogOut, User, DollarSign, MapPin, Star, Search, X, Instagram, Menu, Headphones, ChevronUp, Sparkles, ArrowRight } from "lucide-react";
+import { Bell, Plus, MessageSquare, LogOut, User, DollarSign, MapPin, Star, Search, X, Instagram, Menu, Headphones, ChevronUp, Sparkles, ArrowRight, RefreshCw } from "lucide-react";
 import { format } from "date-fns";
 import OnlineStatus from "@/components/OnlineStatus";
 import BottomNav from "@/components/BottomNav";
