@@ -270,7 +270,7 @@ export default function CreateListing({ user, logout }) {
                   disabled={loading}
                   data-testid="submit-listing-btn"
                 >
-                  {loading ? "Oluşturuluyor..." : "Create Listing"}
+                  {loading ? "Creating..." : "Create Listing"}
                 </Button>
               </div>
             </form>
