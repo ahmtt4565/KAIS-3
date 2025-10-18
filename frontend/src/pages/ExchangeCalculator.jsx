@@ -127,11 +127,11 @@ export default function ExchangeCalculator({ user }) {
               </div>
               <div>
                 <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">
-                  Para Birimi Çevirici
+                  Currency Converter
                 </CardTitle>
                 {lastUpdated && (
                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                    Son güncelleme: {new Date(lastUpdated).toLocaleString('tr-TR')}
+                    Last updated: {new Date(lastUpdated).toLocaleString('en-US')}
                   </p>
                 )}
               </div>
