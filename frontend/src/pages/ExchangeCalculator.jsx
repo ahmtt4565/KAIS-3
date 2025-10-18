@@ -101,10 +101,10 @@ export default function ExchangeCalculator({ user }) {
               </Button>
               <div>
                 <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-                  Döviz Çevirici
+                  Currency Converter
                 </h1>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Güncel kurlarla hesaplama
+                  Real-time exchange rates
                 </p>
               </div>
             </div>
