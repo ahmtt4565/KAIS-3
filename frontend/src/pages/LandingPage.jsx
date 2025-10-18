@@ -127,39 +127,6 @@ export default function LandingPage({ setUser }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-100 via-teal-50 to-orange-100 relative overflow-hidden">
       {/* KAIS Pattern Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Teal KAIS texts - Random */}
-        {tealPositions.map((pos, i) => (
-          <div
-            key={`teal-${i}`}
-            className="absolute text-teal-500 font-bold text-3xl opacity-[0.12] select-none"
-            style={{
-              left: `${pos.left}%`,
-              top: `${pos.top}%`,
-              transform: `rotate(${pos.rotation}deg) scale(${pos.scale})`,
-              filter: 'blur(0.8px)'
-            }}
-          >
-            KAIS
-          </div>
-        ))}
-        {/* Orange KAIS texts - Random */}
-        {orangePositions.map((pos, i) => (
-          <div
-            key={`orange-${i}`}
-            className="absolute text-orange-400 font-bold text-3xl opacity-[0.12] select-none"
-            style={{
-              left: `${pos.left}%`,
-              top: `${pos.top}%`,
-              transform: `rotate(${pos.rotation}deg) scale(${pos.scale})`,
-              filter: 'blur(0.8px)'
-            }}
-          >
-            KAIS
-          </div>
-        ))}
-      </div>
-
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-teal-100/20 to-orange-100/20"></div>
