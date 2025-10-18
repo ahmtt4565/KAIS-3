@@ -2379,6 +2379,55 @@ async def convert_currency(
         logger.error(f"❌ Error converting currency: {e}")
         raise HTTPException(status_code=500, detail="Error converting currency")
 
+@api_router.get("/exchange-rates/history")
+async def get_exchange_rate_history(
+    currency: str = "TRY",
+    days: int = 7
+):
+    """Get historical exchange rate data for trend analysis"""
+    try:
+        currency = currency.upper()
+        
+        # Calculate start date
+        end_date = datetime.now(timezone.utc)
+        start_date = end_date - timedelta(days=days)
+        
+        # Fetch historical data
+        history = await db.exchange_rate_history.find(
+            {"recorded_at": {"$gte": start_date.isoformat()}},
+            {"_id": 0, "recorded_at": 1, "date": 1, "rates": 1}
+        ).sort("recorded_at", 1).to_list(1000)
+        
+        # Extract specific currency rates
+        result = []
+        for record in history:
+            if currency in record.get("rates", {}):
+                result.append({
+                    "date": record.get("date"),
+                    "recorded_at": record.get("recorded_at"),
+                    "rate": record["rates"][currency]
+                })
+        
+        # Calculate change percentage if we have data
+        change_percentage = 0
+        if len(result) >= 2:
+            first_rate = result[0]["rate"]
+            last_rate = result[-1]["rate"]
+            change_percentage = ((last_rate - first_rate) / first_rate) * 100
+        
+        return {
+            "currency": currency,
+            "base": "USD",
+            "days": days,
+            "data": result,
+            "change_percentage": round(change_percentage, 2),
+            "trend": "up" if change_percentage > 0 else "down" if change_percentage < 0 else "stable"
+        }
+        
+    except Exception as e:
+        logger.error(f"❌ Error fetching exchange rate history: {e}")
+        raise HTTPException(status_code=500, detail="Error fetching historical data")
+
 @api_router.get("/exchange-rates/{base_currency}")
 async def get_exchange_rates(base_currency: str):
     """Get current exchange rates for a base currency using free API"""
