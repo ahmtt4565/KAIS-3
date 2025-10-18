@@ -88,38 +88,90 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      {/* Header */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
-        <div className="max-w-4xl mx-auto px-4 py-4">
+      {/* Header - Same as Dashboard */}
+      <header className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => navigate('/dashboard')}
-                className="rounded-full"
-              >
-                <ArrowLeft className="w-5 h-5" />
-              </Button>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-                  Currency Converter
-                </h1>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Real-time exchange rates
-                </p>
-              </div>
+            <div 
+              className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity select-none"
+              onClick={() => navigate('/dashboard')}
+              style={{ cursor: 'pointer' }}
+            >
+              <KaisLogo className="h-14 w-auto cursor-pointer" />
             </div>
-            <div className="flex items-center gap-2">
-              <div className="px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 text-xs font-semibold">
-                Live
+
+            <div className="flex items-center gap-2 md:gap-3">
+              {/* Desktop Navigation */}
+              <div className="hidden md:flex items-center gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate('/about')}
+                  className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white transition-all"
+                >
+                  About
+                </Button>
+
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate('/listings')}
+                  className="rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400 transition-all"
+                >
+                  Listings
+                </Button>
+                
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate('/exchange')}
+                  className="rounded-full bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 transition-all"
+                >
+                  💱 Exchange
+                </Button>
+
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="relative rounded-full hover:bg-pink-50 dark:hover:bg-pink-900/30 hover:text-pink-600 dark:hover:text-pink-400 transition-all"
+                  onClick={() => navigate('/chat')}
+                >
+                  <MessageSquare className="w-5 h-5" />
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold shadow-lg animate-pulse">
+                      {unreadCount > 99 ? '99+' : unreadCount}
+                    </span>
+                  )}
+                </Button>
+              </div>
+
+              {/* Profile & Logout */}
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => navigate(`/profile/${user?.id}`)}
+                  className="rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400 transition-all"
+                >
+                  <User className="w-5 h-5" />
+                </Button>
+
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={logout}
+                  className="rounded-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/50 hover:bg-red-100 dark:hover:bg-red-900/30 transition-all shadow-sm"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
               </div>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="max-w-4xl mx-auto px-4 py-6 md:py-8">
+      <div className="max-w-4xl mx-auto px-4 py-6 md:py-8 pb-24 md:pb-8">
         {/* Main Calculator Card */}
         <Card className="shadow-xl border-2 border-teal-200 dark:border-teal-800 bg-white dark:bg-gray-800 mb-6">
           <CardHeader className="border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-gray-700 dark:to-gray-800">
