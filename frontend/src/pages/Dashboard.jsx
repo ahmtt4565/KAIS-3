@@ -12,6 +12,7 @@ import OnlineStatus from "@/components/OnlineStatus";
 import BottomNav from "@/components/BottomNav";
 import GiveawayCard from "@/components/GiveawayCard";
 import KaisLogo from "@/components/KaisLogo";
+import OnboardingTutorial from "@/components/OnboardingTutorial";
 
 import { CURRENCIES, COUNTRIES } from "../data/countries-currencies";
 import { getCountryShortName } from "../data/countries-currencies";
@@ -32,6 +33,7 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
   });
   const [loading, setLoading] = useState(true);
   const [processingGoogleAuth, setProcessingGoogleAuth] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
   
   // Scroll behavior states
   const [showHeader, setShowHeader] = useState(true);
