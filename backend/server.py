@@ -612,7 +612,7 @@ async def forgot_password(request: PasswordResetRequest):
     })
     
     # Create reset link
-    reset_link = f"https://quickswap-7.preview.emergentagent.com/reset-password?token={reset_token}"
+    reset_link = f"https://github-kais-sync.preview.emergentagent.com/reset-password?token={reset_token}"
     
     # Create HTML email content
     html_content = f"""
