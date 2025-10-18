@@ -294,16 +294,33 @@ export default function Chat({ user, logout }) {
     }
   };
 
-  // Close menu when clicking outside
+  // Close delete menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = () => {
+    const handleClickOutside = (e) => {
+      // Check if click is outside the delete menu
       if (selectedMessage) {
-        setSelectedMessage(null);
+        const deleteMenus = document.querySelectorAll('[data-delete-menu]');
+        let clickedInsideMenu = false;
+        
+        deleteMenus.forEach(menu => {
+          if (menu.contains(e.target)) {
+            clickedInsideMenu = true;
+          }
+        });
+        
+        if (!clickedInsideMenu) {
+          setSelectedMessage(null);
+        }
       }
     };
     
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
   }, [selectedMessage]);
 
   const scrollToBottom = () => {
