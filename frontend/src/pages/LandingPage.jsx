@@ -85,48 +85,8 @@ export default function LandingPage({ setUser }) {
     }));
   };
 
-  // Generate non-overlapping positions with collision detection - MORE scattered
-  const generateNonOverlappingPositions = (count, minDistance = 12) => {
-    const positions = [];
-    const maxAttempts = 150;
-    
-    const checkCollision = (newPos, existingPositions) => {
-      for (let pos of existingPositions) {
-        const distance = Math.sqrt(
-          Math.pow(newPos.left - pos.left, 2) + 
-          Math.pow(newPos.top - pos.top, 2)
-        );
-        if (distance < minDistance) {
-          return true; // Collision detected
-        }
-      }
-      return false; // No collision
-    };
-    
-    let attempts = 0;
-    while (positions.length < count && attempts < count * maxAttempts) {
-      const newPos = {
-        left: 2 + Math.random() * 96, // 2% to 98% - wider spread
-        top: 2 + Math.random() * 96,
-        rotation: Math.random() * 60 - 30, // -30 to 30 degrees - more variety
-        scale: 0.8 + Math.random() * 0.5 // 0.8 to 1.3 - more size variety
-      };
-      
-      if (!checkCollision(newPos, positions)) {
-        positions.push(newPos);
-      }
-      attempts++;
-    }
-    
-    return positions;
-  };
-
-  const tealPositions = generateNonOverlappingPositions(18, 12); // Reduced texts
-  const orangePositions = generateNonOverlappingPositions(18, 12); // Reduced texts
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-100 via-teal-50 to-orange-100 relative overflow-hidden">
-      {/* KAIS Pattern Background */}
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-teal-100/20 to-orange-100/20"></div>
