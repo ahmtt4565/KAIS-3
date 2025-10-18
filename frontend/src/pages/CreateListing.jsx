@@ -240,54 +240,16 @@ export default function CreateListing({ user, logout }) {
                 />
               </div>
 
-              {/* Photo Upload */}
+              {/* Photo Upload - Advanced */}
               <div>
-                <Label htmlFor="photos">Fotoğraflar (Opsiyonel - Maksimum 3 adet, 5MB)</Label>
+                <Label>Fotoğraflar (Opsiyonel - Maksimum 3 adet)</Label>
                 <div className="mt-2">
-                  <input
-                    type="file"
-                    id="photos"
-                    multiple
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    className="hidden"
+                  <AdvancedImageUpload 
+                    onImageSelect={(images) => {
+                      const files = images.map(img => img.file).filter(f => f);
+                      setSelectedFiles(files.slice(0, 3)); // Max 3 photos
+                    }}
                   />
-                  <div className="border-2 border-dashed border-gray-300 rounded-md p-4">
-                    <div className="text-center">
-                      <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                      <div className="mt-2">
-                        <label
-                          htmlFor="photos"
-                          className="cursor-pointer rounded-md bg-white dark:bg-gray-800 font-medium text-teal-600 hover:text-teal-500"
-                        >
-                          <span>Fotoğraf Yükle</span>
-                        </label>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, GIF maksimum 5MB</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Selected Files Preview */}
-                  {selectedFiles.length > 0 && (
-                    <div className="mt-4 grid grid-cols-3 gap-4">
-                      {selectedFiles.map((file, index) => (
-                        <div key={index} className="relative">
-                          <img
-                            src={URL.createObjectURL(file)}
-                            alt={`Preview ${index + 1}`}
-                            className="h-20 w-20 object-cover rounded border"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => removeFile(index)}
-                            className="absolute -top-1 -right-1 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
-                          >
-                            <X className="h-3 w-3" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
                 </div>
               </div>
 
