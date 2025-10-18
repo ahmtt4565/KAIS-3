@@ -462,11 +462,11 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                       onClick={() => setShowNotifications(false)}
                     ></div>
                     
-                    {/* Dropdown Content */}
-                    <div className="absolute right-0 mt-2 w-96 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50">
-                      <div className="border-b p-4">
+                    {/* Dropdown Content - Responsive */}
+                    <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-96 max-w-md bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50">
+                      <div className="border-b p-3 sm:p-4">
                         <div className="flex items-center justify-between">
-                          <h3 className="font-semibold text-lg">Notifications</h3>
+                          <h3 className="font-semibold text-base sm:text-lg">Notifications</h3>
                           {notifications.length > 0 && (
                             <Button
                               variant="ghost"
@@ -479,27 +479,27 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                           )}
                         </div>
                       </div>
-                      <div className="max-h-96 overflow-y-auto">
+                      <div className="max-h-[60vh] sm:max-h-96 overflow-y-auto">
                         {notifications.length === 0 ? (
-                          <div className="p-8 text-center text-gray-500 dark:text-gray-400">
-                            <Bell className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-                            <p>No notifications yet</p>
+                          <div className="p-6 sm:p-8 text-center text-gray-500 dark:text-gray-400">
+                            <Bell className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 text-gray-300" />
+                            <p className="text-sm sm:text-base">No notifications yet</p>
                           </div>
                         ) : (
                           <div className="divide-y">
                             {notifications.map((notification) => (
                               <div
                                 key={notification.id}
-                                className={`p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${!notification.read ? 'bg-teal-50 dark:bg-teal-900/20' : ''}`}
+                                className={`p-3 sm:p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${!notification.read ? 'bg-teal-50 dark:bg-teal-900/20' : ''}`}
                                 data-testid={`notification-${notification.id}`}
                                 onClick={() => handleNotificationClick(notification)}
                               >
-                                <div className="flex items-start justify-between">
-                                  <div className="flex-1">
-                                    <p className={`text-sm ${!notification.read ? 'font-semibold' : ''}`}>
+                                <div className="flex items-start justify-between gap-2">
+                                  <div className="flex-1 min-w-0">
+                                    <p className={`text-xs sm:text-sm ${!notification.read ? 'font-semibold' : ''} break-words`}>
                                       {notification.content}
                                     </p>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                    <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mt-1">
                                       {format(new Date(notification.created_at), 'dd MMM HH:mm')}
                                     </p>
                                   </div>
@@ -510,9 +510,9 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                                       e.stopPropagation(); // Prevent notification click
                                       deleteNotification(notification.id);
                                     }}
-                                    className="ml-2"
+                                    className="shrink-0 h-8 w-8 p-0"
                                   >
-                                    <X className="w-4 h-4" />
+                                    <X className="w-3 h-3 sm:w-4 sm:h-4" />
                                   </Button>
                                 </div>
                               </div>
