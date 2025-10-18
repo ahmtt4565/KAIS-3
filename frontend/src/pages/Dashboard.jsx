@@ -135,6 +135,39 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Pull-to-refresh functions
+  const handleTouchStart = (e) => {
+    if (window.scrollY === 0) {
+      setPullStartY(e.touches[0].clientY);
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (window.scrollY === 0 && pullStartY > 0) {
+      const currentY = e.touches[0].clientY;
+      const distance = currentY - pullStartY;
+      
+      if (distance > 0) {
+        setPullDistance(Math.min(distance, 100));
+      }
+    }
+  };
+
+  const handleTouchEnd = async () => {
+    if (pullDistance > 60 && !isRefreshing) {
+      setIsRefreshing(true);
+      await fetchData();
+      setTimeout(() => {
+        setIsRefreshing(false);
+        setPullDistance(0);
+        setPullStartY(0);
+      }, 1000);
+    } else {
+      setPullDistance(0);
+      setPullStartY(0);
+    }
+  };
+
   useEffect(() => {
     fetchData();
     requestNotificationPermission();
