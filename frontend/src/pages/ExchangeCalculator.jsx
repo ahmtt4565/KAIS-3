@@ -418,10 +418,19 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
           </Card>
         )}
 
-        {/* Info */}
-        <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
-          <p>💱 Rates are updated daily</p>
-          <p className="mt-1">Base currency: USD</p>
+        {/* Info - Modern */}
+        <div className="mt-8 p-6 rounded-2xl bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 shadow-lg">
+          <div className="text-center space-y-2">
+            <p className="text-base font-bold text-gray-700 dark:text-gray-300 flex items-center justify-center gap-2">
+              <span className="text-2xl">💱</span> 
+              Rates are updated daily at midnight UTC
+            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center justify-center gap-2">
+              <span className="text-xl">🌍</span>
+              Base currency: <span className="font-bold text-teal-600">USD</span> • 
+              <span className="font-bold text-teal-600">150+</span> currencies available
+            </p>
+          </div>
         </div>
       </div>
 
