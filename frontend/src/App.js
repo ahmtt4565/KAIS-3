@@ -17,6 +17,7 @@ import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import KVKKPolicy from "./pages/KVKKPolicy";
 import Support from "./pages/Support";
+import ExchangeCalculator from "./pages/ExchangeCalculator";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminUsers from "./pages/AdminUsers";
 import AdminListings from "./pages/AdminListings";
