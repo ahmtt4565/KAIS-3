@@ -72,18 +72,23 @@ export function AchievementsCard({ achievements, totalUnlocked }) {
           const isUnlocked = achievements?.some(a => 
             typeof a === 'string' ? a === achievement.id : a.id === achievement.id
           );
+          
+          // Special styling for Master User achievement
+          const isMasterUser = achievement.id === 'master_user';
 
           return (
             <div
               key={achievement.id}
               className={`p-3 rounded-lg border transition-all ${
                 isUnlocked
-                  ? "bg-white dark:bg-gray-800 border-yellow-300 dark:border-yellow-700 shadow-sm"
+                  ? isMasterUser 
+                    ? "bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 border-2 border-yellow-400 dark:border-yellow-600 shadow-lg ring-2 ring-yellow-300 dark:ring-yellow-700"
+                    : "bg-white dark:bg-gray-800 border-yellow-300 dark:border-yellow-700 shadow-sm"
                   : "bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 opacity-50"
-              }`}
+              } ${isMasterUser && isUnlocked ? 'col-span-2 sm:col-span-3' : ''}`}
             >
-              <div className="text-2xl mb-1 text-center">{achievement.icon}</div>
-              <div className="text-xs font-semibold text-center text-gray-900 dark:text-white mb-1">
+              <div className={`${isMasterUser ? 'text-3xl' : 'text-2xl'} mb-1 text-center`}>{achievement.icon}</div>
+              <div className={`text-xs font-semibold text-center text-gray-900 dark:text-white mb-1 ${isMasterUser ? 'text-sm' : ''}`}>
                 {achievement.name}
               </div>
               <div className="text-xs text-center text-gray-600 dark:text-gray-400 line-clamp-2">
@@ -91,7 +96,9 @@ export function AchievementsCard({ achievements, totalUnlocked }) {
               </div>
               {isUnlocked && (
                 <div className="text-center mt-1">
-                  <span className="text-xs text-green-600 dark:text-green-400 font-semibold">✓ Unlocked</span>
+                  <span className={`text-xs font-semibold ${isMasterUser ? 'text-yellow-600 dark:text-yellow-400' : 'text-green-600 dark:text-green-400'}`}>
+                    ✓ Unlocked
+                  </span>
                 </div>
               )}
             </div>
