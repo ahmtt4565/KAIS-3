@@ -92,22 +92,28 @@ export default function LandingPage({ setUser }) {
         <div className="absolute inset-0 bg-gradient-to-br from-teal-50/30 to-orange-50/30"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
-          <div className="text-center mb-16">
-            <div className="mb-6">
-              <h1 className="text-6xl font-bold bg-gradient-to-r from-teal-600 to-orange-500 bg-clip-text text-transparent">
+          {/* Mobile-Optimized Hero - Compact */}
+          <div className="text-center mb-8 md:mb-16">
+            <div className="mb-4 md:mb-6">
+              <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-teal-600 to-orange-500 bg-clip-text text-transparent">
                 KAIS
               </h1>
             </div>
-            <p className="text-3xl text-gray-700 dark:text-gray-300 font-medium mb-4">
+            <p className="text-xl md:text-3xl text-gray-700 dark:text-gray-300 font-medium mb-2 md:mb-4">
               Peer-to-Peer Currency Exchange
             </p>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Connect with people worldwide to exchange currencies directly, safely, and conveniently
+            <p className="text-sm md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto px-4">
+              Connect worldwide, exchange safely
             </p>
           </div>
 
-          {/* Features */}
-          <div className="grid md:grid-cols-4 gap-6 mb-16">
+          {/* Auth Card - Moved Up, Features Below on Mobile */}
+          <div className="max-w-md mx-auto mb-8 md:mb-16">
+            <Card className="border-2 border-teal-100 dark:border-gray-700 shadow-2xl bg-white dark:bg-gray-800">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-xl md:text-2xl text-center text-gray-900 dark:text-white">Get Started</CardTitle>
+                <CardDescription className="text-center text-sm md:text-base text-gray-600 dark:text-gray-400">Join KAIS and start exchanging</CardDescription>
+              </CardHeader>
             <div className="bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-teal-100 dark:border-gray-700 hover:shadow-lg transition-shadow">
               <Globe className="w-10 h-10 text-teal-600 mb-4" />
               <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Global Network</h3>
