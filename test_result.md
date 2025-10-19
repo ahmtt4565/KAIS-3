@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Integrate live currency exchange rates into the KAIS2.1 application. Fetch real-time exchange rates daily and provide API endpoints for retrieving rates and converting currencies."
+user_problem_statement: "Add 4 new features to KAIS2.1: 1) İlan Raporlama (Report Listing), 2) Kullanıcı Engelleme (Block User), 3) Döviz Kuru İkonları (Rise/Fall Icons), 4) Başarı Rozetleri (Achievement Badges)"
 
 backend:
   - task: "Fetch Exchange Rates Function"
