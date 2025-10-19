@@ -114,38 +114,6 @@ export default function LandingPage({ setUser }) {
                 <CardTitle className="text-xl md:text-2xl text-center text-gray-900 dark:text-white">Get Started</CardTitle>
                 <CardDescription className="text-center text-sm md:text-base text-gray-600 dark:text-gray-400">Join KAIS and start exchanging</CardDescription>
               </CardHeader>
-            <div className="bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-teal-100 dark:border-gray-700 hover:shadow-lg transition-shadow">
-              <Globe className="w-10 h-10 text-teal-600 mb-4" />
-              <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Global Network</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">Exchange currency safely anytime, anywhere.</p>
-            </div>
-            
-            <div className="bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-teal-100 dark:border-gray-700 hover:shadow-lg transition-shadow">
-              <MessageSquare className="w-10 h-10 text-teal-600 mb-4" />
-              <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Direct Messaging</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">Message directly to meet up</p>
-            </div>
-            
-            <div className="bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-teal-100 dark:border-gray-700 hover:shadow-lg transition-shadow">
-              <Shield className="w-10 h-10 text-teal-600 mb-4" />
-              <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Trusted Transactions</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">Check ratings and reviews for safe exchanges</p>
-            </div>
-            
-            <div className="bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-teal-100 dark:border-gray-700 hover:shadow-lg transition-shadow">
-              <DollarSign className="w-10 h-10 text-teal-600 mb-4" />
-              <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">All Currencies</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">Exchange any amount in any currency you want.</p>
-            </div>
-          </div>
-
-          {/* Auth Card */}
-          <div className="max-w-md mx-auto">
-            <Card className="border-2 border-teal-100 dark:border-gray-700 shadow-2xl bg-white dark:bg-gray-800">
-              <CardHeader>
-                <CardTitle className="text-2xl text-center text-gray-900 dark:text-white">Get Started</CardTitle>
-                <CardDescription className="text-center text-gray-600 dark:text-gray-400">Join KAIS and start exchanging currency</CardDescription>
-              </CardHeader>
               <CardContent>
                 <Tabs value={activeTab} onValueChange={setActiveTab}>
                   <TabsList className="grid w-full grid-cols-2 mb-6">
