@@ -48,93 +48,90 @@ class KAIS21NewFeatureTests:
             if response_data:
                 print(f"   Response: {json.dumps(response_data, indent=2)}")
     
-    def test_get_exchange_rates(self):
-        """Test GET /api/exchange-rates endpoint"""
-        print("\n🧪 Testing GET /api/exchange-rates endpoint...")
+    def setup_authentication(self):
+        """Setup authentication by registering test users"""
+        print("\n🔐 Setting up authentication...")
         
+        # Register test user 1
         try:
-            url = f"{self.base_url}/api/exchange-rates"
-            response = requests.get(url, timeout=10)
+            unique_id = str(uuid.uuid4())[:8]
+            user_data = {
+                "username": f"testuser{unique_id}",
+                "email": f"testuser{unique_id}@example.com",
+                "password": "TestPassword123!",
+                "country": "Turkey",
+                "languages": ["Turkish", "English"]
+            }
             
-            # Test 1: Response status code
+            response = requests.post(f"{self.base_url}/api/auth/register", json=user_data, timeout=10)
+            
             if response.status_code == 200:
-                self.log_test("GET /api/exchange-rates - Status Code", True, "Returns 200 OK")
-            else:
-                self.log_test("GET /api/exchange-rates - Status Code", False, 
-                            f"Expected 200, got {response.status_code}", response.text)
-                return
-            
-            # Parse response
-            try:
                 data = response.json()
-            except json.JSONDecodeError:
-                self.log_test("GET /api/exchange-rates - JSON Parse", False, 
-                            "Response is not valid JSON", response.text)
-                return
-            
-            # Test 2: Base currency is USD
-            base_currency = data.get('base_currency')
-            if base_currency == 'USD':
-                self.log_test("GET /api/exchange-rates - Base Currency", True, "Base currency is USD")
+                self.auth_token = data.get('token')
+                self.test_user_id = data.get('user', {}).get('id')
+                self.log_test("Authentication Setup - User 1", True, f"Test user 1 registered: {user_data['username']}")
             else:
-                self.log_test("GET /api/exchange-rates - Base Currency", False, 
-                            f"Expected USD, got {base_currency}", data)
-            
-            # Test 3: Rates object exists and has currencies
-            rates = data.get('rates', {})
-            if isinstance(rates, dict) and len(rates) > 0:
-                self.log_test("GET /api/exchange-rates - Rates Object", True, 
-                            f"Rates object contains {len(rates)} currencies")
-            else:
-                self.log_test("GET /api/exchange-rates - Rates Object", False, 
-                            "Rates object is empty or invalid", data)
-                return
-            
-            # Test 4: Check for specific currencies (TRY, EUR, GBP)
-            required_currencies = ['TRY', 'EUR', 'GBP']
-            missing_currencies = []
-            for currency in required_currencies:
-                if currency not in rates:
-                    missing_currencies.append(currency)
-            
-            if not missing_currencies:
-                self.log_test("GET /api/exchange-rates - Required Currencies", True, 
-                            "TRY, EUR, GBP are present")
-            else:
-                self.log_test("GET /api/exchange-rates - Required Currencies", False, 
-                            f"Missing currencies: {missing_currencies}", data)
-            
-            # Test 5: Last updated timestamp
-            last_updated = data.get('last_updated')
-            if last_updated:
-                try:
-                    # Try to parse ISO timestamp
-                    datetime.fromisoformat(last_updated.replace('Z', '+00:00'))
-                    self.log_test("GET /api/exchange-rates - Last Updated", True, 
-                                "Valid ISO timestamp present")
-                except ValueError:
-                    self.log_test("GET /api/exchange-rates - Last Updated", False, 
-                                f"Invalid timestamp format: {last_updated}", data)
-            else:
-                self.log_test("GET /api/exchange-rates - Last Updated", False, 
-                            "No last_updated timestamp", data)
-            
-            # Test 6: Response time
-            response_time = response.elapsed.total_seconds()
-            if response_time < 2.0:
-                self.log_test("GET /api/exchange-rates - Response Time", True, 
-                            f"Response time: {response_time:.2f}s")
-            else:
-                self.log_test("GET /api/exchange-rates - Response Time", False, 
-                            f"Response time too slow: {response_time:.2f}s")
-            
-            # Store rates for conversion tests
-            self.rates_data = data
-            
-        except requests.exceptions.RequestException as e:
-            self.log_test("GET /api/exchange-rates - Network", False, f"Network error: {str(e)}")
+                self.log_test("Authentication Setup - User 1", False, 
+                            f"Failed to register test user 1: {response.status_code}", response.text)
+                return False
+                
         except Exception as e:
-            self.log_test("GET /api/exchange-rates - General", False, f"Unexpected error: {str(e)}")
+            self.log_test("Authentication Setup - User 1", False, f"Error: {str(e)}")
+            return False
+        
+        # Register test user 2 for blocking tests
+        try:
+            unique_id2 = str(uuid.uuid4())[:8]
+            user_data2 = {
+                "username": f"testuser2{unique_id2}",
+                "email": f"testuser2{unique_id2}@example.com",
+                "password": "TestPassword123!",
+                "country": "Turkey",
+                "languages": ["Turkish", "English"]
+            }
+            
+            response = requests.post(f"{self.base_url}/api/auth/register", json=user_data2, timeout=10)
+            
+            if response.status_code == 200:
+                data = response.json()
+                self.test_user2_id = data.get('user', {}).get('id')
+                self.log_test("Authentication Setup - User 2", True, f"Test user 2 registered: {user_data2['username']}")
+            else:
+                self.log_test("Authentication Setup - User 2", False, 
+                            f"Failed to register test user 2: {response.status_code}", response.text)
+                return False
+                
+        except Exception as e:
+            self.log_test("Authentication Setup - User 2", False, f"Error: {str(e)}")
+            return False
+        
+        # Create a test listing for report tests
+        try:
+            headers = {"Authorization": f"Bearer {self.auth_token}"}
+            listing_data = {
+                "from_currency": "USD",
+                "from_amount": 1000,
+                "to_currency": "TRY",
+                "to_amount": 41000,
+                "country": "Turkey",
+                "city": "Istanbul",
+                "description": "Test listing for report functionality"
+            }
+            
+            response = requests.post(f"{self.base_url}/api/listings", json=listing_data, headers=headers, timeout=10)
+            
+            if response.status_code == 200:
+                data = response.json()
+                self.test_listing_id = data.get('id')
+                self.log_test("Authentication Setup - Test Listing", True, "Test listing created for reports")
+            else:
+                self.log_test("Authentication Setup - Test Listing", False, 
+                            f"Failed to create test listing: {response.status_code}", response.text)
+                
+        except Exception as e:
+            self.log_test("Authentication Setup - Test Listing", False, f"Error: {str(e)}")
+        
+        return True
     
     def test_currency_conversion(self):
         """Test GET /api/exchange-rates/convert endpoint"""
