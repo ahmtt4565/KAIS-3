@@ -436,9 +436,9 @@ export default function Profile({ user, logout, unreadCount = 0 }) {
               </div>
             </div>
             
-            {/* Centered Profile Title - Desktop */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 hidden md:block">
-              <h1 className="text-3xl font-bold italic text-gray-900 dark:text-white">
+            {/* Centered Profile Title - Visible on all screens */}
+            <div className="absolute left-1/2 transform -translate-x-1/2">
+              <h1 className="text-2xl md:text-3xl font-bold italic text-gray-900 dark:text-white">
                 Profile
               </h1>
             </div>
