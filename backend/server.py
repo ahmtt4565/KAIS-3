@@ -2528,7 +2528,7 @@ async def get_user_achievements(user_id: str):
         "exchange_expert": {
             "id": "exchange_expert",
             "name": "Exchange Expert",
-            "description": "Döviz çeviricisini 10 kez kullan",
+            "description": "Use currency converter 10 times",
             "icon": "💱",
             "unlocked": "exchange_expert" in user.get('achievements', [])
         }
