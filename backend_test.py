@@ -401,46 +401,148 @@ class KAIS21NewFeatureTests:
         except Exception as e:
             self.log_test("Block User - Non-existent User", False, f"Error: {str(e)}")
     
-    def _test_conversion_errors(self):
-        """Test error handling in conversion endpoint"""
-        print("\n🧪 Testing conversion error handling...")
+    def test_exchange_rate_changes_endpoint(self):
+        """Test Exchange Rate Changes functionality"""
+        print("\n📈 Testing Exchange Rate Changes Endpoint...")
         
-        # Test invalid currency
+        # Test 1: Default currencies (TRY,EUR,GBP,JPY)
         try:
-            url = f"{self.base_url}/api/exchange-rates/convert"
-            params = {'amount': 100, 'from_currency': 'XYZ', 'to_currency': 'USD'}
-            response = requests.get(url, params=params, timeout=10)
+            response = requests.get(f"{self.base_url}/api/exchange-rates/changes", timeout=10)
             
-            if response.status_code == 400:
+            if response.status_code == 200:
                 data = response.json()
-                if 'XYZ not supported' in data.get('detail', ''):
-                    self.log_test("Convert Error - Invalid Currency", True, 
-                                "Returns 400 with proper error message")
+                required_fields = ['base', 'changes', 'last_updated']
+                missing_fields = [f for f in required_fields if f not in data]
+                
+                if not missing_fields:
+                    self.log_test("Exchange Rate Changes - Default Request", True, "All required fields present")
                 else:
-                    self.log_test("Convert Error - Invalid Currency", False, 
-                                f"Wrong error message: {data.get('detail')}")
+                    self.log_test("Exchange Rate Changes - Default Request", False, 
+                                f"Missing fields: {missing_fields}", data)
+                
+                # Check base currency
+                if data.get('base') == 'USD':
+                    self.log_test("Exchange Rate Changes - Base Currency", True, "Base currency is USD")
+                else:
+                    self.log_test("Exchange Rate Changes - Base Currency", False, 
+                                f"Expected USD, got {data.get('base')}")
+                
+                # Check changes structure
+                changes = data.get('changes', {})
+                if isinstance(changes, dict):
+                    self.log_test("Exchange Rate Changes - Changes Structure", True, 
+                                f"Changes object contains {len(changes)} currencies")
+                    
+                    # Check individual currency data
+                    for currency, change_data in changes.items():
+                        required_change_fields = ['current_rate', 'change_percentage', 'trend']
+                        missing_change_fields = [f for f in required_change_fields if f not in change_data]
+                        
+                        if not missing_change_fields:
+                            self.log_test(f"Exchange Rate Changes - {currency} Structure", True, 
+                                        f"{currency} has all required fields")
+                        else:
+                            self.log_test(f"Exchange Rate Changes - {currency} Structure", False, 
+                                        f"{currency} missing fields: {missing_change_fields}")
+                        
+                        # Check trend values
+                        trend = change_data.get('trend')
+                        if trend in ['up', 'down', 'stable']:
+                            self.log_test(f"Exchange Rate Changes - {currency} Trend", True, 
+                                        f"{currency} trend is valid: {trend}")
+                        else:
+                            self.log_test(f"Exchange Rate Changes - {currency} Trend", False, 
+                                        f"{currency} invalid trend: {trend}")
+                else:
+                    self.log_test("Exchange Rate Changes - Changes Structure", False, "Changes is not a dict")
+                    
             else:
-                self.log_test("Convert Error - Invalid Currency", False, 
-                            f"Expected 400, got {response.status_code}")
+                self.log_test("Exchange Rate Changes - Default Request", False, 
+                            f"Expected 200, got {response.status_code}", response.text)
                 
         except Exception as e:
-            self.log_test("Convert Error - Invalid Currency", False, f"Error: {str(e)}")
+            self.log_test("Exchange Rate Changes - Default Request", False, f"Error: {str(e)}")
         
-        # Test missing parameters
+        # Test 2: Custom currencies
         try:
-            url = f"{self.base_url}/api/exchange-rates/convert"
-            params = {'amount': 100}  # Missing currencies
-            response = requests.get(url, params=params, timeout=10)
+            params = {"currencies": "EUR,GBP"}
+            response = requests.get(f"{self.base_url}/api/exchange-rates/changes", params=params, timeout=10)
             
-            if response.status_code == 422:  # FastAPI validation error
-                self.log_test("Convert Error - Missing Params", True, 
-                            "Returns 422 for missing parameters")
+            if response.status_code == 200:
+                data = response.json()
+                changes = data.get('changes', {})
+                
+                expected_currencies = ['EUR', 'GBP']
+                found_currencies = list(changes.keys())
+                
+                if all(currency in found_currencies for currency in expected_currencies):
+                    self.log_test("Exchange Rate Changes - Custom Currencies", True, 
+                                f"Custom currencies present: {found_currencies}")
+                else:
+                    self.log_test("Exchange Rate Changes - Custom Currencies", False, 
+                                f"Expected {expected_currencies}, got {found_currencies}")
             else:
-                self.log_test("Convert Error - Missing Params", False, 
-                            f"Expected 422, got {response.status_code}")
+                self.log_test("Exchange Rate Changes - Custom Currencies", False, 
+                            f"Expected 200, got {response.status_code}")
                 
         except Exception as e:
-            self.log_test("Convert Error - Missing Params", False, f"Error: {str(e)}")
+            self.log_test("Exchange Rate Changes - Custom Currencies", False, f"Error: {str(e)}")
+        
+        # Test 3: Single currency
+        try:
+            params = {"currencies": "TRY"}
+            response = requests.get(f"{self.base_url}/api/exchange-rates/changes", params=params, timeout=10)
+            
+            if response.status_code == 200:
+                data = response.json()
+                changes = data.get('changes', {})
+                
+                if 'TRY' in changes and len(changes) == 1:
+                    self.log_test("Exchange Rate Changes - Single Currency", True, "Single currency TRY returned")
+                else:
+                    self.log_test("Exchange Rate Changes - Single Currency", False, 
+                                f"Expected only TRY, got {list(changes.keys())}")
+            else:
+                self.log_test("Exchange Rate Changes - Single Currency", False, 
+                            f"Expected 200, got {response.status_code}")
+                
+        except Exception as e:
+            self.log_test("Exchange Rate Changes - Single Currency", False, f"Error: {str(e)}")
+        
+        # Test 4: Invalid currency
+        try:
+            params = {"currencies": "XYZ"}
+            response = requests.get(f"{self.base_url}/api/exchange-rates/changes", params=params, timeout=10)
+            
+            if response.status_code == 200:
+                data = response.json()
+                changes = data.get('changes', {})
+                
+                # Should return empty changes or handle gracefully
+                self.log_test("Exchange Rate Changes - Invalid Currency", True, 
+                            f"Invalid currency handled gracefully: {len(changes)} currencies returned")
+            else:
+                self.log_test("Exchange Rate Changes - Invalid Currency", False, 
+                            f"Unexpected status: {response.status_code}")
+                
+        except Exception as e:
+            self.log_test("Exchange Rate Changes - Invalid Currency", False, f"Error: {str(e)}")
+        
+        # Test 5: Response time
+        try:
+            start_time = time.time()
+            response = requests.get(f"{self.base_url}/api/exchange-rates/changes", timeout=10)
+            response_time = time.time() - start_time
+            
+            if response_time < 3.0:
+                self.log_test("Exchange Rate Changes - Response Time", True, 
+                            f"Response time: {response_time:.2f}s")
+            else:
+                self.log_test("Exchange Rate Changes - Response Time", False, 
+                            f"Response time too slow: {response_time:.2f}s")
+                
+        except Exception as e:
+            self.log_test("Exchange Rate Changes - Response Time", False, f"Error: {str(e)}")
     
     def test_data_persistence(self):
         """Test that exchange rates are properly stored and retrieved"""
