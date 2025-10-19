@@ -2588,19 +2588,19 @@ async def check_and_award_achievements(user_id: str):
             # Send notifications for new achievements
             for achievement in new_achievements:
                 achievement_names = {
-                    "first_listing": "🎉 İlk İlan",
-                    "ten_listings": "⭐ 10 İlan",
-                    "popular_seller": "🔥 Popüler Satıcı",
-                    "chat_master": "💬 Sohbet Ustası",
-                    "giveaway_creator": "🎁 Hediye Veren",
-                    "exchange_expert": "💱 Döviz Uzmanı"
+                    "first_listing": "🎉 First Listing",
+                    "ten_listings": "⭐ 10 Listings",
+                    "popular_seller": "🔥 Popular User",
+                    "chat_master": "💬 Chat Master",
+                    "giveaway_creator": "🎁 Gift Hunter",
+                    "exchange_expert": "💱 Exchange Expert"
                 }
                 
                 notification = Notification(
                     user_id=user_id,
                     type="achievement",
-                    title="Yeni Başarı Rozeti! 🏆",
-                    content=f"{achievement_names.get(achievement, achievement)} rozetini kazandınız!"
+                    title="New Achievement Badge! 🏆",
+                    content=f"You earned the {achievement_names.get(achievement, achievement)} badge!"
                 )
                 
                 notif_dict = notification.model_dump()
