@@ -103,6 +103,37 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=401, detail="Could not validate credentials")
 
+# Optional current user for public endpoints
+async def get_current_user_optional(credentials: Optional[HTTPAuthorizationCredentials] = Depends(HTTPBearer(auto_error=False))):
+    if credentials is None:
+        return None
+    try:
+        token = credentials.credentials
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id: str = payload.get("sub")
+        if user_id is None:
+            return None
+        user = await db.users.find_one({"id": user_id}, {"_id": 0})
+        if user is None:
+            return None
+        
+        # Update last_seen and is_online
+        await db.users.update_one(
+            {"id": user_id},
+            {
+                "$set": {
+                    "last_seen": datetime.now(timezone.utc),
+                    "is_online": True
+                }
+            }
+        )
+        user["last_seen"] = datetime.now(timezone.utc)
+        user["is_online"] = True
+        
+        return user
+    except Exception:
+        return None
+
 # Admin middleware
 async def get_admin_user(current_user: dict = Depends(get_current_user)):
     if current_user.get("role") != "admin":
