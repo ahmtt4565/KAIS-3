@@ -9,6 +9,7 @@ import { ArrowLeft, MapPin, MessageSquare, Star, Calendar, DollarSign } from "lu
 import { format } from "date-fns";
 import OnlineStatus from "@/components/OnlineStatus";
 import BottomNav from "@/components/BottomNav";
+import KaisLogo from "@/components/KaisLogo";
 
 export default function ListingDetail({ user, logout }) {
   const { id } = useParams();
