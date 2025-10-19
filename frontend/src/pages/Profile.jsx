@@ -813,8 +813,68 @@ export default function Profile({ user, logout, unreadCount = 0 }) {
                     )}
                   </DialogContent>
                 </Dialog>
+
+                {/* Block User Button - Only for other profiles */}
+                {!isOwnProfile && (
+                  <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <Button
+                      variant="destructive"
+                      className="w-full"
+                      onClick={handleBlockUser}
+                      disabled={blockingUser}
+                    >
+                      <Ban className="w-4 h-4 mr-2" />
+                      {blockingUser ? "Blocking..." : "Block User"}
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
+
+            {/* Achievements Card */}
+            <AchievementsCard 
+              achievements={achievements.achievements} 
+              totalUnlocked={achievements.total_unlocked}
+            />
+
+            {/* Blocked Users - Only for own profile */}
+            {isOwnProfile && blockedUsers.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <UserX className="w-5 h-5" />
+                    Blocked Users
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {blockedUsers.map(blocked => (
+                      <div key={blocked.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          {blocked.profile_photo ? (
+                            <img src={blocked.profile_photo} alt={blocked.username} className="w-10 h-10 rounded-full" />
+                          ) : (
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-yellow-500 flex items-center justify-center text-white font-bold">
+                              {blocked.username.charAt(0).toUpperCase()}
+                            </div>
+                          )}
+                          <span className="font-semibold text-gray-900 dark:text-white">
+                            @{blocked.username}
+                          </span>
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleUnblockUser(blocked.id)}
+                        >
+                          Unblock
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
 
           {/* Content Area */}
