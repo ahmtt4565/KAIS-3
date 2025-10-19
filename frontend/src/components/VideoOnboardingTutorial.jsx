@@ -93,29 +93,29 @@ const tutorialSteps = [
 // Animated SVG components for each step
 const animations = {
   welcome: () => (
-    <div className="relative w-full h-48 flex items-center justify-center">
-      <div className="animate-bounce text-8xl">🌍</div>
-      <div className="absolute bottom-0 text-4xl animate-pulse">👋</div>
+    <div className="relative w-full h-32 flex items-center justify-center">
+      <div className="animate-bounce text-6xl">🌍</div>
+      <div className="absolute bottom-0 text-3xl animate-pulse">👋</div>
     </div>
   ),
   'create-listing': () => (
-    <div className="relative w-full h-48 flex flex-col items-center justify-center gap-4">
-      <div className="flex items-center gap-4">
-        <div className="text-5xl animate-pulse">💵</div>
-        <div className="text-3xl">→</div>
-        <div className="text-5xl animate-pulse animation-delay-150">💶</div>
+    <div className="relative w-full h-32 flex flex-col items-center justify-center gap-3">
+      <div className="flex items-center gap-3">
+        <div className="text-4xl animate-pulse">💵</div>
+        <div className="text-2xl">→</div>
+        <div className="text-4xl animate-pulse animation-delay-150">💶</div>
       </div>
-      <div className="text-6xl animate-bounce">➕</div>
+      <div className="text-4xl animate-bounce">➕</div>
     </div>
   ),
   exchange: () => (
-    <div className="relative w-full h-48 flex items-center justify-center">
+    <div className="relative w-full h-32 flex items-center justify-center">
       <div className="flex flex-col items-center gap-2">
-        <div className="flex items-center gap-4">
-          <div className="text-5xl">💱</div>
-          <div className="text-2xl animate-pulse">💰</div>
+        <div className="flex items-center gap-3">
+          <div className="text-4xl">💱</div>
+          <div className="text-xl animate-pulse">💰</div>
         </div>
-        <div className="flex items-center gap-2 text-2xl">
+        <div className="flex items-center gap-2 text-xl">
           <span className="text-green-500 animate-pulse">↗️</span>
           <span className="text-red-500 animate-pulse animation-delay-300">↘️</span>
         </div>
@@ -123,37 +123,37 @@ const animations = {
     </div>
   ),
   chat: () => (
-    <div className="relative w-full h-48 flex items-center justify-center">
-      <div className="flex flex-col items-center gap-4">
-        <div className="flex items-center gap-8">
-          <div className="text-5xl animate-bounce">👤</div>
-          <div className="text-4xl animate-pulse">💬</div>
-          <div className="text-5xl animate-bounce animation-delay-300">👤</div>
+    <div className="relative w-full h-32 flex items-center justify-center">
+      <div className="flex flex-col items-center gap-3">
+        <div className="flex items-center gap-6">
+          <div className="text-4xl animate-bounce">👤</div>
+          <div className="text-3xl animate-pulse">💬</div>
+          <div className="text-4xl animate-bounce animation-delay-300">👤</div>
         </div>
-        <div className="text-3xl">📱</div>
+        <div className="text-2xl">📱</div>
       </div>
     </div>
   ),
   achievements: () => (
-    <div className="relative w-full h-48 flex items-center justify-center">
-      <div className="grid grid-cols-3 gap-4">
-        <div className="text-4xl animate-bounce">🎉</div>
-        <div className="text-4xl animate-bounce animation-delay-100">⭐</div>
-        <div className="text-4xl animate-bounce animation-delay-200">🔥</div>
-        <div className="text-4xl animate-bounce animation-delay-300">💬</div>
-        <div className="text-6xl animate-pulse">👑</div>
-        <div className="text-4xl animate-bounce animation-delay-400">🎁</div>
+    <div className="relative w-full h-32 flex items-center justify-center">
+      <div className="grid grid-cols-3 gap-3">
+        <div className="text-3xl animate-bounce">🎉</div>
+        <div className="text-3xl animate-bounce animation-delay-100">⭐</div>
+        <div className="text-3xl animate-bounce animation-delay-200">🔥</div>
+        <div className="text-3xl animate-bounce animation-delay-300">💬</div>
+        <div className="text-4xl animate-pulse">👑</div>
+        <div className="text-3xl animate-bounce animation-delay-400">🎁</div>
       </div>
     </div>
   ),
   safety: () => (
-    <div className="relative w-full h-48 flex items-center justify-center">
-      <div className="flex flex-col items-center gap-4">
-        <div className="text-6xl animate-pulse">🛡️</div>
-        <div className="flex items-center gap-4">
-          <div className="text-4xl">🚩</div>
-          <div className="text-4xl">🚫</div>
-          <div className="text-4xl">⭐</div>
+    <div className="relative w-full h-32 flex items-center justify-center">
+      <div className="flex flex-col items-center gap-3">
+        <div className="text-5xl animate-pulse">🛡️</div>
+        <div className="flex items-center gap-3">
+          <div className="text-3xl">🚩</div>
+          <div className="text-3xl">🚫</div>
+          <div className="text-3xl">⭐</div>
         </div>
       </div>
     </div>
