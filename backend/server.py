@@ -1258,6 +1258,19 @@ async def upload_listing_photos(
 # Message Routes
 @api_router.post("/messages", response_model=Message)
 async def send_message(message_data: MessageCreate, current_user: dict = Depends(get_current_user)):
+    # Check if recipient is blocked
+    recipient = await db.users.find_one({"id": message_data.recipient_id})
+    if not recipient:
+        raise HTTPException(status_code=404, detail="Recipient not found")
+    
+    # Check if current user is blocked by recipient
+    if current_user['id'] in recipient.get('blocked_users', []):
+        raise HTTPException(status_code=403, detail="You cannot message this user")
+    
+    # Check if recipient is blocked by current user
+    if message_data.recipient_id in current_user.get('blocked_users', []):
+        raise HTTPException(status_code=403, detail="You have blocked this user")
+    
     # Check if listing is active
     listing = await db.listings.find_one({"id": message_data.listing_id})
     if not listing:
@@ -1291,6 +1304,9 @@ async def send_message(message_data: MessageCreate, current_user: dict = Depends
     notif_dict = notification.model_dump()
     notif_dict['created_at'] = notif_dict['created_at'].isoformat()
     await db.notifications.insert_one(notif_dict)
+    
+    # Check for achievements
+    asyncio.create_task(check_and_award_achievements(current_user['id']))
     
     return message
 
