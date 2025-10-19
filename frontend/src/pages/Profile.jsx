@@ -141,15 +141,38 @@ export default function Profile({ user, logout, unreadCount = 0 }) {
 
   const fetchProfileData = async () => {
     try {
+      const token = localStorage.getItem('token');
+      
       // For now, using current user data. In production, would fetch specific user by ID
-      const [ratingsRes, listingsRes] = await Promise.all([
+      const promises = [
         axios.get(`${API}/ratings/${userId}`),
         axios.get(`${API}/listings`)
-      ]);
+      ];
+      
+      // Fetch achievements
+      promises.push(axios.get(`${API}/achievements/${userId}`));
+      
+      // Fetch blocked users only if viewing own profile
+      if (userId === user.id) {
+        promises.push(axios.get(`${API}/users/blocked`, {
+          headers: { Authorization: `Bearer ${token}` }
+        }));
+      }
+
+      const results = await Promise.all(promises);
+      const ratingsRes = results[0];
+      const listingsRes = results[1];
+      const achievementsRes = results[2];
+      const blockedUsersRes = userId === user.id ? results[3] : null;
 
       setRatings(ratingsRes.data);
       // Filter listings by user
       setUserListings(listingsRes.data.filter(l => l.user_id === userId));
+      setAchievements(achievementsRes.data);
+      
+      if (blockedUsersRes) {
+        setBlockedUsers(blockedUsersRes.data.blocked_users || []);
+      }
       
       // Set profile user (in real app, would fetch from user endpoint)
       if (userId === user.id) {
