@@ -2578,11 +2578,31 @@ async def check_and_award_achievements(user_id: str):
             if message_count >= 100:
                 new_achievements.append('chat_master')
         
+        # Check giveaway_creator (Gift Hunter) - 5 giveaway participations
+        if 'giveaway_creator' not in current_achievements:
+            # Count how many times user participated in giveaways
+            giveaway_participations = await db.giveaway_entries.count_documents({"user_id": user_id})
+            if giveaway_participations >= 5:
+                new_achievements.append('giveaway_creator')
+        
         # Award new achievements
         if new_achievements:
             await db.users.update_one(
                 {"id": user_id},
                 {"$addToSet": {"achievements": {"$each": new_achievements}}}
+            )
+            
+            # After awarding, check for Master User achievement
+            updated_achievements = current_achievements.union(set(new_achievements))
+            
+            # Check master_user - all 6 base achievements unlocked
+            base_achievements = {'first_listing', 'ten_listings', 'popular_seller', 'chat_master', 'giveaway_creator', 'exchange_expert'}
+            if 'master_user' not in updated_achievements and base_achievements.issubset(updated_achievements):
+                await db.users.update_one(
+                    {"id": user_id},
+                    {"$addToSet": {"achievements": "master_user"}}
+                )
+                new_achievements.append('master_user')
             )
             
             # Send notifications for new achievements
