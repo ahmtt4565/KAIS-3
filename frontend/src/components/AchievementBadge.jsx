@@ -109,7 +109,8 @@ function getAchievementName(achievementId) {
     popular_seller: "Popular User",
     chat_master: "Chat Master",
     giveaway_creator: "Gift Hunter",
-    exchange_expert: "Exchange Expert"
+    exchange_expert: "Exchange Expert",
+    master_user: "Master User"
   };
   return names[achievementId] || achievementId;
 }
