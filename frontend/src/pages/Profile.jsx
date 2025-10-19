@@ -38,6 +38,9 @@ export default function Profile({ user, logout, unreadCount = 0 }) {
   const [updatingLocation, setUpdatingLocation] = useState(false);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [photoPreview, setPhotoPreview] = useState(null);
+  const [achievements, setAchievements] = useState({ achievements: [], total_unlocked: 0 });
+  const [blockedUsers, setBlockedUsers] = useState([]);
+  const [blockingUser, setBlockingUser] = useState(false);
 
   const handlePhotoUpload = async (e) => {
     const file = e.target.files[0];
