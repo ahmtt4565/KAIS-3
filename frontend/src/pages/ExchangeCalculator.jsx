@@ -285,7 +285,7 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
         {exchangeRates && exchangeRates.rates && (
           <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
             <CardHeader className="border-b border-gray-200 dark:border-gray-700 pb-3">
-              <CardTitle className="text-lg font-semibold">Popular Rates</CardTitle>
+              <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">Popular Rates</CardTitle>
             </CardHeader>
             <CardContent className="p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
