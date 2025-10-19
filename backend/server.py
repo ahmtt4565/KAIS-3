@@ -2521,7 +2521,7 @@ async def get_user_achievements(user_id: str):
         "giveaway_creator": {
             "id": "giveaway_creator",
             "name": "Gift Hunter",
-            "description": "Join the giveaway",
+            "description": "Join 5 giveaways",
             "icon": "🎁",
             "unlocked": "giveaway_creator" in user.get('achievements', [])
         },
