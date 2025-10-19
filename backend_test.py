@@ -260,77 +260,146 @@ class KAIS21NewFeatureTests:
             except Exception as e:
                 self.log_test(f"Report Listing - Reason '{reason}'", False, f"Error: {str(e)}")
     
-    def _test_single_conversion(self, test_case):
-        """Test a single conversion case"""
+    def test_block_unblock_user_endpoints(self):
+        """Test Block/Unblock User functionality"""
+        print("\n🚫 Testing Block/Unblock User Endpoints...")
+        
+        if not self.auth_token or not self.test_user2_id:
+            self.log_test("Block User - Prerequisites", False, "Missing auth token or test user 2")
+            return
+        
+        headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        # Test 1: Block a user
         try:
-            url = f"{self.base_url}/api/exchange-rates/convert"
-            response = requests.get(url, params=test_case['params'], timeout=10)
+            response = requests.post(f"{self.base_url}/api/users/block/{self.test_user2_id}", headers=headers, timeout=10)
             
-            # Test status code
             if response.status_code == 200:
-                self.log_test(f"Convert {test_case['name']} - Status", True, "Returns 200 OK")
-            else:
-                self.log_test(f"Convert {test_case['name']} - Status", False, 
-                            f"Expected 200, got {response.status_code}", response.text)
-                return
-            
-            # Parse response
-            try:
                 data = response.json()
-            except json.JSONDecodeError:
-                self.log_test(f"Convert {test_case['name']} - JSON", False, 
-                            "Response is not valid JSON", response.text)
-                return
-            
-            # Test required fields
-            missing_fields = []
-            for field in test_case['expected_fields']:
-                if field not in data:
-                    missing_fields.append(field)
-            
-            if not missing_fields:
-                self.log_test(f"Convert {test_case['name']} - Fields", True, 
-                            "All required fields present")
-            else:
-                self.log_test(f"Convert {test_case['name']} - Fields", False, 
-                            f"Missing fields: {missing_fields}", data)
-            
-            # Test conversion logic
-            amount = test_case['params']['amount']
-            converted_amount = data.get('converted_amount', 0)
-            rate = data.get('rate', 0)
-            
-            # For zero amount, converted amount should be zero
-            if amount == 0:
-                if converted_amount == 0:
-                    self.log_test(f"Convert {test_case['name']} - Zero Logic", True, 
-                                "Zero amount returns zero conversion")
+                if "blocked successfully" in data.get('message', '').lower():
+                    self.log_test("Block User - Block User", True, "User blocked successfully")
                 else:
-                    self.log_test(f"Convert {test_case['name']} - Zero Logic", False, 
-                                f"Zero amount should return zero, got {converted_amount}")
+                    self.log_test("Block User - Block User", False, f"Unexpected message: {data.get('message')}")
             else:
-                # Check if rate calculation is consistent
-                expected_converted = amount * rate
-                if abs(expected_converted - converted_amount) < 0.01:  # Allow small rounding differences
-                    self.log_test(f"Convert {test_case['name']} - Math", True, 
-                                "Conversion math is consistent")
-                else:
-                    self.log_test(f"Convert {test_case['name']} - Math", False, 
-                                f"Math inconsistent: {amount} * {rate} ≠ {converted_amount}")
-            
-            # Test response time
-            response_time = response.elapsed.total_seconds()
-            if response_time < 2.0:
-                self.log_test(f"Convert {test_case['name']} - Response Time", True, 
-                            f"Response time: {response_time:.2f}s")
-            else:
-                self.log_test(f"Convert {test_case['name']} - Response Time", False, 
-                            f"Response time too slow: {response_time:.2f}s")
+                self.log_test("Block User - Block User", False, 
+                            f"Expected 200, got {response.status_code}", response.text)
                 
-        except requests.exceptions.RequestException as e:
-            self.log_test(f"Convert {test_case['name']} - Network", False, f"Network error: {str(e)}")
         except Exception as e:
-            self.log_test(f"Convert {test_case['name']} - General", False, f"Unexpected error: {str(e)}")
+            self.log_test("Block User - Block User", False, f"Error: {str(e)}")
+        
+        # Test 2: Try to block same user again (should fail)
+        try:
+            response = requests.post(f"{self.base_url}/api/users/block/{self.test_user2_id}", headers=headers, timeout=10)
+            
+            if response.status_code == 400:
+                data = response.json()
+                if "already blocked" in data.get('detail', '').lower():
+                    self.log_test("Block User - Duplicate Block", True, "Duplicate block correctly prevented")
+                else:
+                    self.log_test("Block User - Duplicate Block", False, 
+                                f"Wrong error message: {data.get('detail')}")
+            else:
+                self.log_test("Block User - Duplicate Block", False, 
+                            f"Expected 400, got {response.status_code}")
+                
+        except Exception as e:
+            self.log_test("Block User - Duplicate Block", False, f"Error: {str(e)}")
+        
+        # Test 3: Try to block self (should fail)
+        try:
+            response = requests.post(f"{self.base_url}/api/users/block/{self.test_user_id}", headers=headers, timeout=10)
+            
+            if response.status_code == 400:
+                data = response.json()
+                if "cannot block yourself" in data.get('detail', '').lower():
+                    self.log_test("Block User - Self Block Prevention", True, "Self-blocking correctly prevented")
+                else:
+                    self.log_test("Block User - Self Block Prevention", False, 
+                                f"Wrong error message: {data.get('detail')}")
+            else:
+                self.log_test("Block User - Self Block Prevention", False, 
+                            f"Expected 400, got {response.status_code}")
+                
+        except Exception as e:
+            self.log_test("Block User - Self Block Prevention", False, f"Error: {str(e)}")
+        
+        # Test 4: Get blocked users list
+        try:
+            response = requests.get(f"{self.base_url}/api/users/blocked", headers=headers, timeout=10)
+            
+            if response.status_code == 200:
+                data = response.json()
+                blocked_users = data.get('blocked_users', [])
+                
+                if isinstance(blocked_users, list) and len(blocked_users) > 0:
+                    # Check if our blocked user is in the list
+                    blocked_ids = [user.get('id') for user in blocked_users]
+                    if self.test_user2_id in blocked_ids:
+                        self.log_test("Block User - Get Blocked List", True, f"Blocked users list contains {len(blocked_users)} users")
+                    else:
+                        self.log_test("Block User - Get Blocked List", False, "Blocked user not found in list")
+                else:
+                    self.log_test("Block User - Get Blocked List", False, "Blocked users list is empty or invalid")
+            else:
+                self.log_test("Block User - Get Blocked List", False, 
+                            f"Expected 200, got {response.status_code}", response.text)
+                
+        except Exception as e:
+            self.log_test("Block User - Get Blocked List", False, f"Error: {str(e)}")
+        
+        # Test 5: Unblock user
+        try:
+            response = requests.delete(f"{self.base_url}/api/users/unblock/{self.test_user2_id}", headers=headers, timeout=10)
+            
+            if response.status_code == 200:
+                data = response.json()
+                if "unblocked successfully" in data.get('message', '').lower():
+                    self.log_test("Block User - Unblock User", True, "User unblocked successfully")
+                else:
+                    self.log_test("Block User - Unblock User", False, f"Unexpected message: {data.get('message')}")
+            else:
+                self.log_test("Block User - Unblock User", False, 
+                            f"Expected 200, got {response.status_code}", response.text)
+                
+        except Exception as e:
+            self.log_test("Block User - Unblock User", False, f"Error: {str(e)}")
+        
+        # Test 6: Try to unblock user that's not blocked (should fail)
+        try:
+            response = requests.delete(f"{self.base_url}/api/users/unblock/{self.test_user2_id}", headers=headers, timeout=10)
+            
+            if response.status_code == 400:
+                data = response.json()
+                if "not blocked" in data.get('detail', '').lower():
+                    self.log_test("Block User - Unblock Non-blocked", True, "Unblocking non-blocked user correctly prevented")
+                else:
+                    self.log_test("Block User - Unblock Non-blocked", False, 
+                                f"Wrong error message: {data.get('detail')}")
+            else:
+                self.log_test("Block User - Unblock Non-blocked", False, 
+                            f"Expected 400, got {response.status_code}")
+                
+        except Exception as e:
+            self.log_test("Block User - Unblock Non-blocked", False, f"Error: {str(e)}")
+        
+        # Test 7: Try to block non-existent user
+        try:
+            fake_user_id = str(uuid.uuid4())
+            response = requests.post(f"{self.base_url}/api/users/block/{fake_user_id}", headers=headers, timeout=10)
+            
+            if response.status_code == 404:
+                data = response.json()
+                if "not found" in data.get('detail', '').lower():
+                    self.log_test("Block User - Non-existent User", True, "Non-existent user correctly handled")
+                else:
+                    self.log_test("Block User - Non-existent User", False, 
+                                f"Wrong error message: {data.get('detail')}")
+            else:
+                self.log_test("Block User - Non-existent User", False, 
+                            f"Expected 404, got {response.status_code}")
+                
+        except Exception as e:
+            self.log_test("Block User - Non-existent User", False, f"Error: {str(e)}")
     
     def _test_conversion_errors(self):
         """Test error handling in conversion endpoint"""
