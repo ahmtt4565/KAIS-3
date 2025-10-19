@@ -1,11 +1,14 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, Globe, MessageSquare, Shield, Users, User, Zap, Lock, TrendingUp, Award, Clock, MapPin, DollarSign, Star, Heart, CheckCircle, Headphones } from "lucide-react";
+import { ArrowLeft, Globe, MessageSquare, Shield, Users, User, Zap, Lock, TrendingUp, Award, Clock, MapPin, DollarSign, Star, Heart, CheckCircle, Headphones, PlayCircle } from "lucide-react";
 import KaisLogo from "@/components/KaisLogo";
+import VideoOnboardingTutorial from "@/components/VideoOnboardingTutorial";
 
 export default function About({ user, logout }) {
   const navigate = useNavigate();
+  const [showTutorial, setShowTutorial] = useState(false);
 
   const features = [
     {
