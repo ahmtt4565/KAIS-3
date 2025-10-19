@@ -50,8 +50,9 @@ export function AchievementsCard({ achievements, totalUnlocked }) {
     { id: "ten_listings", name: "10 Listings", description: "Create 10 listings", icon: "⭐" },
     { id: "popular_seller", name: "Popular User", description: "Get 1000+ views on your listings", icon: "🔥" },
     { id: "chat_master", name: "Chat Master", description: "Send 100+ messages", icon: "💬" },
-    { id: "giveaway_creator", name: "Gift Hunter", description: "Join the giveaway", icon: "🎁" },
-    { id: "exchange_expert", name: "Exchange Expert", description: "Use currency converter 10 times", icon: "💱" }
+    { id: "giveaway_creator", name: "Gift Hunter", description: "Join 5 giveaways", icon: "🎁" },
+    { id: "exchange_expert", name: "Exchange Expert", description: "Use currency converter 10 times", icon: "💱" },
+    { id: "master_user", name: "Master User", description: "Unlock all achievements", icon: "👑" }
   ];
 
   return (
