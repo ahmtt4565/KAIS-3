@@ -154,6 +154,54 @@ backend:
         comment: "Created GET /api/achievements/{user_id} endpoint and check_and_award_achievements() function. Added achievements array to User model. Implemented 6 achievements: first_listing, ten_listings, popular_seller, chat_master, giveaway_creator, exchange_expert. Integrated achievement checks into create_listing and send_message endpoints."
 
 frontend:
+  - task: "Report Listing Modal"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/ReportModal.jsx, /app/frontend/src/pages/Dashboard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created ReportModal component with reason selection (spam, inappropriate, scam, duplicate, other) and optional description. Integrated into Dashboard listing cards with Report button (Flag icon). Modal shows success animation after submission."
+  
+  - task: "Exchange Rate Trend Icons"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/Dashboard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added exchange rate changes API call to Dashboard. Integrated TrendingUp/TrendingDown/Minus icons with green/red/gray color coding. Shows 24h percentage change for TRY, EUR, GBP currencies on Dashboard exchange rates card."
+  
+  - task: "Achievement Badges System"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/AchievementBadge.jsx, /app/frontend/src/pages/Profile.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created AchievementBadge and AchievementsCard components. Integrated into Profile page showing all 6 achievements (first_listing, ten_listings, popular_seller, chat_master, giveaway_creator, exchange_expert) with unlock status. Grid layout with icons, names, descriptions."
+  
+  - task: "Block User Feature"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/Profile.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added Block User button to other users' profiles. Created Blocked Users section on own profile showing blocked users list with unblock buttons. Integrated block/unblock API calls with toast notifications."
+
   - task: "Exchange Rates Display on Dashboard"
     implemented: true
     working: true
