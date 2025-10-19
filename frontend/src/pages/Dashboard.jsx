@@ -411,7 +411,7 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
 
       {/* Onboarding Tutorial - Sadece ilk giriş */}
       {showTutorial && (
-        <OnboardingTutorial 
+        <VideoOnboardingTutorial 
           onComplete={() => {
             setShowTutorial(false);
             // Update user object
