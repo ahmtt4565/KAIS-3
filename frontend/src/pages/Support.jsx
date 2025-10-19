@@ -312,47 +312,46 @@ export default function Support({ user, logout }) {
         showHeader ? 'translate-y-0' : '-translate-y-full'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <div className="flex flex-col items-center gap-2">
-            <div className="w-full flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard')}>
-                  <ArrowLeft className="w-5 h-5" />
-                </Button>
-                <div 
-                  className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
-                  onClick={() => navigate('/dashboard')}
-                >
-                  <KaisLogo className="h-12 w-auto" />
-                </div>
-              </div>
-
-              {/* Desktop Navigation */}
-              <div className="hidden md:flex items-center gap-2">
-                <Button variant="ghost" size="sm" onClick={() => navigate('/about')}>
-                  About
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => navigate('/listings')}>
-                  Listings
-                </Button>
-                <Button variant="ghost" size="icon" onClick={() => navigate('/chat')}>
-                  <MessageSquare className="w-5 h-5" />
-                </Button>
-                <Button variant="ghost" size="icon" onClick={() => navigate(`/profile/${user?.id || ''}`)}>
-                  <UserIcon className="w-5 h-5" />
-                </Button>
+          <div className="flex items-center justify-between relative">
+            <div className="flex items-center gap-4">
+              <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard')}>
+                <ArrowLeft className="w-5 h-5" />
+              </Button>
+              <div 
+                className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => navigate('/dashboard')}
+              >
+                <KaisLogo className="h-12 w-auto" />
               </div>
             </div>
-          </div>
-          
-          <div className="w-full text-center mt-2">
-            <h1 className="text-xl font-bold italic bg-gradient-to-r from-teal-600 to-orange-500 bg-clip-text text-transparent">
-              LIVE SUPPORT
-            </h1>
-            <div className="flex items-center justify-center gap-2 mt-1">
-              <div className={`w-2 h-2 rounded-full ${connected ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></div>
-              <span className="text-xs text-gray-600 dark:text-gray-400">
-                {connected ? 'Connected' : 'Reconnecting...'}
-              </span>
+            
+            {/* Centered Live Support Title */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2 text-center">
+              <h1 className="text-3xl md:text-4xl font-extrabold italic bg-gradient-to-r from-teal-600 to-orange-500 bg-clip-text text-transparent whitespace-nowrap">
+                Live Support
+              </h1>
+              <div className="flex items-center justify-center gap-2 mt-1">
+                <div className={`w-2 h-2 rounded-full ${connected ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></div>
+                <span className="text-xs text-gray-600 dark:text-gray-400">
+                  {connected ? 'Connected' : 'Reconnecting...'}
+                </span>
+              </div>
+            </div>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-2">
+              <Button variant="ghost" size="sm" onClick={() => navigate('/about')}>
+                About
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => navigate('/listings')}>
+                Listings
+              </Button>
+              <Button variant="ghost" size="icon" onClick={() => navigate('/chat')}>
+                <MessageSquare className="w-5 h-5" />
+              </Button>
+              <Button variant="ghost" size="icon" onClick={() => navigate(`/profile/${user?.id || ''}`)}>
+                <UserIcon className="w-5 h-5" />
+              </Button>
             </div>
           </div>
         </div>
