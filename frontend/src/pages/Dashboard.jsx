@@ -749,8 +749,22 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                   {exchangeRates.rates.TRY && (
                     <div className="bg-white dark:bg-gray-700 rounded-lg p-3 border border-teal-200 dark:border-teal-800 hover:shadow-md transition-shadow">
                       <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">USD → TRY</div>
-                      <div className="text-lg font-bold text-teal-600 dark:text-teal-400">
-                        ₺{exchangeRates.rates.TRY.toFixed(2)}
+                      <div className="flex items-center gap-2">
+                        <div className="text-lg font-bold text-teal-600 dark:text-teal-400">
+                          ₺{exchangeRates.rates.TRY.toFixed(2)}
+                        </div>
+                        {exchangeChanges?.changes?.TRY && (
+                          <div className={`flex items-center text-xs font-semibold ${
+                            exchangeChanges.changes.TRY.trend === 'up' ? 'text-green-600' : 
+                            exchangeChanges.changes.TRY.trend === 'down' ? 'text-red-600' : 
+                            'text-gray-500'
+                          }`}>
+                            {exchangeChanges.changes.TRY.trend === 'up' ? <TrendingUp className="w-3 h-3" /> : 
+                             exchangeChanges.changes.TRY.trend === 'down' ? <TrendingDown className="w-3 h-3" /> : 
+                             <Minus className="w-3 h-3" />}
+                            <span className="ml-0.5">{exchangeChanges.changes.TRY.change_percentage > 0 ? '+' : ''}{exchangeChanges.changes.TRY.change_percentage}%</span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}
@@ -759,8 +773,22 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                   {exchangeRates.rates.EUR && (
                     <div className="bg-white dark:bg-gray-700 rounded-lg p-3 border border-teal-200 dark:border-teal-800 hover:shadow-md transition-shadow">
                       <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">USD → EUR</div>
-                      <div className="text-lg font-bold text-teal-600 dark:text-teal-400">
-                        €{exchangeRates.rates.EUR.toFixed(4)}
+                      <div className="flex items-center gap-2">
+                        <div className="text-lg font-bold text-teal-600 dark:text-teal-400">
+                          €{exchangeRates.rates.EUR.toFixed(4)}
+                        </div>
+                        {exchangeChanges?.changes?.EUR && (
+                          <div className={`flex items-center text-xs font-semibold ${
+                            exchangeChanges.changes.EUR.trend === 'up' ? 'text-green-600' : 
+                            exchangeChanges.changes.EUR.trend === 'down' ? 'text-red-600' : 
+                            'text-gray-500'
+                          }`}>
+                            {exchangeChanges.changes.EUR.trend === 'up' ? <TrendingUp className="w-3 h-3" /> : 
+                             exchangeChanges.changes.EUR.trend === 'down' ? <TrendingDown className="w-3 h-3" /> : 
+                             <Minus className="w-3 h-3" />}
+                            <span className="ml-0.5">{exchangeChanges.changes.EUR.change_percentage > 0 ? '+' : ''}{exchangeChanges.changes.EUR.change_percentage}%</span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}
@@ -769,8 +797,22 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                   {exchangeRates.rates.GBP && (
                     <div className="bg-white dark:bg-gray-700 rounded-lg p-3 border border-teal-200 dark:border-teal-800 hover:shadow-md transition-shadow">
                       <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">USD → GBP</div>
-                      <div className="text-lg font-bold text-teal-600 dark:text-teal-400">
-                        £{exchangeRates.rates.GBP.toFixed(4)}
+                      <div className="flex items-center gap-2">
+                        <div className="text-lg font-bold text-teal-600 dark:text-teal-400">
+                          £{exchangeRates.rates.GBP.toFixed(4)}
+                        </div>
+                        {exchangeChanges?.changes?.GBP && (
+                          <div className={`flex items-center text-xs font-semibold ${
+                            exchangeChanges.changes.GBP.trend === 'up' ? 'text-green-600' : 
+                            exchangeChanges.changes.GBP.trend === 'down' ? 'text-red-600' : 
+                            'text-gray-500'
+                          }`}>
+                            {exchangeChanges.changes.GBP.trend === 'up' ? <TrendingUp className="w-3 h-3" /> : 
+                             exchangeChanges.changes.GBP.trend === 'down' ? <TrendingDown className="w-3 h-3" /> : 
+                             <Minus className="w-3 h-3" />}
+                            <span className="ml-0.5">{exchangeChanges.changes.GBP.change_percentage > 0 ? '+' : ''}{exchangeChanges.changes.GBP.change_percentage}%</span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}
@@ -779,8 +821,10 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                   {exchangeRates.rates.AED && (
                     <div className="bg-white dark:bg-gray-700 rounded-lg p-3 border border-teal-200 dark:border-teal-800 hover:shadow-md transition-shadow">
                       <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">USD → AED</div>
-                      <div className="text-lg font-bold text-teal-600 dark:text-teal-400">
-                        {exchangeRates.rates.AED.toFixed(2)} د.إ
+                      <div className="flex items-center gap-2">
+                        <div className="text-lg font-bold text-teal-600 dark:text-teal-400">
+                          {exchangeRates.rates.AED.toFixed(2)} د.إ
+                        </div>
                       </div>
                     </div>
                   )}
