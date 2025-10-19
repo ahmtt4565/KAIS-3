@@ -275,24 +275,25 @@ export default function VideoOnboardingTutorial({ onComplete }) {
         </div>
 
         {/* Footer Navigation */}
-        <div className="bg-gray-50 dark:bg-gray-900 p-6 flex items-center justify-between border-t border-gray-200 dark:border-gray-700">
+        <div className="bg-gray-50 dark:bg-gray-900 p-4 flex items-center justify-between border-t border-gray-200 dark:border-gray-700">
           <Button
             onClick={handlePrevious}
             variant="outline"
             disabled={currentStep === 0}
-            className="flex items-center gap-2"
+            className="flex items-center gap-1 text-sm px-3 py-2"
+            size="sm"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-3 h-3" />
             Previous
           </Button>
 
-          <div className="flex gap-2">
+          <div className="flex gap-1.5">
             {tutorialSteps.map((_, index) => (
               <div
                 key={index}
-                className={`w-2 h-2 rounded-full transition-all ${
+                className={`w-1.5 h-1.5 rounded-full transition-all ${
                   index === currentStep
-                    ? 'bg-teal-500 w-4'
+                    ? 'bg-teal-500 w-3'
                     : index < currentStep
                     ? 'bg-teal-300'
                     : 'bg-gray-300 dark:bg-gray-600'
@@ -303,10 +304,11 @@ export default function VideoOnboardingTutorial({ onComplete }) {
 
           <Button
             onClick={handleNext}
-            className="bg-gradient-to-r from-teal-500 to-orange-500 hover:from-teal-600 hover:to-orange-600 text-white flex items-center gap-2"
+            className="bg-gradient-to-r from-teal-500 to-orange-500 hover:from-teal-600 hover:to-orange-600 text-white flex items-center gap-1 text-sm px-3 py-2"
+            size="sm"
           >
-            {currentStep === tutorialSteps.length - 1 ? 'Get Started!' : 'Next'}
-            <ArrowRight className="w-4 h-4" />
+            {currentStep === tutorialSteps.length - 1 ? 'Start!' : 'Next'}
+            <ArrowRight className="w-3 h-3" />
           </Button>
         </div>
       </div>
