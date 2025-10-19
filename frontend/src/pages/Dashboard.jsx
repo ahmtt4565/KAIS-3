@@ -39,6 +39,8 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
   const [loading, setLoading] = useState(true);
   const [processingGoogleAuth, setProcessingGoogleAuth] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
+  const [reportModalOpen, setReportModalOpen] = useState(false);
+  const [reportListingId, setReportListingId] = useState(null);
   
   // Pull-to-refresh states
   const [isRefreshing, setIsRefreshing] = useState(false);
