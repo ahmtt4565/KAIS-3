@@ -355,6 +355,57 @@ export default function Profile({ user, logout, unreadCount = 0 }) {
     }
   };
 
+  const handleBlockUser = async () => {
+    if (blockingUser) return;
+    
+    setBlockingUser(true);
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(`${API}/users/block/${userId}`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      toast({
+        title: "User Blocked",
+        description: "You won't see this user's listings anymore.",
+      });
+      
+      navigate('/dashboard');
+    } catch (error) {
+      console.error("Error blocking user:", error);
+      toast({
+        title: "Error",
+        description: error.response?.data?.detail || "Could not block user.",
+        variant: "destructive",
+      });
+    } finally {
+      setBlockingUser(false);
+    }
+  };
+
+  const handleUnblockUser = async (blockedUserId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(`${API}/users/unblock/${blockedUserId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      toast({
+        title: "User Unblocked",
+        description: "You can now see this user's content again.",
+      });
+      
+      fetchProfileData();
+    } catch (error) {
+      console.error("Error unblocking user:", error);
+      toast({
+        title: "Error",
+        description: error.response?.data?.detail || "Could not unblock user.",
+        variant: "destructive",
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-orange-50 flex items-center justify-center">
