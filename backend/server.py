@@ -320,6 +320,36 @@ class Rating(BaseModel):
     comment: Optional[str] = None
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
+class MeetupCreate(BaseModel):
+    listing_id: str
+    receiver_id: str
+    location: Optional[str] = None
+    notes: Optional[str] = None
+
+class MeetupVerify(BaseModel):
+    code: str
+
+class Meetup(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    listing_id: str
+    requester_id: str
+    requester_username: str
+    receiver_id: str
+    receiver_username: str
+    requester_code: str
+    receiver_code: str
+    status: str = "pending"  # pending, accepted, verified, completed, cancelled, expired
+    location: Optional[str] = None
+    notes: Optional[str] = None
+    requester_verified: bool = False
+    receiver_verified: bool = False
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    expires_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc) + timedelta(hours=12))
+    accepted_at: Optional[datetime] = None
+    verified_at: Optional[datetime] = None
+    completed_at: Optional[datetime] = None
+
 class Notification(BaseModel):
     model_config = ConfigDict(extra="ignore")
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
