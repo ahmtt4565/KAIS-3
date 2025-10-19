@@ -2439,8 +2439,7 @@ async def reject_meetup(meetup_id: str, current_user: dict = Depends(get_current
     notification = Notification(
         user_id=meetup['requester_id'],
         type="meetup_rejected",
-        title="Meet Up Declined ❌",
-        content=f"{current_user['username']} declined your meet up request"
+        content=f"Meet Up Declined ❌ {current_user['username']} declined your meet up request"
     )
     notif_dict = notification.model_dump()
     notif_dict['created_at'] = notif_dict['created_at'].isoformat()
