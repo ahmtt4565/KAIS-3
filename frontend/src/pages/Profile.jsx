@@ -422,7 +422,7 @@ export default function Profile({ user, logout, unreadCount = 0 }) {
       {/* Header */}
       <header className="bg-white dark:bg-gradient-to-r dark:from-purple-900/90 dark:via-gray-900/90 dark:to-blue-900/90 backdrop-blur-md border-b border-gray-200 dark:border-purple-500/30 sticky top-0 z-50 dark:shadow-lg dark:shadow-purple-500/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between relative">
             <div className="flex items-center gap-4">
               <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard')} data-testid="back-to-dashboard-btn">
                 <ArrowLeft className="w-5 h-5" />
@@ -437,8 +437,8 @@ export default function Profile({ user, logout, unreadCount = 0 }) {
             </div>
             
             {/* Centered Profile Title - Visible on all screens */}
-            <div className="absolute left-1/2 transform -translate-x-1/2">
-              <h1 className="text-2xl md:text-3xl font-bold italic text-gray-900 dark:text-white">
+            <div className="absolute left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2">
+              <h1 className="text-3xl md:text-4xl font-extrabold italic text-gray-900 dark:text-white whitespace-nowrap">
                 Profile
               </h1>
             </div>
