@@ -267,15 +267,19 @@ metadata:
 
 test_plan:
   current_focus:
+    - "Authentication Fix for Protected Endpoints"
     - "Report Listing Modal"
-    - "Exchange Rate Trend Icons"
     - "Achievement Badges System"
     - "Block User Feature"
-  stuck_tasks: []
+  stuck_tasks:
+    - "Report Listing Modal"
+    - "Achievement Badges System"
+    - "Block User Feature"
   test_all: false
   test_priority: "high_first"
-  mobile_testing_complete: false
+  mobile_testing_complete: true
   backend_testing_complete: true
+  authentication_issue_identified: true
 
 agent_communication:
   - agent: "main"
