@@ -326,8 +326,8 @@ export default function Support({ user, logout }) {
             </div>
             
             {/* Centered Live Support Title */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2 text-center">
-              <h1 className="text-3xl md:text-4xl font-extrabold italic bg-gradient-to-r from-teal-600 to-orange-500 bg-clip-text text-transparent whitespace-nowrap">
+            <div className="absolute left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2 text-center z-10 pointer-events-none">
+              <h1 className="text-2xl md:text-3xl font-extrabold italic bg-gradient-to-r from-teal-600 to-orange-500 bg-clip-text text-transparent whitespace-nowrap">
                 Live Support
               </h1>
               <div className="flex items-center justify-center gap-2 mt-1">
@@ -339,7 +339,7 @@ export default function Support({ user, logout }) {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-2 relative z-0">
               <Button variant="ghost" size="sm" onClick={() => navigate('/about')}>
                 About
               </Button>
