@@ -1002,7 +1002,6 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                                 <Flag className="w-4 h-4" />
                               </Button>
                             </div>
-                            </div>
                           </div>
                         </div>
                       </div>
