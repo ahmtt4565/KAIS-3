@@ -1,108 +1,123 @@
 <analysis>
-The AI engineer effectively managed the  project, bringing it from a GitHub repository to a feature-rich, mobile-optimized MVP. Key tasks included initial setup, resolving a critical React 19 compatibility issue () that caused Google OAuth failures, and meticulously fixing the OAuth redirection flow. A significant portion of the work focused on enhancing the mobile user experience, such as implementing an onboarding tutorial, responsive UI adjustments, optimizing live support pages, and addressing display issues like duplicate logos and notification popover overflows. Essential features like robust password reset with Gmail integration and an improved email template were also added. Towards the end, the AI introduced advanced functionalities like pull-to-refresh, sophisticated image uploading, real-time chat typing indicators, admin panel access, listing sharing, and comprehensive profile photo management (upload/delete). The process was iterative, relying on logs, screenshots, and direct user feedback to diagnose and resolve issues across both frontend and backend components. The trajectory concludes with the initiation of live currency exchange rate integration.
+The AI engineer successfully enhanced the  application, transitioning it from an MVP to a more feature-rich and user-friendly platform. Initially, the focus was on integrating live currency exchange rates, a task that spanned backend implementation (API, scheduler, MongoDB storage) and frontend display (Dashboard card, dedicated calculator page). Throughout this, the engineer iteratively addressed user feedback, from minor UI adjustments (currency pairs, localization) to significant functional fixes (OAuth redirection, message deletion menu). Key architectural adjustments included adding  and refactoring  for robust API calls. The process was iterative, involving debugging frontend issues, adjusting responsiveness, and continuously improving localization. The trajectory concludes with the AI initiating work on a suite of new features requested by the user, starting with Report Listing, after having implemented historical data saving for currency rates.
 </analysis>
 
 <product_requirements>
-The user's primary requirement was to get the  project, a full-stack React/FastAPI application, operational from a GitHub repository. Subsequent requests included:
-1.  **Site Deployment:** Make the application live.
-2.  **Google OAuth:** Fix Google login issues (red screen, incorrect redirection post-login).
-3.  **Onboarding Tutorial:** Implement a tutorial for first-time users.
-4.  **Mobile Optimization:** Ensure full mobile responsiveness for all pages, including login, tutorial, and chat, and fix UI overflows (e.g., notifications).
-5.  **Logo Display:** Remove duplicate KAIS logo on the landing page.
-6.  **Password Reset:** Implement a functional password reset via email, including Gmail integration and a modern email template.
-7.  **Core Mobile Features:** Add pull-to-refresh, advanced photo upload (crop, preview, delete), and real-time chat typing indicators.
-8.  **Admin Panel:** Enable and ensure access to the admin panel.
-9.  **Support Chat Typing:** Implement typing... indicators for both user and admin support chats.
-10. **Localization:** Translate the listing creation page to English.
-11. **Sharing & Profile Photos:** Add WhatsApp/link sharing for listings and profile photo upload/delete functionality.
-12. **Giveaway Management:** Ensure giveaway cards appear and update giveaway prizes.
-13. **Live Exchange Rates:** Integrate live currency exchange rates.
+The user initially requested getting the  React/FastAPI app operational. Subsequent detailed requests include:
+1.  **Live Exchange Rates:** Implement backend fetching, scheduling (initially daily, then 5-hourly), and MongoDB storage. Display rates on Dashboard and a dedicated  page.
+2.  **Currency Converter Page:** Create a -like page with amount input, currency selectors, and conversion.
+3.  **Localization:** Translate the currency converter page, navigation elements (Döviz to Exchange), and Landing Page sections (footer, How It Works) to English.
+4.  **UI/UX Improvements:**
+    *   Enhance currency converter page (modernize, then simplify, then subtly modernize again).
+    *   Increase and alphabetize currency options in the converter.
+    *   Ensure mobile responsiveness for Dashboard listings and AllListings page.
+    *   Fix chat message delete menu to close on outside click.
+    *   Remove transparent KAIS logos and enforce white background on Landing Page.
+    *   Remove View All Listings button on mobile, make Featured Listings italic and bold.
+    *   Shrink Instagram card on mobile and remove Go text.
+5.  **New Feature Integration:**
+    *   Add Exchange step to the onboarding tutorial.
+    *   Implement user name validation: unique, no KAIS substring, no caps (admin exempt).
+    *   Ensure password reset emails only go to registered users.
+    *   Future features requested (but not yet started/completed): Small currency widget, rise/fall icons for rates, comparison mode, graph for rates (requiring historical data), block user, achievement badges, report listing.
 </product_requirements>
 
 <key_technical_concepts>
--   **React**: Frontend UI framework.
--   **FastAPI**: Python backend API framework.
--   **MongoDB**: NoSQL database.
--   **Tailwind CSS**: Frontend styling.
--   **Google OAuth**: User authentication.
--   **Email/SMTP**: For password resets (Gmail).
--   **WebSockets**: Real-time communication.
--   **APScheduler**: Python task scheduler.
--   **Yarn**: Node.js package manager.
--   **Supervisorctl**: Process manager.
+-   **React/FastAPI/MongoDB**: Core application stack.
+-   **APScheduler**: Python task scheduler for backend jobs (exchange rates).
+-   **WebSockets**: Used for real-time chat (implied by previous work summary, not directly modified for new features).
+-   **Tailwind CSS**: Frontend styling, extensively used for UI modifications.
+-   **JWT/OAuth**: Authentication (addressed with a bug fix for JWT in chat).
+-   **Pydantic**: Data validation and serialization in FastAPI.
 </key_technical_concepts>
 
 <code_architecture>
-The application utilizes a React frontend, a FastAPI backend, and a MongoDB database.
+The application uses a React frontend, a FastAPI backend, and a MongoDB database.
 
 
 
 -   
-    -   : Python dependencies.
     -   : Core FastAPI application.
-        -   **Importance**: Contains all API endpoints, data models, authentication logic, email services, and scheduled tasks.
-        -   **Changes**: Modified Google OAuth handling; added  and  fields to  model; implemented new endpoints for marking tutorial seen, profile photo upload/delete; updated password reset to use environment variables for Gmail and a modern email template; started integrating  for exchange rates.
-    -   : Backend environment variables.
-        -   **Importance**: Configures database, CORS, and now Gmail credentials (, ).
+        -   **Importance**: Handles all API logic, data models, authentication, and scheduled tasks.
+        -   **Changes**:
+            -   Added  function to fetch data from .
+            -   Integrated  to run  every 5 hours (initially daily) and on startup, storing data in MongoDB's  collection and a new  collection.
+            -   Added  and  endpoints.
+            -   Implemented username validation logic in  to prevent duplicates, kais substring, and enforce lowercase.
+            -   Modified  to send emails only to registered users.
+            -   Added  endpoint to retrieve historical data.
+            -    model for reporting listings was found to already exist.
+    -   : Backend environment variables (implicitly updated for new keys/credentials if needed).
 
 -   
     -   : Frontend dependencies.
         -   **Importance**: Manages all JavaScript libraries.
-        -   **Changes**: Removed  resolutions to resolve React 19 compatibility issues.
     -   
         -   : Main React component.
-            -   **Importance**: Handles global state (user authentication) and application routing.
-            -   **Changes**: Integrated  for seamless Google login redirection and user session management.
+            -   **Importance**: Global state and routing.
+            -   **Changes**: Imported and added  route, passing  and  props.
         -   
             -   : User's primary dashboard.
                 -   **Importance**: Displays listings, notifications, and user content.
-                -   **Changes**: Added pull-to-refresh logic and UI; integrated  conditionally; converted mobile notifications to a full-screen modal; added listing sharing buttons; fixed Instagram link navigation; corrected a JSX parsing error.
+                -   **Changes**:
+                    -   Added  state and integrated API call for popular rates.
+                    -   Implemented an  after  and before .
+                    -   Modified  to handle exchange rates API call separately for better error handling.
+                    -   Added 💱 Exchange button to desktop header.
+                    -   Made the  clickable, with a Detailed Calculator → button.
+                    -   Fixed mobile responsiveness for listing cards (from  to  with ).
+                    -   Removed the  (Smart Filter) section.
+                    -   Adjusted  sizing for mobile and removed Go text.
+                    -   Removed View All Listings button on mobile.
+                    -   Styled Featured Listings title to be italic and bold.
             -   : Public landing page.
                 -   **Importance**: Initial entry point.
-                -   **Changes**: Removed a redundant KAIS logo for a cleaner look.
-            -   : Password reset request.
-                -   **Importance**: Manages password reset requests.
-                -   **Changes**: Enhanced to display a development mode reset link when email sending is not fully configured, ensuring correct URL generation.
-            -   : Listing creation form.
-                -   **Importance**: Handles new listing submissions.
-                -   **Changes**: Integrated the  component; fully translated all UI text to English.
+                -   **Changes**:
+                    -   Translated How it Works section to English.
+                    -   Removed transparent KAIS background logos and associated state.
+                    -   Enforced white background/light theme.
+                    -   Translated footer (Legal, About, Support) to English.
             -   : User chat interface.
                 -   **Importance**: Real-time messaging.
-                -   **Changes**: Implemented real-time typing indicators ( state and UI) using WebSocket communication.
-            -   : Admin's support chat interface.
-                -   **Importance**: For administrators to respond to user inquiries.
-                -   **Changes**: Added real-time typing indicators for admin replies.
-            -   : User's support chat interface.
-                -   **Importance**: User-facing support.
-                -   **Changes**: Improved mobile responsiveness for header, message display, and input area.
-            -   : User profile.
-                -   **Importance**: User data and profile photo management.
-                -   **Changes**: Added functionality for profile photo upload and deletion, including UI for image preview and removal; fixed  icon import and a duplicate  import.
+                -   **Changes**: Implemented an overlay to close the delete message menu on outside click, addressing a persistent UI issue.
+            -   : Displays all listings.
+                -   **Importance**: Listing archive/discovery.
+                -   **Changes**: Applied mobile responsive styling similar to Dashboard listings to ensure items fit on screen.
+            -   : New component.
+                -   **Importance**: Dedicated currency conversion page.
+                -   **Changes**: Created from scratch, with two input fields, currency selectors, swap button, result display, popular rates.
+                    -   Initial modernization, then simplification, then subtle re-modernization.
+                    -   Integrated  and  components for consistent navigation.
+                    -   Translated all text elements to English.
+                    -   Updated popular currency pairs.
         -   
-            -   : New component.
-                -   **Importance**: Guides first-time users.
-                -   **Changes**: Created from scratch, with mobile-optimized styling.
-            -   : New component.
-                -   **Importance**: Provides image cropping, preview, and deletion features.
-                -   **Changes**: Created from scratch, with all UI text localized to English.
             -   : Mobile navigation bar.
                 -   **Importance**: Provides navigation for mobile users.
-                -   **Changes**: Added a conditional admin panel link with a shield icon.
-            -   : Displays active giveaways.
-                -   **Importance**: Shows ongoing promotional events.
-                -   **Changes**: No direct code changes, but ensured functionality by adding giveaway data to the backend.
+                -   **Changes**: Added Exchange link with appropriate styling and localization.
+            -   : Guides first-time users.
+                -   **Importance**: Introduces app features.
+                -   **Changes**: Added a new step for the Exchange feature.
+        -   
+            -   : Currency data.
+                -   **Importance**: Provides a list of currencies.
+                -   **Changes**: Expanded  list to 150+ items and ensured alphabetical sorting.
     -   : Frontend environment variables.
-        -   **Importance**: Configures backend URL and other frontend flags.
 </code_architecture>
 
 <pending_tasks>
--   **Implement Live Exchange Rates**: The backend integration for fetching and scheduling daily updates of live currency exchange rates using  is incomplete.
+-   Implement Report Listing functionality (currently, the model for it exists in the backend).
+-   Implement Block User functionality.
+-   Implement Rise/Fall Icons for exchange rates (requires historical data to accumulate for 7 days).
+-   Implement Achievement Badges (Gamification).
+-   Implement Small Dashboard Widget for exchange rates.
+-   Implement Comparison Mode for exchange rates.
+-   Implement Graph for exchange rates (requires historical data).
 </pending_tasks>
 
 <current_work>
-The AI engineer is currently working on integrating live currency exchange rates into the application. This involves setting up a mechanism in the backend to fetch real-time exchange rate data from a free API and scheduling this operation to run daily using . The last action recorded was the engineer searching within the  file to locate the appropriate section for integrating the APScheduler and the new exchange rate fetching functions. The goal is to establish the backend infrastructure for this feature.
+The AI engineer is currently working on implementing a suite of new features requested by the user. Specifically, the immediate task is to implement the Report Listing feature. This task was chosen as the first in a prioritized list including Block User, Rise/Fall Icons for exchange rates, and Achievement Badges. The engineer has just started on Report Listing and has identified that the necessary  and  models already exist within , indicating a pre-existing structure for this functionality. The conversation paused with the user instructing to save all changes and continue tomorrow, implying the Report Listing feature is in its initial stages, with backend models identified but no further implementation steps taken within this trajectory. The backend is already configured to save historical exchange rate data, which is a prerequisite for future features like Rise/Fall Icons and Graphs.
 </current_work>
 
 <optional_next_step>
-Integrate the live exchange rate fetching logic into  using .
+Continue implementing the Report Listing feature, utilizing the existing backend models.
 </optional_next_step>

@@ -11,7 +11,7 @@ from datetime import datetime
 import sys
 
 # Backend URL from environment
-BACKEND_URL = "https://kais-mobile-mvp.preview.emergentagent.com"
+BACKEND_URL = "https://exchange-hub-26.preview.emergentagent.com"
 
 class ExchangeRateTests:
     def __init__(self):

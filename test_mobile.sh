@@ -7,7 +7,7 @@ echo "🚀 Starting KAIS Mobile Tests..."
 echo "================================"
 
 # Test URLs
-BACKEND_URL="https://kais-mobile-mvp.preview.emergentagent.com"
+BACKEND_URL="https://exchange-hub-26.preview.emergentagent.com"
 
 # Test 1: Homepage
 echo "✅ Test 1: Homepage Mobile"
