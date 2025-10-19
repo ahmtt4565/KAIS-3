@@ -500,6 +500,33 @@ export default function LandingPage({ setUser }) {
               </CardContent>
             </Card>
           </div>
+
+          {/* Features - Below Auth on Mobile */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 px-2">
+            <div className="bg-white/60 backdrop-blur-sm p-4 md:p-6 rounded-xl md:rounded-2xl border border-teal-100 dark:border-gray-700 hover:shadow-lg transition-shadow">
+              <Globe className="w-8 md:w-10 h-8 md:h-10 text-teal-600 mb-2 md:mb-4" />
+              <h3 className="text-sm md:text-lg font-semibold mb-1 md:mb-2 text-gray-800 dark:text-white">Global</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-xs md:text-sm hidden md:block">Exchange safely anywhere</p>
+            </div>
+            
+            <div className="bg-white/60 backdrop-blur-sm p-4 md:p-6 rounded-xl md:rounded-2xl border border-teal-100 dark:border-gray-700 hover:shadow-lg transition-shadow">
+              <MessageSquare className="w-8 md:w-10 h-8 md:h-10 text-teal-600 mb-2 md:mb-4" />
+              <h3 className="text-sm md:text-lg font-semibold mb-1 md:mb-2 text-gray-800 dark:text-white">Chat</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-xs md:text-sm hidden md:block">Message directly</p>
+            </div>
+            
+            <div className="bg-white/60 backdrop-blur-sm p-4 md:p-6 rounded-xl md:rounded-2xl border border-teal-100 dark:border-gray-700 hover:shadow-lg transition-shadow">
+              <Shield className="w-8 md:w-10 h-8 md:h-10 text-teal-600 mb-2 md:mb-4" />
+              <h3 className="text-sm md:text-lg font-semibold mb-1 md:mb-2 text-gray-800 dark:text-white">Secure</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-xs md:text-sm hidden md:block">Safe exchanges</p>
+            </div>
+            
+            <div className="bg-white/60 backdrop-blur-sm p-4 md:p-6 rounded-xl md:rounded-2xl border border-teal-100 dark:border-gray-700 hover:shadow-lg transition-shadow">
+              <DollarSign className="w-8 md:w-10 h-8 md:h-10 text-teal-600 mb-2 md:mb-4" />
+              <h3 className="text-sm md:text-lg font-semibold mb-1 md:mb-2 text-gray-800 dark:text-white">All Currencies</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-xs md:text-sm hidden md:block">Exchange any amount</p>
+            </div>
+          </div>
         </div>
       </div>
 
