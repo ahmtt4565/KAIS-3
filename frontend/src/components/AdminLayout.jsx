@@ -35,6 +35,7 @@ export default function AdminLayout({ children, user, logout }) {
     { path: "/admin/support", icon: MessageSquare, label: "Live Support", badge: unreadSupport },
     { path: "/admin/users", icon: Users, label: "Users", badge: null },
     { path: "/admin/listings", icon: FileText, label: "Listings", badge: null },
+    { path: "/admin/reports", icon: Flag, label: "Reports", badge: null },
     { path: "/admin/giveaway", icon: Gift, label: "Giveaway", badge: null },
     { path: "/admin/messages", icon: TrendingUp, label: "Analytics", badge: null },
   ];
