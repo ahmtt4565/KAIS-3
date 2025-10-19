@@ -1070,7 +1070,7 @@ async def get_listings(
     from_currency: Optional[str] = None,
     to_currency: Optional[str] = None,
     status: str = "active",
-    current_user: Optional[dict] = Depends(get_current_user)
+    current_user: Optional[dict] = Depends(get_current_user_optional)
 ):
     query = {"status": status}
     if country:
