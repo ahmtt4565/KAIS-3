@@ -222,6 +222,15 @@ export default function ListingDetail({ user, logout }) {
       
       {/* Bottom Navigation - Mobile Only */}
       <BottomNav user={user} />
+      
+      {/* Report Modal */}
+      <ReportModal
+        isOpen={reportModalOpen}
+        onClose={() => setReportModalOpen(false)}
+        listingId={id}
+        API={API}
+      />
+      
       <div className="h-20 md:hidden"></div>
     </div>
   );
