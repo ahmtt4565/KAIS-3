@@ -1041,6 +1041,14 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
       {/* Bottom Navigation - Mobile Only */}
       <BottomNav user={user} unreadCount={unreadCount} />
       
+      {/* Report Modal */}
+      <ReportModal
+        isOpen={reportModalOpen}
+        onClose={() => setReportModalOpen(false)}
+        listingId={reportListingId}
+        API={API}
+      />
+      
       {/* Bottom padding for mobile to prevent content hiding behind bottom nav */}
       <div className="h-20 md:hidden"></div>
     </div>
