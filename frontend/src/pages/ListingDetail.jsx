@@ -18,6 +18,8 @@ export default function ListingDetail({ user, logout }) {
   const [listing, setListing] = useState(null);
   const [listingUser, setListingUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [reportModalOpen, setReportModalOpen] = useState(false);
+
 
   useEffect(() => {
     fetchListing();
