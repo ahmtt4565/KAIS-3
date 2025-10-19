@@ -184,14 +184,24 @@ export default function ListingDetail({ user, logout }) {
                   </Button>
                 </div>
               ) : (
-                <Button
-                  onClick={handleStartChat}
-                  className="w-full bg-teal-600 hover:bg-teal-700 text-lg py-6"
-                  data-testid="start-chat-btn"
-                >
-                  <MessageSquare className="w-5 h-5 mr-2" />
-                  Start Chat with {listing.username}
-                </Button>
+                <div className="flex flex-col gap-3">
+                  <Button
+                    onClick={handleStartChat}
+                    className="w-full bg-teal-600 hover:bg-teal-700 text-lg py-6"
+                    data-testid="start-chat-btn"
+                  >
+                    <MessageSquare className="w-5 h-5 mr-2" />
+                    Start Chat with {listing.username}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setReportModalOpen(true)}
+                    className="w-full text-red-600 border-red-300 hover:bg-red-50"
+                  >
+                    <Flag className="w-4 h-4 mr-2" />
+                    Report Listing
+                  </Button>
+                </div>
               )}
             </div>
 
