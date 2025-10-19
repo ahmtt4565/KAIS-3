@@ -105,65 +105,53 @@
 user_problem_statement: "Add 4 new features to KAIS2.1: 1) İlan Raporlama (Report Listing), 2) Kullanıcı Engelleme (Block User), 3) Döviz Kuru İkonları (Rise/Fall Icons), 4) Başarı Rozetleri (Achievement Badges)"
 
 backend:
-  - task: "Fetch Exchange Rates Function"
+  - task: "Report Listing Endpoints"
     implemented: true
-    working: true
+    working: "NA"
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Created async function fetch_exchange_rates() that fetches live rates from exchangerate-api.com (free tier, 1500 requests/month). Stores 165 currencies in MongoDB exchange_rates collection. Function runs on startup and daily at midnight UTC."
-      - working: true
-        agent: "testing"
-        comment: "✅ TESTED: Function successfully fetches and stores 165 currencies from exchangerate-api.com. Verified data persistence in MongoDB exchange_rates collection. Logs confirm: '💱 Successfully updated exchange rates with 165 currencies'. Function executes on startup and scheduled daily at midnight UTC."
+        comment: "Created POST /api/reports endpoint for submitting listing reports with reasons (spam, inappropriate, scam, duplicate, other). Also created GET /api/reports for admins to view all reports. Includes duplicate report prevention."
   
-  - task: "Scheduled Daily Exchange Rate Updates"
+  - task: "Block/Unblock User Endpoints"
     implemented: true
-    working: true
+    working: "NA"
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Added APScheduler job that runs fetch_exchange_rates() daily at 00:00 UTC. Also runs immediately on startup. Logs show successful fetch: '💱 Successfully updated exchange rates with 165 currencies'"
-      - working: true
-        agent: "testing"
-        comment: "✅ TESTED: APScheduler job correctly configured and running. Verified immediate execution on startup and daily scheduling at 00:00 UTC. Exchange rates are successfully updated and cached in database. Scheduler logs confirm proper job execution."
+        comment: "Created POST /api/users/block/{user_id}, DELETE /api/users/unblock/{user_id}, and GET /api/users/blocked endpoints. Added blocked_users array to User model. Integrated blocking logic into messages and listings endpoints to filter blocked users."
   
-  - task: "GET /api/exchange-rates Endpoint"
+  - task: "Exchange Rate Changes Endpoint"
     implemented: true
-    working: true
+    working: "NA"
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Created GET endpoint to retrieve latest exchange rates from database. Returns base currency (USD), all rates, and last updated timestamp. Auto-fetches if no rates exist."
-      - working: true
-        agent: "testing"
-        comment: "✅ TESTED: Endpoint returns 200 OK with correct structure. Base currency is USD, contains 165+ currencies including TRY, EUR, GBP. Valid ISO timestamp present. Response time < 2s. Data persistence and caching working correctly."
+        comment: "Created GET /api/exchange-rates/changes endpoint that calculates 24-hour change percentages for currencies. Returns current_rate, change_percentage, and trend (up/down/stable) for requested currencies."
   
-  - task: "GET /api/exchange-rates/convert Endpoint"
+  - task: "Achievement System"
     implemented: true
-    working: true
+    working: "NA"
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Created GET endpoint with query params (amount, from_currency, to_currency) to convert between any two supported currencies. Handles USD as base and cross-currency conversions. Returns converted amount, rate, and last updated timestamp."
-      - working: true
-        agent: "testing"
-        comment: "✅ TESTED: Fixed routing conflict with parameterized endpoint. All conversion scenarios working: USD↔EUR, TRY↔USD, EUR↔GBP, zero amounts, large amounts. Proper error handling for invalid currencies (400) and missing params (422). Math calculations accurate. Response time < 2s."
+        comment: "Created GET /api/achievements/{user_id} endpoint and check_and_award_achievements() function. Added achievements array to User model. Implemented 6 achievements: first_listing, ten_listings, popular_seller, chat_master, giveaway_creator, exchange_expert. Integrated achievement checks into create_listing and send_message endpoints."
 
 frontend:
   - task: "Exchange Rates Display on Dashboard"
