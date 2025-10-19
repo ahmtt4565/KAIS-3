@@ -306,6 +306,13 @@ export default function About({ user, logout }) {
           </div>
         </div>
       </footer>
+
+      {/* Video Tutorial Modal */}
+      {showTutorial && (
+        <VideoOnboardingTutorial
+          onComplete={() => setShowTutorial(false)}
+        />
+      )}
     </div>
   );
 }
