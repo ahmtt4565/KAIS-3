@@ -252,10 +252,6 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Report Listing Endpoints"
-    - "Block/Unblock User Endpoints"
-    - "Exchange Rate Changes Endpoint"
-    - "Achievement System"
     - "Report Listing Modal"
     - "Exchange Rate Trend Icons"
     - "Achievement Badges System"
@@ -264,6 +260,7 @@ test_plan:
   test_all: false
   test_priority: "high_first"
   mobile_testing_complete: false
+  backend_testing_complete: true
 
 agent_communication:
   - agent: "main"
