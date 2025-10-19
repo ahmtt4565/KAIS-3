@@ -2492,42 +2492,42 @@ async def get_user_achievements(user_id: str):
     all_achievements = {
         "first_listing": {
             "id": "first_listing",
-            "name": "İlk İlan",
-            "description": "İlk ilanını oluştur",
+            "name": "First Listing",
+            "description": "Create your first listing",
             "icon": "🎉",
             "unlocked": "first_listing" in user.get('achievements', [])
         },
         "ten_listings": {
             "id": "ten_listings",
-            "name": "10 İlan",
-            "description": "10 ilan oluştur",
+            "name": "10 Listings",
+            "description": "Create 10 listings",
             "icon": "⭐",
             "unlocked": "ten_listings" in user.get('achievements', [])
         },
         "popular_seller": {
             "id": "popular_seller",
-            "name": "Popüler Satıcı",
-            "description": "İlanların 1000+ görüntülenme alsın",
+            "name": "Popular User",
+            "description": "Get 1000+ views on your listings",
             "icon": "🔥",
             "unlocked": "popular_seller" in user.get('achievements', [])
         },
         "chat_master": {
             "id": "chat_master",
-            "name": "Sohbet Ustası",
-            "description": "100+ mesaj gönder",
+            "name": "Chat Master",
+            "description": "Send 100+ messages",
             "icon": "💬",
             "unlocked": "chat_master" in user.get('achievements', [])
         },
         "giveaway_creator": {
             "id": "giveaway_creator",
-            "name": "Hediye Veren",
-            "description": "Çekilişe katıl",
+            "name": "Gift Hunter",
+            "description": "Join the giveaway",
             "icon": "🎁",
             "unlocked": "giveaway_creator" in user.get('achievements', [])
         },
         "exchange_expert": {
             "id": "exchange_expert",
-            "name": "Döviz Uzmanı",
+            "name": "Exchange Expert",
             "description": "Döviz çeviricisini 10 kez kullan",
             "icon": "💱",
             "unlocked": "exchange_expert" in user.get('achievements', [])
