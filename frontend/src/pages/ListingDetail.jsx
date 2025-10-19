@@ -5,11 +5,12 @@ import { API } from "../App";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, MapPin, MessageSquare, Star, Calendar, DollarSign } from "lucide-react";
+import { ArrowLeft, MapPin, MessageSquare, Star, Calendar, DollarSign, Flag } from "lucide-react";
 import { format } from "date-fns";
 import OnlineStatus from "@/components/OnlineStatus";
 import BottomNav from "@/components/BottomNav";
 import KaisLogo from "@/components/KaisLogo";
+import ReportModal from "@/components/ReportModal";
 
 export default function ListingDetail({ user, logout }) {
   const { id } = useParams();
