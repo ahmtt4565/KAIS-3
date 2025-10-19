@@ -228,7 +228,7 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
                 onClick={swapCurrencies}
                 variant="outline"
                 size="icon"
-                className="rounded-full border-2 border-teal-500 text-teal-600 hover:bg-teal-50"
+                className="rounded-full border-2 border-teal-500 text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-900/30 dark:border-teal-400"
               >
                 <ArrowLeftRight className="w-5 h-5" />
               </Button>
