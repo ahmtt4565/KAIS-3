@@ -2459,6 +2459,54 @@ async def get_exchange_rate_history(
         logger.error(f"❌ Error fetching exchange rate history: {e}")
         raise HTTPException(status_code=500, detail="Error fetching historical data")
 
+@api_router.get("/exchange-rates/changes")
+async def get_exchange_rate_changes(currencies: str = "TRY,EUR,GBP,JPY"):
+    """Get 24-hour change percentages for currencies"""
+    try:
+        currency_list = [c.strip().upper() for c in currencies.split(",")]
+        
+        # Get current rates
+        current_data = await db.exchange_rates.find_one({}, {"_id": 0}, sort=[("last_updated", -1)])
+        if not current_data:
+            raise HTTPException(status_code=503, detail="Exchange rates not available")
+        
+        # Get rates from 24 hours ago
+        yesterday = datetime.now(timezone.utc) - timedelta(hours=24)
+        old_data = await db.exchange_rate_history.find_one(
+            {"recorded_at": {"$lte": yesterday.isoformat()}},
+            {"_id": 0},
+            sort=[("recorded_at", -1)]
+        )
+        
+        changes = {}
+        for currency in currency_list:
+            current_rate = current_data.get("rates", {}).get(currency)
+            old_rate = old_data.get("rates", {}).get(currency) if old_data else None
+            
+            if current_rate and old_rate:
+                change_percentage = ((current_rate - old_rate) / old_rate) * 100
+                changes[currency] = {
+                    "current_rate": round(current_rate, 4),
+                    "change_percentage": round(change_percentage, 2),
+                    "trend": "up" if change_percentage > 0 else "down" if change_percentage < 0 else "stable"
+                }
+            elif current_rate:
+                changes[currency] = {
+                    "current_rate": round(current_rate, 4),
+                    "change_percentage": 0,
+                    "trend": "stable"
+                }
+        
+        return {
+            "base": "USD",
+            "changes": changes,
+            "last_updated": current_data.get("last_updated")
+        }
+        
+    except Exception as e:
+        logger.error(f"❌ Error calculating exchange rate changes: {e}")
+        raise HTTPException(status_code=500, detail="Error calculating changes")
+
 @api_router.get("/exchange-rates/{base_currency}")
 async def get_exchange_rates(base_currency: str):
     """Get current exchange rates for a base currency using free API"""
