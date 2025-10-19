@@ -2269,13 +2269,13 @@ async def create_rating(rating_data: RatingCreate, current_user: dict = Depends(
     await db.ratings.insert_one(rating_dict)
     
     # Update user rating
-    all_ratings = await db.ratings.find({"rated_user_id": rating_data.rated_user_id}, {"_id": 0}).to_list(10000)
-    avg_rating = sum(r['rating'] for r in all_ratings) / len(all_ratings)
-    
-    await db.users.update_one(
-        {"id": rating_data.rated_user_id},
-        {"$set": {"rating": avg_rating, "total_ratings": len(all_ratings)}}
-    )
+    user_ratings = await db.ratings.find({"rated_user_id": rating_data.rated_user_id}).to_list(1000)
+    if user_ratings:
+        avg_rating = sum(r.get('rating', 0) for r in user_ratings) / len(user_ratings)
+        await db.users.update_one(
+            {"id": rating_data.rated_user_id},
+            {"$set": {"rating": round(avg_rating, 2), "total_ratings": len(user_ratings)}}
+        )
     
     return rating
 
@@ -2288,6 +2288,289 @@ async def get_user_ratings(user_id: str):
             rating['created_at'] = datetime.fromisoformat(rating['created_at'])
     
     return ratings
+
+# Meetup Routes
+@api_router.post("/meetups", response_model=Meetup)
+async def create_meetup(meetup_data: MeetupCreate, current_user: dict = Depends(get_current_user)):
+    """Create a meetup request"""
+    # Check if listing exists
+    listing = await db.listings.find_one({"id": meetup_data.listing_id})
+    if not listing:
+        raise HTTPException(status_code=404, detail="Listing not found")
+    
+    # Get receiver info
+    receiver = await db.users.find_one({"id": meetup_data.receiver_id}, {"_id": 0, "username": 1})
+    if not receiver:
+        raise HTTPException(status_code=404, detail="Receiver not found")
+    
+    # Check if already has pending meetup for this listing
+    existing = await db.meetups.find_one({
+        "listing_id": meetup_data.listing_id,
+        "requester_id": current_user['id'],
+        "receiver_id": meetup_data.receiver_id,
+        "status": {"$in": ["pending", "accepted"]}
+    })
+    
+    if existing:
+        raise HTTPException(status_code=400, detail="You already have a pending meetup for this listing")
+    
+    # Generate unique codes
+    requester_code = generate_meetup_code()
+    receiver_code = generate_meetup_code()
+    
+    meetup = Meetup(
+        listing_id=meetup_data.listing_id,
+        requester_id=current_user['id'],
+        requester_username=current_user['username'],
+        receiver_id=meetup_data.receiver_id,
+        receiver_username=receiver['username'],
+        requester_code=requester_code,
+        receiver_code=receiver_code,
+        location=meetup_data.location,
+        notes=meetup_data.notes
+    )
+    
+    meetup_dict = meetup.model_dump()
+    meetup_dict['created_at'] = meetup_dict['created_at'].isoformat()
+    meetup_dict['expires_at'] = meetup_dict['expires_at'].isoformat()
+    if meetup_dict.get('accepted_at'):
+        meetup_dict['accepted_at'] = meetup_dict['accepted_at'].isoformat()
+    if meetup_dict.get('verified_at'):
+        meetup_dict['verified_at'] = meetup_dict['verified_at'].isoformat()
+    if meetup_dict.get('completed_at'):
+        meetup_dict['completed_at'] = meetup_dict['completed_at'].isoformat()
+    
+    await db.meetups.insert_one(meetup_dict)
+    
+    # Send notification to receiver
+    notification = Notification(
+        user_id=meetup_data.receiver_id,
+        type="meetup_request",
+        title="New Meet Up Request! 🤝",
+        content=f"{current_user['username']} wants to meet up for exchange"
+    )
+    notif_dict = notification.model_dump()
+    notif_dict['created_at'] = notif_dict['created_at'].isoformat()
+    await db.notifications.insert_one(notif_dict)
+    
+    logger.info(f"🤝 Meetup created: {current_user['username']} → {receiver['username']}")
+    
+    return meetup
+
+@api_router.get("/meetups/listing/{listing_id}")
+async def get_meetups_for_listing(listing_id: str, current_user: dict = Depends(get_current_user)):
+    """Get meetups for a specific listing where user is involved"""
+    meetups = await db.meetups.find({
+        "listing_id": listing_id,
+        "$or": [
+            {"requester_id": current_user['id']},
+            {"receiver_id": current_user['id']}
+        ]
+    }, {"_id": 0}).sort("created_at", -1).to_list(100)
+    
+    # Parse datetime strings
+    for meetup in meetups:
+        for field in ['created_at', 'expires_at', 'accepted_at', 'verified_at', 'completed_at']:
+            if meetup.get(field) and isinstance(meetup[field], str):
+                meetup[field] = datetime.fromisoformat(meetup[field].replace('Z', '+00:00'))
+    
+    return meetups
+
+@api_router.put("/meetups/{meetup_id}/accept")
+async def accept_meetup(meetup_id: str, current_user: dict = Depends(get_current_user)):
+    """Accept a meetup request"""
+    meetup = await db.meetups.find_one({"id": meetup_id})
+    if not meetup:
+        raise HTTPException(status_code=404, detail="Meetup not found")
+    
+    # Only receiver can accept
+    if meetup['receiver_id'] != current_user['id']:
+        raise HTTPException(status_code=403, detail="Only receiver can accept")
+    
+    if meetup['status'] != 'pending':
+        raise HTTPException(status_code=400, detail="Meetup is not pending")
+    
+    # Check if expired
+    expires_at = datetime.fromisoformat(meetup['expires_at'].replace('Z', '+00:00')) if isinstance(meetup['expires_at'], str) else meetup['expires_at']
+    if datetime.now(timezone.utc) > expires_at:
+        await db.meetups.update_one({"id": meetup_id}, {"$set": {"status": "expired"}})
+        raise HTTPException(status_code=400, detail="Meetup request has expired")
+    
+    # Accept meetup
+    await db.meetups.update_one(
+        {"id": meetup_id},
+        {"$set": {"status": "accepted", "accepted_at": datetime.now(timezone.utc).isoformat()}}
+    )
+    
+    # Send notification to requester
+    notification = Notification(
+        user_id=meetup['requester_id'],
+        type="meetup_accepted",
+        title="Meet Up Accepted! ✅",
+        content=f"{current_user['username']} accepted your meet up request. Your code: {meetup['requester_code']}"
+    )
+    notif_dict = notification.model_dump()
+    notif_dict['created_at'] = notif_dict['created_at'].isoformat()
+    await db.notifications.insert_one(notif_dict)
+    
+    logger.info(f"✅ Meetup accepted: {meetup_id}")
+    
+    return {"message": "Meetup accepted", "your_code": meetup['receiver_code']}
+
+@api_router.put("/meetups/{meetup_id}/reject")
+async def reject_meetup(meetup_id: str, current_user: dict = Depends(get_current_user)):
+    """Reject a meetup request"""
+    meetup = await db.meetups.find_one({"id": meetup_id})
+    if not meetup:
+        raise HTTPException(status_code=404, detail="Meetup not found")
+    
+    # Only receiver can reject
+    if meetup['receiver_id'] != current_user['id']:
+        raise HTTPException(status_code=403, detail="Only receiver can reject")
+    
+    if meetup['status'] != 'pending':
+        raise HTTPException(status_code=400, detail="Meetup is not pending")
+    
+    # Reject meetup
+    await db.meetups.update_one(
+        {"id": meetup_id},
+        {"$set": {"status": "cancelled"}}
+    )
+    
+    # Send notification to requester
+    notification = Notification(
+        user_id=meetup['requester_id'],
+        type="meetup_rejected",
+        title="Meet Up Declined ❌",
+        content=f"{current_user['username']} declined your meet up request"
+    )
+    notif_dict = notification.model_dump()
+    notif_dict['created_at'] = notif_dict['created_at'].isoformat()
+    await db.notifications.insert_one(notif_dict)
+    
+    logger.info(f"❌ Meetup rejected: {meetup_id}")
+    
+    return {"message": "Meetup rejected"}
+
+@api_router.post("/meetups/{meetup_id}/verify")
+async def verify_meetup(meetup_id: str, verify_data: MeetupVerify, current_user: dict = Depends(get_current_user)):
+    """Verify meetup with code"""
+    meetup = await db.meetups.find_one({"id": meetup_id})
+    if not meetup:
+        raise HTTPException(status_code=404, detail="Meetup not found")
+    
+    if meetup['status'] != 'accepted':
+        raise HTTPException(status_code=400, detail="Meetup must be accepted first")
+    
+    # Check if user is part of meetup
+    if current_user['id'] not in [meetup['requester_id'], meetup['receiver_id']]:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    
+    # Verify code
+    is_requester = current_user['id'] == meetup['requester_id']
+    expected_code = meetup['receiver_code'] if is_requester else meetup['requester_code']
+    
+    if verify_data.code.upper() != expected_code.upper():
+        raise HTTPException(status_code=400, detail="Invalid code")
+    
+    # Mark as verified for this user
+    update_field = "requester_verified" if is_requester else "receiver_verified"
+    await db.meetups.update_one(
+        {"id": meetup_id},
+        {"$set": {update_field: True}}
+    )
+    
+    # Check if both verified
+    updated_meetup = await db.meetups.find_one({"id": meetup_id})
+    if updated_meetup['requester_verified'] and updated_meetup['receiver_verified']:
+        await db.meetups.update_one(
+            {"id": meetup_id},
+            {"$set": {"status": "verified", "verified_at": datetime.now(timezone.utc).isoformat()}}
+        )
+        logger.info(f"✅ Both parties verified meetup: {meetup_id}")
+        return {"message": "Code verified! Both parties confirmed. You can now complete the exchange.", "both_verified": True}
+    
+    logger.info(f"✅ Code verified for {current_user['username']}: {meetup_id}")
+    return {"message": "Code verified! Waiting for other party to verify.", "both_verified": False}
+
+@api_router.post("/meetups/{meetup_id}/complete")
+async def complete_meetup(meetup_id: str, current_user: dict = Depends(get_current_user)):
+    """Mark meetup as completed"""
+    meetup = await db.meetups.find_one({"id": meetup_id})
+    if not meetup:
+        raise HTTPException(status_code=404, detail="Meetup not found")
+    
+    if meetup['status'] != 'verified':
+        raise HTTPException(status_code=400, detail="Both parties must verify codes first")
+    
+    # Check if user is part of meetup
+    if current_user['id'] not in [meetup['requester_id'], meetup['receiver_id']]:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    
+    # Complete meetup
+    await db.meetups.update_one(
+        {"id": meetup_id},
+        {"$set": {"status": "completed", "completed_at": datetime.now(timezone.utc).isoformat()}}
+    )
+    
+    # Record exchange for rating purposes
+    exchange_record = {
+        "id": str(uuid.uuid4()),
+        "listing_id": meetup['listing_id'],
+        "user1_id": meetup['requester_id'],
+        "user2_id": meetup['receiver_id'],
+        "completed_at": datetime.now(timezone.utc).isoformat()
+    }
+    await db.exchanges.insert_one(exchange_record)
+    
+    logger.info(f"🎉 Meetup completed: {meetup_id}")
+    
+    # Return the other user's ID for rating
+    other_user_id = meetup['receiver_id'] if current_user['id'] == meetup['requester_id'] else meetup['requester_id']
+    other_username = meetup['receiver_username'] if current_user['id'] == meetup['requester_id'] else meetup['requester_username']
+    
+    return {
+        "message": "Exchange completed successfully!",
+        "rate_user_id": other_user_id,
+        "rate_username": other_username,
+        "listing_id": meetup['listing_id']
+    }
+
+@api_router.delete("/meetups/{meetup_id}")
+async def cancel_meetup(meetup_id: str, current_user: dict = Depends(get_current_user)):
+    """Cancel a meetup"""
+    meetup = await db.meetups.find_one({"id": meetup_id})
+    if not meetup:
+        raise HTTPException(status_code=404, detail="Meetup not found")
+    
+    # Only requester or receiver can cancel
+    if current_user['id'] not in [meetup['requester_id'], meetup['receiver_id']]:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    
+    if meetup['status'] in ['completed', 'cancelled']:
+        raise HTTPException(status_code=400, detail=f"Cannot cancel {meetup['status']} meetup")
+    
+    # Cancel meetup
+    await db.meetups.update_one(
+        {"id": meetup_id},
+        {"$set": {"status": "cancelled"}}
+    )
+    
+    # Notify other party
+    other_user_id = meetup['receiver_id'] if current_user['id'] == meetup['requester_id'] else meetup['requester_id']
+    notification = Notification(
+        user_id=other_user_id,
+        type="meetup_cancelled",
+        title="Meet Up Cancelled ⚠️",
+        content=f"{current_user['username']} cancelled the meet up"
+    )
+    notif_dict = notification.model_dump()
+    notif_dict['created_at'] = notif_dict['created_at'].isoformat()
+    await db.notifications.insert_one(notif_dict)
+    
+    logger.info(f"⚠️ Meetup cancelled: {meetup_id}")
+    
+    return {"message": "Meetup cancelled"}
 
 # Exchange Confirmation Routes
 @api_router.post("/exchange/initiate")
