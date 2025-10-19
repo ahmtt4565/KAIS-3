@@ -18,11 +18,16 @@ import uuid
 # Backend URL from environment
 BACKEND_URL = "https://exchange-hub-26.preview.emergentagent.com"
 
-class ExchangeRateTests:
+class KAIS21NewFeatureTests:
     def __init__(self):
         self.base_url = BACKEND_URL
         self.test_results = []
         self.failed_tests = []
+        self.auth_token = None
+        self.admin_token = None
+        self.test_user_id = None
+        self.test_user2_id = None
+        self.test_listing_id = None
         
     def log_test(self, test_name, success, message, response_data=None):
         """Log test results"""
