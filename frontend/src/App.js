@@ -404,6 +404,7 @@ function App() {
             <Route path="/admin/messages" element={<AdminLayout user={user} logout={logout}><AdminMessages user={user} /></AdminLayout>} />
             <Route path="/admin/support" element={<AdminLayout user={user} logout={logout}><AdminSupport user={user} /></AdminLayout>} />
             <Route path="/admin/giveaway" element={<AdminLayout user={user} logout={logout}><AdminGiveaway user={user} /></AdminLayout>} />
+            <Route path="/admin/reports" element={<AdminLayout user={user} logout={logout}><AdminReports user={user} logout={logout} unreadCount={unreadCount} /></AdminLayout>} />
           </Routes>
         </BrowserRouter>
         <Toaster />
