@@ -2346,8 +2346,7 @@ async def create_meetup(meetup_data: MeetupCreate, current_user: dict = Depends(
     notification = Notification(
         user_id=meetup_data.receiver_id,
         type="meetup_request",
-        title="New Meet Up Request! 🤝",
-        content=f"{current_user['username']} wants to meet up for exchange"
+        content=f"New Meet Up Request! 🤝 {current_user['username']} wants to meet up for exchange"
     )
     notif_dict = notification.model_dump()
     notif_dict['created_at'] = notif_dict['created_at'].isoformat()
