@@ -61,6 +61,12 @@ GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 
+# Helper function to generate 6-character alphanumeric code
+def generate_meetup_code():
+    """Generate a 6-character code like A1B2C3"""
+    chars = string.ascii_uppercase + string.digits
+    return ''.join(random.choice(chars) for _ in range(6))
+
 # Helper functions
 def hash_password(password: str) -> str:
     return pwd_context.hash(password)
