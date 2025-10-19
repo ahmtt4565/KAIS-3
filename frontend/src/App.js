@@ -24,6 +24,7 @@ import AdminListings from "./pages/AdminListings";
 import AdminSupport from "./pages/AdminSupport";
 import AdminMessages from "./pages/AdminMessages";
 import AdminGiveaway from "./pages/AdminGiveaway";
+import AdminReports from "./pages/AdminReports";
 import AdminLayout from "./components/AdminLayout";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
