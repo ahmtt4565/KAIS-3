@@ -13,6 +13,8 @@ import BottomNav from "@/components/BottomNav";
 import GiveawayCard from "@/components/GiveawayCard";
 import KaisLogo from "@/components/KaisLogo";
 import OnboardingTutorial from "@/components/OnboardingTutorial";
+import ReportModal from "@/components/ReportModal";
+import { AchievementsList } from "@/components/AchievementBadge";
 
 import { CURRENCIES, COUNTRIES } from "../data/countries-currencies";
 import { getCountryShortName } from "../data/countries-currencies";
