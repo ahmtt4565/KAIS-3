@@ -12,7 +12,7 @@ import OnlineStatus from "@/components/OnlineStatus";
 import BottomNav from "@/components/BottomNav";
 import GiveawayCard from "@/components/GiveawayCard";
 import KaisLogo from "@/components/KaisLogo";
-import OnboardingTutorial from "@/components/OnboardingTutorial";
+import VideoOnboardingTutorial from "@/components/VideoOnboardingTutorial";
 import ReportModal from "@/components/ReportModal";
 import { AchievementsList } from "@/components/AchievementBadge";
 
