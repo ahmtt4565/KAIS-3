@@ -25,7 +25,7 @@ export default function ReportModal({ isOpen, onClose, listingId, API }) {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        `${API}/api/reports`,
+        `${API}/reports`,
         {
           listing_id: listingId,
           reason,
