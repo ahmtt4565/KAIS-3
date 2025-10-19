@@ -2610,7 +2610,6 @@ async def check_and_award_achievements(user_id: str):
                     {"$addToSet": {"achievements": "master_user"}}
                 )
                 new_achievements.append('master_user')
-            )
             
             # Send notifications for new achievements
             for achievement in new_achievements:
