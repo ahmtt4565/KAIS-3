@@ -211,6 +211,12 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
     }
   };
 
+  const handleReportListing = (listingId, e) => {
+    e.stopPropagation();
+    setReportListingId(listingId);
+    setReportModalOpen(true);
+  };
+
   useEffect(() => {
     applyFilters();
   }, [filters, listings]);
