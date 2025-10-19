@@ -2341,6 +2341,15 @@ async def delete_notification(notification_id: str, current_user: dict = Depends
 # Report Routes
 @api_router.post("/reports", response_model=Report)
 async def create_report(report_data: ReportCreate, current_user: dict = Depends(get_current_user)):
+    # Check if user already reported this listing
+    existing_report = await db.reports.find_one({
+        "listing_id": report_data.listing_id,
+        "reporter_id": current_user['id']
+    })
+    
+    if existing_report:
+        raise HTTPException(status_code=400, detail="You have already reported this listing")
+    
     report = Report(
         listing_id=report_data.listing_id,
         reporter_id=current_user['id'],
@@ -2353,7 +2362,228 @@ async def create_report(report_data: ReportCreate, current_user: dict = Depends(
     report_dict['created_at'] = report_dict['created_at'].isoformat()
     
     await db.reports.insert_one(report_dict)
+    
+    # Send notification to listing owner if needed
+    listing = await db.listings.find_one({"id": report_data.listing_id})
+    if listing:
+        logger.info(f"📋 İlan raporlandı: {report_data.listing_id} - Sebep: {report_data.reason}")
+    
     return report
+
+@api_router.get("/reports", response_model=List[Report])
+async def get_reports(current_user: dict = Depends(get_current_user)):
+    # Only admins can view all reports
+    if current_user.get('role') != 'admin':
+        raise HTTPException(status_code=403, detail="Only admins can view reports")
+    
+    reports = await db.reports.find(
+        {},
+        {"_id": 0}
+    ).sort("created_at", -1).to_list(1000)
+    
+    for report in reports:
+        if isinstance(report.get('created_at'), str):
+            report['created_at'] = datetime.fromisoformat(report['created_at'].replace('Z', '+00:00'))
+        elif isinstance(report.get('created_at'), datetime):
+            if report['created_at'].tzinfo is None:
+                report['created_at'] = report['created_at'].replace(tzinfo=timezone.utc)
+    
+    return reports
+
+# Block User Routes
+@api_router.post("/users/block/{user_id}")
+async def block_user(user_id: str, current_user: dict = Depends(get_current_user)):
+    """Block a user"""
+    if user_id == current_user['id']:
+        raise HTTPException(status_code=400, detail="Cannot block yourself")
+    
+    # Check if user exists
+    blocked_user = await db.users.find_one({"id": user_id})
+    if not blocked_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Check if already blocked
+    if user_id in current_user.get('blocked_users', []):
+        raise HTTPException(status_code=400, detail="User already blocked")
+    
+    # Add to blocked list
+    await db.users.update_one(
+        {"id": current_user['id']},
+        {"$addToSet": {"blocked_users": user_id}}
+    )
+    
+    logger.info(f"🚫 Kullanıcı engellendi: {current_user['username']} -> {blocked_user['username']}")
+    
+    return {"message": f"User {blocked_user['username']} blocked successfully"}
+
+@api_router.delete("/users/unblock/{user_id}")
+async def unblock_user(user_id: str, current_user: dict = Depends(get_current_user)):
+    """Unblock a user"""
+    # Check if user is actually blocked
+    if user_id not in current_user.get('blocked_users', []):
+        raise HTTPException(status_code=400, detail="User is not blocked")
+    
+    # Remove from blocked list
+    await db.users.update_one(
+        {"id": current_user['id']},
+        {"$pull": {"blocked_users": user_id}}
+    )
+    
+    blocked_user = await db.users.find_one({"id": user_id})
+    username = blocked_user['username'] if blocked_user else "Unknown"
+    
+    logger.info(f"✅ Kullanıcı engeli kaldırıldı: {current_user['username']} -> {username}")
+    
+    return {"message": f"User {username} unblocked successfully"}
+
+@api_router.get("/users/blocked")
+async def get_blocked_users(current_user: dict = Depends(get_current_user)):
+    """Get list of blocked users"""
+    blocked_ids = current_user.get('blocked_users', [])
+    
+    if not blocked_ids:
+        return {"blocked_users": []}
+    
+    # Get user details for blocked users
+    blocked_users = await db.users.find(
+        {"id": {"$in": blocked_ids}},
+        {"_id": 0, "id": 1, "username": 1, "profile_photo": 1}
+    ).to_list(1000)
+    
+    return {"blocked_users": blocked_users}
+
+# Achievement Routes
+@api_router.get("/achievements/{user_id}")
+async def get_user_achievements(user_id: str):
+    """Get achievements for a user"""
+    user = await db.users.find_one({"id": user_id}, {"_id": 0, "id": 1, "username": 1, "achievements": 1})
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Define all available achievements
+    all_achievements = {
+        "first_listing": {
+            "id": "first_listing",
+            "name": "İlk İlan",
+            "description": "İlk ilanını oluştur",
+            "icon": "🎉",
+            "unlocked": "first_listing" in user.get('achievements', [])
+        },
+        "ten_listings": {
+            "id": "ten_listings",
+            "name": "10 İlan",
+            "description": "10 ilan oluştur",
+            "icon": "⭐",
+            "unlocked": "ten_listings" in user.get('achievements', [])
+        },
+        "popular_seller": {
+            "id": "popular_seller",
+            "name": "Popüler Satıcı",
+            "description": "İlanların 1000+ görüntülenme alsın",
+            "icon": "🔥",
+            "unlocked": "popular_seller" in user.get('achievements', [])
+        },
+        "chat_master": {
+            "id": "chat_master",
+            "name": "Sohbet Ustası",
+            "description": "100+ mesaj gönder",
+            "icon": "💬",
+            "unlocked": "chat_master" in user.get('achievements', [])
+        },
+        "giveaway_creator": {
+            "id": "giveaway_creator",
+            "name": "Hediye Veren",
+            "description": "Çekilişe katıl",
+            "icon": "🎁",
+            "unlocked": "giveaway_creator" in user.get('achievements', [])
+        },
+        "exchange_expert": {
+            "id": "exchange_expert",
+            "name": "Döviz Uzmanı",
+            "description": "Döviz çeviricisini 10 kez kullan",
+            "icon": "💱",
+            "unlocked": "exchange_expert" in user.get('achievements', [])
+        }
+    }
+    
+    return {
+        "user_id": user_id,
+        "username": user['username'],
+        "achievements": list(all_achievements.values()),
+        "total_unlocked": len(user.get('achievements', []))
+    }
+
+async def check_and_award_achievements(user_id: str):
+    """Check and award achievements to user"""
+    try:
+        user = await db.users.find_one({"id": user_id})
+        if not user:
+            return
+        
+        current_achievements = set(user.get('achievements', []))
+        new_achievements = []
+        
+        # Check first_listing
+        if 'first_listing' not in current_achievements:
+            listing_count = await db.listings.count_documents({"user_id": user_id})
+            if listing_count >= 1:
+                new_achievements.append('first_listing')
+        
+        # Check ten_listings
+        if 'ten_listings' not in current_achievements:
+            listing_count = await db.listings.count_documents({"user_id": user_id})
+            if listing_count >= 10:
+                new_achievements.append('ten_listings')
+        
+        # Check popular_seller
+        if 'popular_seller' not in current_achievements:
+            total_views = 0
+            user_listings = await db.listings.find({"user_id": user_id}).to_list(1000)
+            for listing in user_listings:
+                total_views += listing.get('view_count', 0)
+            if total_views >= 1000:
+                new_achievements.append('popular_seller')
+        
+        # Check chat_master
+        if 'chat_master' not in current_achievements:
+            message_count = await db.messages.count_documents({"sender_id": user_id})
+            if message_count >= 100:
+                new_achievements.append('chat_master')
+        
+        # Award new achievements
+        if new_achievements:
+            await db.users.update_one(
+                {"id": user_id},
+                {"$addToSet": {"achievements": {"$each": new_achievements}}}
+            )
+            
+            # Send notifications for new achievements
+            for achievement in new_achievements:
+                achievement_names = {
+                    "first_listing": "🎉 İlk İlan",
+                    "ten_listings": "⭐ 10 İlan",
+                    "popular_seller": "🔥 Popüler Satıcı",
+                    "chat_master": "💬 Sohbet Ustası",
+                    "giveaway_creator": "🎁 Hediye Veren",
+                    "exchange_expert": "💱 Döviz Uzmanı"
+                }
+                
+                notification = Notification(
+                    user_id=user_id,
+                    type="achievement",
+                    title="Yeni Başarı Rozeti! 🏆",
+                    content=f"{achievement_names.get(achievement, achievement)} rozetini kazandınız!"
+                )
+                
+                notif_dict = notification.model_dump()
+                notif_dict['created_at'] = notif_dict['created_at'].isoformat()
+                await db.notifications.insert_one(notif_dict)
+                
+                logger.info(f"🏆 Yeni rozet kazanıldı: {user['username']} -> {achievement}")
+    
+    except Exception as e:
+        logger.error(f"❌ Achievement check error: {e}")
 
 # Currency Exchange Rate Routes
 @api_router.get("/exchange-rates/convert")
