@@ -216,15 +216,18 @@ frontend:
   
   - task: "Block User Feature"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/pages/Profile.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added Block User button to other users' profiles. Created Blocked Users section on own profile showing blocked users list with unblock buttons. Integrated block/unblock API calls with toast notifications."
+      - working: false
+        agent: "testing"
+        comment: "❌ BLOCK USER FEATURE BLOCKED BY AUTHENTICATION: Cannot test Block User functionality due to authentication issues preventing access to Profile pages. Block User button implementation exists and correctly hidden on own profile, with Blocked Users section for managing blocked users. Backend block/unblock endpoints confirmed working (100% test success rate). However, frontend testing blocked by authentication preventing navigation to Profile page where Block User features are located. Feature appears properly implemented but cannot be verified due to authentication flow issues."
 
   - task: "Exchange Rates Display on Dashboard"
     implemented: true
