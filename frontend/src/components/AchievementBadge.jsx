@@ -69,9 +69,22 @@ export function AchievementsCard({ achievements, totalUnlocked }) {
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {allAchievements.map((achievement) => {
-          const isUnlocked = achievements?.some(a => 
-            typeof a === 'string' ? a === achievement.id : a.id === achievement.id
-          );
+          // Check if achievement is unlocked
+          // achievements can be: array of strings ['first_listing', 'ten_listings']
+          // or array of objects [{id: 'first_listing', name: '...', unlocked: true}]
+          let isUnlocked = false;
+          
+          if (Array.isArray(achievements)) {
+            // If it's array of strings
+            if (achievements.length > 0 && typeof achievements[0] === 'string') {
+              isUnlocked = achievements.includes(achievement.id);
+            }
+            // If it's array of objects with 'unlocked' property
+            else if (achievements.length > 0 && typeof achievements[0] === 'object') {
+              const found = achievements.find(a => a.id === achievement.id);
+              isUnlocked = found ? found.unlocked : false;
+            }
+          }
           
           // Special styling for Master User achievement
           const isMasterUser = achievement.id === 'master_user';
