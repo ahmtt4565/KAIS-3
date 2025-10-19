@@ -434,7 +434,13 @@ export default function Profile({ user, logout, unreadCount = 0 }) {
               >
                 <KaisLogo className="h-14 w-auto" />
               </div>
-              <span className="text-lg font-semibold text-gray-700 dark:text-transparent dark:bg-gradient-to-r dark:from-cyan-400 dark:to-purple-400 dark:bg-clip-text hidden md:block">Profil</span>
+            </div>
+            
+            {/* Centered Profile Title - Desktop */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 hidden md:block">
+              <h1 className="text-3xl font-bold italic text-gray-900 dark:text-white">
+                Profile
+              </h1>
             </div>
             
             {/* Desktop Navigation */}
