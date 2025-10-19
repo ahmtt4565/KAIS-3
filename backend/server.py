@@ -1027,6 +1027,10 @@ async def create_listing(listing_data: ListingCreate, current_user: dict = Depen
     listing_dict['created_at'] = listing_dict['created_at'].isoformat()
     
     await db.listings.insert_one(listing_dict)
+    
+    # Check for achievements
+    asyncio.create_task(check_and_award_achievements(current_user['id']))
+    
     return listing
 
 @api_router.get("/listings", response_model=List[Listing])
