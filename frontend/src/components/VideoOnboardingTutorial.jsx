@@ -206,20 +206,20 @@ export default function VideoOnboardingTutorial({ onComplete }) {
 
   return (
     <div className="fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center p-4 backdrop-blur-sm">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden border-2 border-teal-500">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden border-2 border-teal-500 max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="bg-gradient-to-r from-teal-500 to-orange-500 p-6 text-white relative">
+        <div className="bg-gradient-to-r from-teal-500 to-orange-500 p-4 text-white relative">
           <button
             onClick={handleSkip}
-            className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors"
+            className="absolute top-3 right-3 text-white/80 hover:text-white transition-colors"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5" />
           </button>
-          <div className="flex items-center gap-3">
-            <Book className="w-8 h-8" />
+          <div className="flex items-center gap-2">
+            <Book className="w-6 h-6" />
             <div>
-              <h2 className="text-2xl font-bold">Interactive Tutorial</h2>
-              <p className="text-white/90 text-sm">Step {currentStep + 1} of {tutorialSteps.length}</p>
+              <h2 className="text-xl font-bold">Interactive Tutorial</h2>
+              <p className="text-white/90 text-xs">Step {currentStep + 1} of {tutorialSteps.length}</p>
             </div>
           </div>
         </div>
