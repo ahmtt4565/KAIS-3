@@ -168,7 +168,7 @@ backend:
 frontend:
   - task: "Report Listing Modal"
     implemented: true
-    working: false
+    working: true
     file: "/app/frontend/src/components/ReportModal.jsx, /app/frontend/src/pages/Dashboard.jsx"
     stuck_count: 2
     priority: "high"
@@ -183,6 +183,9 @@ frontend:
       - working: false
         agent: "testing"
         comment: "❌ CRITICAL AUTHENTICATION ISSUE: Comprehensive testing revealed authentication problems preventing proper feature testing. Console shows 401/403 errors for /api/listings, /api/notifications, and /api/giveaway/my-participation endpoints. Login appears successful (reaches dashboard) but JWT token not properly authenticated for protected endpoints. This prevents listings from loading, which means Report buttons cannot be tested. Root cause: Authentication flow issue - user reaches dashboard but token validation fails for protected API calls. Report feature cannot be properly tested until authentication is fixed."
+      - working: true
+        agent: "testing"
+        comment: "🎉 REPORT LISTING FEATURE FULLY FUNCTIONAL! Authentication fix successful - login now works properly with terms acceptance. Found 6 Report buttons (Flag icons) on listing cards. Report Modal opens successfully (tutorial modal was blocking clicks, resolved with JavaScript click). All form functionality working: reason selection (spam, inappropriate, scam, duplicate, other), optional description field, Cancel/Submit buttons. Modal displays proper success animation. Feature tested on both desktop (1920x1080) and mobile (375x812) viewports. Report buttons correctly hidden on own listings, visible on other users' listings. Backend integration confirmed working from previous tests."
   
   - task: "Exchange Rate Trend Icons"
     implemented: true
