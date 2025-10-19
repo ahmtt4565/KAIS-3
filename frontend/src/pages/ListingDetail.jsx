@@ -82,20 +82,7 @@ export default function ListingDetail({ user, logout }) {
             <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard')} data-testid="back-to-dashboard-btn">
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <div 
-              className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity select-none"
-              onClick={() => navigate('/dashboard')}
-              style={{ cursor: 'pointer' }}
-            >
-              <DollarSign className="w-8 h-8 text-teal-600" onClick={() => navigate('/dashboard')} />
-              <h1 
-                className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-orange-500 bg-clip-text text-transparent cursor-pointer"
-                onClick={() => navigate('/dashboard')}
-                style={{ cursor: 'pointer' }}
-              >
-                KAIS
-              </h1>
-            </div>
+            <KaisLogo onClick={() => navigate('/dashboard')} />
           </div>
         </div>
       </header>
