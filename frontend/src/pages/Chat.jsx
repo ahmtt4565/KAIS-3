@@ -377,35 +377,35 @@ export default function Chat({ user, logout }) {
       {/* Header */}
       <header className="bg-white dark:bg-gray-800 border-b shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col items-center gap-3">
-            {/* Top Row: Back Button and Logo */}
-            <div className="w-full flex items-center justify-between">
-              {selectedChat && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setShowChatList(true)}
-                  className="md:hidden"
-                >
-                  <ChevronLeft className="w-6 h-6" />
-                </Button>
-              )}
-              
-              {/* KaisLogo - Same as Dashboard */}
-              <div 
-                className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity select-none"
-                onClick={() => navigate('/dashboard')}
+          <div className="flex items-center justify-between relative">
+            {/* Back Button - Left */}
+            {selectedChat && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowChatList(true)}
+                className="md:hidden"
               >
-                <KaisLogo className="h-14 w-auto cursor-pointer" />
-              </div>
-              
-              <div className="w-10"></div> {/* Spacer for centering */}
+                <ChevronLeft className="w-6 h-6" />
+              </Button>
+            )}
+            
+            {/* KaisLogo - Left */}
+            <div 
+              className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity select-none"
+              onClick={() => navigate('/dashboard')}
+            >
+              <KaisLogo className="h-14 w-auto cursor-pointer" />
             </div>
             
-            {/* Centered Page Title - Bold & Italic */}
-            <div className="w-full text-center">
-              <h1 className="text-2xl font-bold italic text-gray-800 dark:text-white">CHAT</h1>
+            {/* Centered Chat Title */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2">
+              <h1 className="text-3xl md:text-4xl font-extrabold italic text-gray-900 dark:text-white whitespace-nowrap">
+                Chat
+              </h1>
             </div>
+            
+            <div className="w-10"></div> {/* Spacer for balance */}
           </div>
         </div>
       </header>
