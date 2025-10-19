@@ -813,12 +813,12 @@ class KAIS21NewFeatureTests:
         return failed_tests == 0
 
 if __name__ == "__main__":
-    tester = ExchangeRateTests()
+    tester = KAIS21NewFeatureTests()
     success = tester.run_all_tests()
     
     if success:
-        print("\n🎉 All tests passed!")
+        print("\n🎉 All KAIS2.1 new feature tests passed!")
         sys.exit(0)
     else:
-        print("\n💥 Some tests failed!")
+        print("\n💥 Some KAIS2.1 new feature tests failed!")
         sys.exit(1)
