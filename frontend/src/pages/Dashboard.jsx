@@ -997,9 +997,14 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
                                   className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20"
                                   onClick={(e) => handleReportListing(listing.id, e)}
                                   title="Report listing"
+                                  data-testid="report-listing-btn"
                                 >
                                   <Flag className="w-4 h-4" />
                                 </Button>
+                              )}
+                              {/* Debug: Always show report for testing */}
+                              {listing.user_id === user.id && (
+                                <span className="text-xs text-gray-400" title={`Your listing (${listing.user_id})`}>👤</span>
                               )}
                             </div>
                           </div>
