@@ -125,10 +125,21 @@ export default function About({ user, logout }) {
           <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-teal-600 via-purple-600 to-orange-600 bg-clip-text text-transparent">
             About KAIS
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
             The peer-to-peer currency exchange platform connecting people across the globe. 
             Exchange currencies directly, safely, and at fair rates.
           </p>
+          
+          {/* Video Tutorial Button */}
+          <div className="flex justify-center">
+            <Button
+              onClick={() => setShowTutorial(true)}
+              className="bg-gradient-to-r from-teal-500 to-orange-500 hover:from-teal-600 hover:to-orange-600 text-white text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            >
+              <PlayCircle className="w-6 h-6 mr-2" />
+              Watch Interactive Tutorial
+            </Button>
+          </div>
         </div>
 
         {/* Stats Section */}
