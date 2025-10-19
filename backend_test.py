@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """
-Backend Test Suite for KAIS2.1 Exchange Rate Endpoints
-Tests the newly implemented live exchange rate integration
+Backend Test Suite for KAIS2.1 New Features
+Tests the 4 newly implemented features:
+1. Report Listing Endpoints
+2. Block/Unblock User Endpoints  
+3. Exchange Rate Changes Endpoint
+4. Achievement System
 """
 
 import requests
@@ -9,6 +13,7 @@ import json
 import time
 from datetime import datetime
 import sys
+import uuid
 
 # Backend URL from environment
 BACKEND_URL = "https://exchange-hub-26.preview.emergentagent.com"
