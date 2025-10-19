@@ -45,12 +45,12 @@ export function AchievementsList({ achievements }) {
 
 export function AchievementsCard({ achievements, totalUnlocked }) {
   const allAchievements = [
-    { id: "first_listing", name: "İlk İlan", description: "İlk ilanını oluştur", icon: "🎉" },
-    { id: "ten_listings", name: "10 İlan", description: "10 ilan oluştur", icon: "⭐" },
-    { id: "popular_seller", name: "Popüler Satıcı", description: "İlanların 1000+ görüntülenme alsın", icon: "🔥" },
-    { id: "chat_master", name: "Sohbet Ustası", description: "100+ mesaj gönder", icon: "💬" },
-    { id: "giveaway_creator", name: "Hediye Veren", description: "Çekilişe katıl", icon: "🎁" },
-    { id: "exchange_expert", name: "Döviz Uzmanı", description: "Döviz çeviricisini 10 kez kullan", icon: "💱" }
+    { id: "first_listing", name: "First Listing", description: "Create your first listing", icon: "🎉" },
+    { id: "ten_listings", name: "10 Listings", description: "Create 10 listings", icon: "⭐" },
+    { id: "popular_seller", name: "Popular User", description: "Get 1000+ views on your listings", icon: "🔥" },
+    { id: "chat_master", name: "Chat Master", description: "Send 100+ messages", icon: "💬" },
+    { id: "giveaway_creator", name: "Gift Hunter", description: "Join the giveaway", icon: "🎁" },
+    { id: "exchange_expert", name: "Exchange Expert", description: "Use currency converter 10 times", icon: "💱" }
   ];
 
   return (
