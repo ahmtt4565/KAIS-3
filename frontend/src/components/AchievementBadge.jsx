@@ -102,12 +102,12 @@ export function AchievementsCard({ achievements, totalUnlocked }) {
 
 function getAchievementName(achievementId) {
   const names = {
-    first_listing: "İlk İlan",
-    ten_listings: "10 İlan",
-    popular_seller: "Popüler Satıcı",
-    chat_master: "Sohbet Ustası",
-    giveaway_creator: "Hediye Veren",
-    exchange_expert: "Döviz Uzmanı"
+    first_listing: "First Listing",
+    ten_listings: "10 Listings",
+    popular_seller: "Popular User",
+    chat_master: "Chat Master",
+    giveaway_creator: "Gift Hunter",
+    exchange_expert: "Exchange Expert"
   };
   return names[achievementId] || achievementId;
 }
