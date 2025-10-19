@@ -91,13 +91,20 @@ export default function ExchangeCalculator({ user, logout, unreadCount = 0 }) {
       {/* Header - Same as Dashboard */}
       <header className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between relative">
             <div 
               className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity select-none"
               onClick={() => navigate('/dashboard')}
               style={{ cursor: 'pointer' }}
             >
               <KaisLogo className="h-14 w-auto cursor-pointer" />
+            </div>
+            
+            {/* Centered Exchange Title */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2">
+              <h1 className="text-3xl md:text-4xl font-extrabold italic text-gray-900 dark:text-white whitespace-nowrap">
+                Exchange
+              </h1>
             </div>
 
             <div className="flex items-center gap-2 md:gap-3">
