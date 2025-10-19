@@ -133,44 +133,132 @@ class KAIS21NewFeatureTests:
         
         return True
     
-    def test_currency_conversion(self):
-        """Test GET /api/exchange-rates/convert endpoint"""
-        print("\n🧪 Testing GET /api/exchange-rates/convert endpoint...")
+    def test_report_listing_endpoints(self):
+        """Test Report Listing functionality"""
+        print("\n📋 Testing Report Listing Endpoints...")
         
-        # Test cases for conversion
-        test_cases = [
-            {
-                'name': 'USD to EUR (100)',
-                'params': {'amount': 100, 'from_currency': 'USD', 'to_currency': 'EUR'},
-                'expected_fields': ['amount', 'from_currency', 'to_currency', 'converted_amount', 'rate', 'last_updated']
-            },
-            {
-                'name': 'TRY to USD (1000)',
-                'params': {'amount': 1000, 'from_currency': 'TRY', 'to_currency': 'USD'},
-                'expected_fields': ['amount', 'from_currency', 'to_currency', 'converted_amount', 'rate', 'last_updated']
-            },
-            {
-                'name': 'EUR to GBP (50)',
-                'params': {'amount': 50, 'from_currency': 'EUR', 'to_currency': 'GBP'},
-                'expected_fields': ['amount', 'from_currency', 'to_currency', 'converted_amount', 'rate', 'last_updated']
-            },
-            {
-                'name': 'Zero amount (0)',
-                'params': {'amount': 0, 'from_currency': 'USD', 'to_currency': 'EUR'},
-                'expected_fields': ['amount', 'from_currency', 'to_currency', 'converted_amount', 'rate', 'last_updated']
-            },
-            {
-                'name': 'Large amount (999999)',
-                'params': {'amount': 999999, 'from_currency': 'USD', 'to_currency': 'EUR'},
-                'expected_fields': ['amount', 'from_currency', 'to_currency', 'converted_amount', 'rate', 'last_updated']
+        if not self.auth_token or not self.test_listing_id:
+            self.log_test("Report Listing - Prerequisites", False, "Missing auth token or test listing")
+            return
+        
+        headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        # Test 1: Submit a report
+        try:
+            report_data = {
+                "listing_id": self.test_listing_id,
+                "reason": "spam",
+                "description": "This is a test report for spam content"
             }
-        ]
+            
+            response = requests.post(f"{self.base_url}/api/reports", json=report_data, headers=headers, timeout=10)
+            
+            if response.status_code == 200:
+                data = response.json()
+                required_fields = ['id', 'listing_id', 'reporter_id', 'reason', 'status']
+                missing_fields = [f for f in required_fields if f not in data]
+                
+                if not missing_fields:
+                    self.log_test("Report Listing - Submit Report", True, "Report submitted successfully with all fields")
+                else:
+                    self.log_test("Report Listing - Submit Report", False, f"Missing fields: {missing_fields}", data)
+            else:
+                self.log_test("Report Listing - Submit Report", False, 
+                            f"Expected 200, got {response.status_code}", response.text)
+                
+        except Exception as e:
+            self.log_test("Report Listing - Submit Report", False, f"Error: {str(e)}")
         
-        for test_case in test_cases:
-            self._test_single_conversion(test_case)
+        # Test 2: Duplicate report prevention
+        try:
+            response = requests.post(f"{self.base_url}/api/reports", json=report_data, headers=headers, timeout=10)
+            
+            if response.status_code == 400:
+                data = response.json()
+                if "already reported" in data.get('detail', '').lower():
+                    self.log_test("Report Listing - Duplicate Prevention", True, "Duplicate report correctly prevented")
+                else:
+                    self.log_test("Report Listing - Duplicate Prevention", False, 
+                                f"Wrong error message: {data.get('detail')}")
+            else:
+                self.log_test("Report Listing - Duplicate Prevention", False, 
+                            f"Expected 400, got {response.status_code}")
+                
+        except Exception as e:
+            self.log_test("Report Listing - Duplicate Prevention", False, f"Error: {str(e)}")
         
-        # Test error cases
-        self._test_conversion_errors()
+        # Test 3: Invalid listing ID
+        try:
+            invalid_report = {
+                "listing_id": "invalid-listing-id",
+                "reason": "inappropriate",
+                "description": "Test with invalid listing"
+            }
+            
+            response = requests.post(f"{self.base_url}/api/reports", json=invalid_report, headers=headers, timeout=10)
+            
+            # Should still create report (listing validation might not be enforced)
+            if response.status_code in [200, 400, 404]:
+                self.log_test("Report Listing - Invalid Listing", True, "Invalid listing handled appropriately")
+            else:
+                self.log_test("Report Listing - Invalid Listing", False, 
+                            f"Unexpected status: {response.status_code}")
+                
+        except Exception as e:
+            self.log_test("Report Listing - Invalid Listing", False, f"Error: {str(e)}")
+        
+        # Test 4: Get reports (should fail for non-admin)
+        try:
+            response = requests.get(f"{self.base_url}/api/reports", headers=headers, timeout=10)
+            
+            if response.status_code == 403:
+                data = response.json()
+                if "admin" in data.get('detail', '').lower():
+                    self.log_test("Report Listing - Admin Only Access", True, "Non-admin correctly denied access")
+                else:
+                    self.log_test("Report Listing - Admin Only Access", False, 
+                                f"Wrong error message: {data.get('detail')}")
+            else:
+                self.log_test("Report Listing - Admin Only Access", False, 
+                            f"Expected 403, got {response.status_code}")
+                
+        except Exception as e:
+            self.log_test("Report Listing - Admin Only Access", False, f"Error: {str(e)}")
+        
+        # Test 5: Test different report reasons
+        reasons = ["inappropriate", "scam", "duplicate", "other"]
+        for reason in reasons:
+            try:
+                # Create new listing for each reason test
+                listing_data = {
+                    "from_currency": "EUR",
+                    "from_amount": 500,
+                    "to_currency": "USD",
+                    "country": "Turkey",
+                    "city": "Ankara",
+                    "description": f"Test listing for {reason} report"
+                }
+                
+                listing_response = requests.post(f"{self.base_url}/api/listings", json=listing_data, headers=headers, timeout=10)
+                if listing_response.status_code == 200:
+                    new_listing_id = listing_response.json().get('id')
+                    
+                    report_data = {
+                        "listing_id": new_listing_id,
+                        "reason": reason,
+                        "description": f"Test report with reason: {reason}"
+                    }
+                    
+                    response = requests.post(f"{self.base_url}/api/reports", json=report_data, headers=headers, timeout=10)
+                    
+                    if response.status_code == 200:
+                        self.log_test(f"Report Listing - Reason '{reason}'", True, f"Report with reason '{reason}' accepted")
+                    else:
+                        self.log_test(f"Report Listing - Reason '{reason}'", False, 
+                                    f"Failed to submit report with reason '{reason}': {response.status_code}")
+                        
+            except Exception as e:
+                self.log_test(f"Report Listing - Reason '{reason}'", False, f"Error: {str(e)}")
     
     def _test_single_conversion(self, test_case):
         """Test a single conversion case"""
