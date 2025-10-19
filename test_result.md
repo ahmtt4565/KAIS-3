@@ -168,15 +168,18 @@ backend:
 frontend:
   - task: "Report Listing Modal"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/components/ReportModal.jsx, /app/frontend/src/pages/Dashboard.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created ReportModal component with reason selection (spam, inappropriate, scam, duplicate, other) and optional description. Integrated into Dashboard listing cards with Report button (Flag icon). Modal shows success animation after submission."
+      - working: false
+        agent: "testing"
+        comment: "✅ PARTIAL SUCCESS: Report button implementation working correctly - found 6 Report buttons on 6 listings from other users (KAIS Admin), buttons only appear for other users' listings as expected. ❌ CRITICAL ISSUE: Report Modal fails to open when Report button is clicked. Modal component exists but click handler not triggering modal display. Tutorial modal interference may be blocking Report modal. Backend Report endpoints confirmed working (previous tests). Issue: Modal state management or event handling problem preventing ReportModal from opening."
   
   - task: "Exchange Rate Trend Icons"
     implemented: true
