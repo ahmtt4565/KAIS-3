@@ -257,6 +257,11 @@ export default function Dashboard({ user, logout, unreadCount = 0, setUser }) {
       const ratesRes = await axios.get(`${API}/exchange-rates`);
       setExchangeRates(ratesRes.data);
       console.log('💱 Exchange Rates loaded:', ratesRes.data);
+      
+      // Fetch exchange rate changes
+      const changesRes = await axios.get(`${API}/exchange-rates/changes?currencies=TRY,EUR,GBP,JPY`);
+      setExchangeChanges(changesRes.data);
+      console.log('📈 Exchange Rate Changes loaded:', changesRes.data);
     } catch (error) {
       console.error("Error fetching exchange rates:", error);
     } finally {
