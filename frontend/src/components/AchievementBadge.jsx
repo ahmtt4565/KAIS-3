@@ -79,28 +79,47 @@ export function AchievementsCard({ achievements, totalUnlocked }) {
           return (
             <div
               key={achievement.id}
-              className={`p-3 rounded-lg border transition-all ${
+              className={`p-3 rounded-lg border transition-all relative ${
                 isUnlocked
                   ? isMasterUser 
                     ? "bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 border-2 border-yellow-400 dark:border-yellow-600 shadow-lg ring-2 ring-yellow-300 dark:ring-yellow-700"
                     : "bg-white dark:bg-gray-800 border-yellow-300 dark:border-yellow-700 shadow-sm"
-                  : "bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 opacity-50"
+                  : "bg-gray-100 dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-700 opacity-60"
               } ${isMasterUser && isUnlocked ? 'col-span-2 sm:col-span-3' : ''}`}
             >
-              <div className={`${isMasterUser ? 'text-3xl' : 'text-2xl'} mb-1 text-center`}>{achievement.icon}</div>
+              {/* Lock icon overlay for locked achievements */}
+              {!isUnlocked && (
+                <div className="absolute top-2 right-2">
+                  <span className="text-lg">🔒</span>
+                </div>
+              )}
+              
+              <div className={`${isMasterUser ? 'text-3xl' : 'text-2xl'} mb-1 text-center ${!isUnlocked ? 'opacity-40' : ''}`}>
+                {achievement.icon}
+              </div>
               <div className={`text-xs font-semibold text-center text-gray-900 dark:text-white mb-1 ${isMasterUser ? 'text-sm' : ''}`}>
                 {achievement.name}
               </div>
               <div className="text-xs text-center text-gray-600 dark:text-gray-400 line-clamp-2">
                 {achievement.description}
               </div>
-              {isUnlocked && (
-                <div className="text-center mt-1">
-                  <span className={`text-xs font-semibold ${isMasterUser ? 'text-yellow-600 dark:text-yellow-400' : 'text-green-600 dark:text-green-400'}`}>
+              
+              {/* Status badge */}
+              <div className="text-center mt-2">
+                {isUnlocked ? (
+                  <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold ${
+                    isMasterUser 
+                      ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' 
+                      : 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                  }`}>
                     ✓ Unlocked
                   </span>
-                </div>
-              )}
+                ) : (
+                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold bg-gray-200 text-gray-600 dark:bg-gray-800 dark:text-gray-400">
+                    🔒 Locked
+                  </span>
+                )}
+              </div>
             </div>
           );
         })}
