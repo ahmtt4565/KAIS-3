@@ -176,6 +176,8 @@ class User(BaseModel):
     current_location: Optional[dict] = None  # {"latitude": float, "longitude": float}
     has_seen_tutorial: bool = False  # Rehberi gördü mü?
     profile_photo: Optional[str] = None  # Profile photo URL
+    blocked_users: List[str] = []  # Engellenen kullanıcı ID'leri
+    achievements: List[str] = []  # Kazanılan başarı rozetleri
 
 class ListingCreate(BaseModel):
     from_currency: str
