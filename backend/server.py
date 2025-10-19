@@ -2558,8 +2558,7 @@ async def cancel_meetup(meetup_id: str, current_user: dict = Depends(get_current
     notification = Notification(
         user_id=other_user_id,
         type="meetup_cancelled",
-        title="Meet Up Cancelled ⚠️",
-        content=f"{current_user['username']} cancelled the meet up"
+        content=f"Meet Up Cancelled ⚠️ {current_user['username']} cancelled the meet up"
     )
     notif_dict = notification.model_dump()
     notif_dict['created_at'] = notif_dict['created_at'].isoformat()
