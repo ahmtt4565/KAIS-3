@@ -1038,7 +1038,8 @@ async def get_listings(
     country: Optional[str] = None,
     from_currency: Optional[str] = None,
     to_currency: Optional[str] = None,
-    status: str = "active"
+    status: str = "active",
+    current_user: Optional[dict] = Depends(get_current_user)
 ):
     query = {"status": status}
     if country:
@@ -1047,6 +1048,12 @@ async def get_listings(
         query["from_currency"] = from_currency
     if to_currency:
         query["to_currency"] = to_currency
+    
+    # Exclude listings from blocked users
+    if current_user:
+        blocked_users = current_user.get('blocked_users', [])
+        if blocked_users:
+            query["user_id"] = {"$nin": blocked_users}
     
     listings = await db.listings.find(query, {"_id": 0}).sort("created_at", -1).to_list(1000)
     
