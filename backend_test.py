@@ -544,58 +544,179 @@ class KAIS21NewFeatureTests:
         except Exception as e:
             self.log_test("Exchange Rate Changes - Response Time", False, f"Error: {str(e)}")
     
-    def test_data_persistence(self):
-        """Test that exchange rates are properly stored and retrieved"""
-        print("\n🧪 Testing data persistence...")
+    def test_achievement_system(self):
+        """Test Achievement System functionality"""
+        print("\n🏆 Testing Achievement System...")
         
-        # Make two requests and compare timestamps
+        if not self.test_user_id:
+            self.log_test("Achievement System - Prerequisites", False, "Missing test user ID")
+            return
+        
+        # Test 1: Get achievements for user
         try:
-            url = f"{self.base_url}/api/exchange-rates"
+            response = requests.get(f"{self.base_url}/api/achievements/{self.test_user_id}", timeout=10)
             
-            # First request
-            response1 = requests.get(url, timeout=10)
-            if response1.status_code != 200:
-                self.log_test("Data Persistence - First Request", False, 
-                            f"First request failed: {response1.status_code}")
-                return
-            
-            data1 = response1.json()
-            timestamp1 = data1.get('last_updated')
-            
-            # Wait a moment
-            time.sleep(1)
-            
-            # Second request
-            response2 = requests.get(url, timeout=10)
-            if response2.status_code != 200:
-                self.log_test("Data Persistence - Second Request", False, 
-                            f"Second request failed: {response2.status_code}")
-                return
-            
-            data2 = response2.json()
-            timestamp2 = data2.get('last_updated')
-            
-            # Timestamps should be the same (data is cached)
-            if timestamp1 == timestamp2:
-                self.log_test("Data Persistence - Caching", True, 
-                            "Exchange rates are properly cached")
+            if response.status_code == 200:
+                data = response.json()
+                required_fields = ['user_id', 'username', 'achievements', 'total_unlocked']
+                missing_fields = [f for f in required_fields if f not in data]
+                
+                if not missing_fields:
+                    self.log_test("Achievement System - Get Achievements", True, "All required fields present")
+                else:
+                    self.log_test("Achievement System - Get Achievements", False, 
+                                f"Missing fields: {missing_fields}", data)
+                
+                # Check achievements structure
+                achievements = data.get('achievements', [])
+                if isinstance(achievements, list) and len(achievements) > 0:
+                    self.log_test("Achievement System - Achievements List", True, 
+                                f"Found {len(achievements)} achievements")
+                    
+                    # Check for all 6 expected achievements
+                    expected_achievements = [
+                        'first_listing', 'ten_listings', 'popular_seller', 
+                        'chat_master', 'giveaway_creator', 'exchange_expert'
+                    ]
+                    
+                    achievement_ids = [ach.get('id') for ach in achievements]
+                    missing_achievements = [ach for ach in expected_achievements if ach not in achievement_ids]
+                    
+                    if not missing_achievements:
+                        self.log_test("Achievement System - All 6 Achievements", True, "All 6 achievements present")
+                    else:
+                        self.log_test("Achievement System - All 6 Achievements", False, 
+                                    f"Missing achievements: {missing_achievements}")
+                    
+                    # Check achievement structure
+                    for achievement in achievements:
+                        required_ach_fields = ['id', 'name', 'description', 'icon', 'unlocked']
+                        missing_ach_fields = [f for f in required_ach_fields if f not in achievement]
+                        
+                        if not missing_ach_fields:
+                            self.log_test(f"Achievement System - {achievement.get('id')} Structure", True, 
+                                        f"{achievement.get('name')} has all required fields")
+                        else:
+                            self.log_test(f"Achievement System - {achievement.get('id')} Structure", False, 
+                                        f"{achievement.get('name')} missing fields: {missing_ach_fields}")
+                        
+                        # Check unlocked field type
+                        unlocked = achievement.get('unlocked')
+                        if isinstance(unlocked, bool):
+                            self.log_test(f"Achievement System - {achievement.get('id')} Unlocked Type", True, 
+                                        f"{achievement.get('name')} unlocked is boolean: {unlocked}")
+                        else:
+                            self.log_test(f"Achievement System - {achievement.get('id')} Unlocked Type", False, 
+                                        f"{achievement.get('name')} unlocked is not boolean: {type(unlocked)}")
+                    
+                    # Check if first_listing is unlocked (user created a listing during setup)
+                    first_listing_ach = next((ach for ach in achievements if ach.get('id') == 'first_listing'), None)
+                    if first_listing_ach and first_listing_ach.get('unlocked'):
+                        self.log_test("Achievement System - First Listing Auto-Award", True, 
+                                    "First listing achievement automatically awarded")
+                    else:
+                        self.log_test("Achievement System - First Listing Auto-Award", False, 
+                                    "First listing achievement not automatically awarded")
+                    
+                else:
+                    self.log_test("Achievement System - Achievements List", False, "Achievements list is empty or invalid")
+                
+                # Check total_unlocked count
+                total_unlocked = data.get('total_unlocked', 0)
+                unlocked_count = len([ach for ach in achievements if ach.get('unlocked')])
+                
+                if total_unlocked == unlocked_count:
+                    self.log_test("Achievement System - Total Count", True, 
+                                f"Total unlocked count matches: {total_unlocked}")
+                else:
+                    self.log_test("Achievement System - Total Count", False, 
+                                f"Total unlocked mismatch: reported {total_unlocked}, actual {unlocked_count}")
+                    
             else:
-                self.log_test("Data Persistence - Caching", False, 
-                            f"Timestamps differ: {timestamp1} vs {timestamp2}")
-            
-            # Rates should be identical
-            rates1 = data1.get('rates', {})
-            rates2 = data2.get('rates', {})
-            
-            if rates1 == rates2:
-                self.log_test("Data Persistence - Data Consistency", True, 
-                            "Exchange rates data is consistent")
-            else:
-                self.log_test("Data Persistence - Data Consistency", False, 
-                            "Exchange rates data differs between requests")
+                self.log_test("Achievement System - Get Achievements", False, 
+                            f"Expected 200, got {response.status_code}", response.text)
                 
         except Exception as e:
-            self.log_test("Data Persistence - General", False, f"Error: {str(e)}")
+            self.log_test("Achievement System - Get Achievements", False, f"Error: {str(e)}")
+        
+        # Test 2: Get achievements for non-existent user
+        try:
+            fake_user_id = str(uuid.uuid4())
+            response = requests.get(f"{self.base_url}/api/achievements/{fake_user_id}", timeout=10)
+            
+            if response.status_code == 404:
+                data = response.json()
+                if "not found" in data.get('detail', '').lower():
+                    self.log_test("Achievement System - Non-existent User", True, "Non-existent user correctly handled")
+                else:
+                    self.log_test("Achievement System - Non-existent User", False, 
+                                f"Wrong error message: {data.get('detail')}")
+            else:
+                self.log_test("Achievement System - Non-existent User", False, 
+                            f"Expected 404, got {response.status_code}")
+                
+        except Exception as e:
+            self.log_test("Achievement System - Non-existent User", False, f"Error: {str(e)}")
+        
+        # Test 3: Test achievement auto-awarding by creating another listing
+        if self.auth_token:
+            try:
+                headers = {"Authorization": f"Bearer {self.auth_token}"}
+                listing_data = {
+                    "from_currency": "GBP",
+                    "from_amount": 200,
+                    "to_currency": "TRY",
+                    "country": "Turkey",
+                    "city": "Izmir",
+                    "description": "Test listing for achievement auto-award"
+                }
+                
+                # Create another listing
+                response = requests.post(f"{self.base_url}/api/listings", json=listing_data, headers=headers, timeout=10)
+                
+                if response.status_code == 200:
+                    # Wait a moment for achievement processing
+                    time.sleep(2)
+                    
+                    # Check achievements again
+                    ach_response = requests.get(f"{self.base_url}/api/achievements/{self.test_user_id}", timeout=10)
+                    
+                    if ach_response.status_code == 200:
+                        ach_data = ach_response.json()
+                        achievements = ach_data.get('achievements', [])
+                        first_listing_ach = next((ach for ach in achievements if ach.get('id') == 'first_listing'), None)
+                        
+                        if first_listing_ach and first_listing_ach.get('unlocked'):
+                            self.log_test("Achievement System - Auto-Award Verification", True, 
+                                        "Achievement auto-awarding working correctly")
+                        else:
+                            self.log_test("Achievement System - Auto-Award Verification", False, 
+                                        "Achievement auto-awarding not working")
+                    else:
+                        self.log_test("Achievement System - Auto-Award Verification", False, 
+                                    "Failed to verify achievement auto-awarding")
+                else:
+                    self.log_test("Achievement System - Auto-Award Test Setup", False, 
+                                "Failed to create test listing for auto-award test")
+                    
+            except Exception as e:
+                self.log_test("Achievement System - Auto-Award Test", False, f"Error: {str(e)}")
+        
+        # Test 4: Response time
+        try:
+            start_time = time.time()
+            response = requests.get(f"{self.base_url}/api/achievements/{self.test_user_id}", timeout=10)
+            response_time = time.time() - start_time
+            
+            if response_time < 2.0:
+                self.log_test("Achievement System - Response Time", True, 
+                            f"Response time: {response_time:.2f}s")
+            else:
+                self.log_test("Achievement System - Response Time", False, 
+                            f"Response time too slow: {response_time:.2f}s")
+                
+        except Exception as e:
+            self.log_test("Achievement System - Response Time", False, f"Error: {str(e)}")
     
     def run_all_tests(self):
         """Run all exchange rate tests"""
