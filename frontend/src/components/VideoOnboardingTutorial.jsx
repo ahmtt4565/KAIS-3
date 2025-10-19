@@ -233,38 +233,38 @@ export default function VideoOnboardingTutorial({ onComplete }) {
         </div>
 
         {/* Content */}
-        <div className="p-6 md:p-8">
+        <div className="p-4 md:p-5">
           {/* Animation/Video Area */}
-          <div className="mb-6 bg-gradient-to-br from-teal-50 to-orange-50 dark:from-gray-900 dark:to-gray-800 rounded-xl p-6 border-2 border-teal-200 dark:border-teal-800">
+          <div className="mb-4 bg-gradient-to-br from-teal-50 to-orange-50 dark:from-gray-900 dark:to-gray-800 rounded-xl p-4 border-2 border-teal-200 dark:border-teal-800">
             {AnimationComponent ? (
               <AnimationComponent />
             ) : (
-              <div className="flex items-center justify-center h-48">
-                <div className="text-8xl">{step.image}</div>
+              <div className="flex items-center justify-center h-32">
+                <div className="text-6xl">{step.image}</div>
               </div>
             )}
           </div>
 
           {/* Title & Description */}
-          <div className="mb-6 text-center">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+          <div className="mb-4 text-center">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
               {step.title}
             </h3>
-            <p className="text-gray-600 dark:text-gray-300 text-lg">
+            <p className="text-gray-600 dark:text-gray-300 text-sm">
               {step.description}
             </p>
           </div>
 
           {/* Step-by-Step Instructions */}
           {step.steps && (
-            <div className="mb-6 bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
-              <div className="space-y-2">
+            <div className="mb-4 bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
+              <div className="space-y-1.5">
                 {step.steps.map((instruction, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-teal-500 text-white flex items-center justify-center text-xs font-bold">
+                  <div key={index} className="flex items-start gap-2">
+                    <div className="flex-shrink-0 w-5 h-5 rounded-full bg-teal-500 text-white flex items-center justify-center text-xs font-bold">
                       {instruction.startsWith('🎉') || instruction.startsWith('⭐') || instruction.startsWith('🔥') || instruction.startsWith('💬') || instruction.startsWith('🎁') || instruction.startsWith('👑') || instruction.startsWith('💱') ? '✓' : index + 1}
                     </div>
-                    <p className="text-sm text-gray-700 dark:text-gray-300 flex-1">
+                    <p className="text-xs text-gray-700 dark:text-gray-300 flex-1">
                       {instruction}
                     </p>
                   </div>
