@@ -6,7 +6,8 @@ const ACHIEVEMENT_ICONS = {
   popular_seller: "🔥",
   chat_master: "💬",
   giveaway_creator: "🎁",
-  exchange_expert: "💱"
+  exchange_expert: "💱",
+  master_user: "👑"
 };
 
 export default function AchievementBadge({ achievementId, size = "sm", showTooltip = true }) {
