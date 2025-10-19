@@ -719,20 +719,26 @@ class KAIS21NewFeatureTests:
             self.log_test("Achievement System - Response Time", False, f"Error: {str(e)}")
     
     def run_all_tests(self):
-        """Run all exchange rate tests"""
-        print("🚀 Starting KAIS2.1 Exchange Rate API Tests")
+        """Run all KAIS2.1 new feature tests"""
+        print("🚀 Starting KAIS2.1 New Features Backend Tests")
         print(f"Backend URL: {self.base_url}")
-        print("=" * 60)
+        print("=" * 70)
         
-        # Run tests
-        self.test_get_exchange_rates()
-        self.test_currency_conversion()
-        self.test_data_persistence()
+        # Setup authentication first
+        if not self.setup_authentication():
+            print("❌ Authentication setup failed. Cannot proceed with tests.")
+            return False
+        
+        # Run tests for all 4 new features
+        self.test_report_listing_endpoints()
+        self.test_block_unblock_user_endpoints()
+        self.test_exchange_rate_changes_endpoint()
+        self.test_achievement_system()
         
         # Summary
-        print("\n" + "=" * 60)
+        print("\n" + "=" * 70)
         print("📊 TEST SUMMARY")
-        print("=" * 60)
+        print("=" * 70)
         
         total_tests = len(self.test_results)
         passed_tests = len([t for t in self.test_results if t['success']])
@@ -743,10 +749,66 @@ class KAIS21NewFeatureTests:
         print(f"Failed: {failed_tests} ❌")
         print(f"Success Rate: {(passed_tests/total_tests)*100:.1f}%")
         
+        # Group failed tests by feature
         if self.failed_tests:
-            print("\n❌ FAILED TESTS:")
+            print("\n❌ FAILED TESTS BY FEATURE:")
+            
+            features = {
+                "Authentication": [],
+                "Report Listing": [],
+                "Block User": [],
+                "Exchange Rate Changes": [],
+                "Achievement System": [],
+                "Other": []
+            }
+            
             for test in self.failed_tests:
-                print(f"  - {test['test']}: {test['message']}")
+                test_name = test['test']
+                if "Authentication" in test_name:
+                    features["Authentication"].append(test)
+                elif "Report Listing" in test_name:
+                    features["Report Listing"].append(test)
+                elif "Block User" in test_name:
+                    features["Block User"].append(test)
+                elif "Exchange Rate Changes" in test_name:
+                    features["Exchange Rate Changes"].append(test)
+                elif "Achievement System" in test_name:
+                    features["Achievement System"].append(test)
+                else:
+                    features["Other"].append(test)
+            
+            for feature, tests in features.items():
+                if tests:
+                    print(f"\n  {feature}:")
+                    for test in tests:
+                        print(f"    - {test['test']}: {test['message']}")
+        
+        # Feature-specific summary
+        print("\n📋 FEATURE SUMMARY:")
+        feature_results = {
+            "Report Listing": 0,
+            "Block User": 0, 
+            "Exchange Rate Changes": 0,
+            "Achievement System": 0
+        }
+        
+        for test in self.test_results:
+            test_name = test['test']
+            if "Report Listing" in test_name and test['success']:
+                feature_results["Report Listing"] += 1
+            elif "Block User" in test_name and test['success']:
+                feature_results["Block User"] += 1
+            elif "Exchange Rate Changes" in test_name and test['success']:
+                feature_results["Exchange Rate Changes"] += 1
+            elif "Achievement System" in test_name and test['success']:
+                feature_results["Achievement System"] += 1
+        
+        for feature, passed_count in feature_results.items():
+            total_feature_tests = len([t for t in self.test_results if feature in t['test']])
+            if total_feature_tests > 0:
+                success_rate = (passed_count / total_feature_tests) * 100
+                status = "✅" if success_rate >= 80 else "⚠️" if success_rate >= 60 else "❌"
+                print(f"  {status} {feature}: {passed_count}/{total_feature_tests} ({success_rate:.1f}%)")
         
         return failed_tests == 0
 
