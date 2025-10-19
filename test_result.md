@@ -234,18 +234,28 @@ frontend:
 
 metadata:
   created_by: "main_agent"
-  version: "1.0"
-  test_sequence: 1
+  version: "2.0"
+  test_sequence: 2
   run_ui: false
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Report Listing Endpoints"
+    - "Block/Unblock User Endpoints"
+    - "Exchange Rate Changes Endpoint"
+    - "Achievement System"
+    - "Report Listing Modal"
+    - "Exchange Rate Trend Icons"
+    - "Achievement Badges System"
+    - "Block User Feature"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
-  mobile_testing_complete: true
+  mobile_testing_complete: false
 
 agent_communication:
+  - agent: "main"
+    message: "Implemented 4 new major features: 1) Report Listing - POST/GET /api/reports with modal UI, 2) Block User - POST/DELETE /api/users/block with profile integration, 3) Exchange Rate Changes - GET /api/exchange-rates/changes with trend icons (TrendingUp/TrendingDown), 4) Achievements - 6 achievement types with auto-awarding system. All backend endpoints created, frontend components built (ReportModal, AchievementBadge, blocked users list). User model updated with blocked_users and achievements arrays. Ready for backend testing first, then frontend testing."
   - agent: "main"
     message: "Implemented live exchange rate integration. Added fetch_exchange_rates() function that pulls data from exchangerate-api.com free API (165 currencies). Scheduled to run daily at midnight UTC and on startup. Created two API endpoints: 1) /api/exchange-rates to get all current rates, 2) /api/exchange-rates/convert for currency conversion with amount, from_currency, and to_currency params. Backend logs show successful rate fetch. Ready for testing. Please test both endpoints with various currency pairs (e.g., USD to EUR, TRY to USD, EUR to GBP, etc.)"
   - agent: "testing"
