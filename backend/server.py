@@ -2405,8 +2405,7 @@ async def accept_meetup(meetup_id: str, current_user: dict = Depends(get_current
     notification = Notification(
         user_id=meetup['requester_id'],
         type="meetup_accepted",
-        title="Meet Up Accepted! ✅",
-        content=f"{current_user['username']} accepted your meet up request. Your code: {meetup['requester_code']}"
+        content=f"Meet Up Accepted! ✅ {current_user['username']} accepted your meet up request. Your code: {meetup['requester_code']}"
     )
     notif_dict = notification.model_dump()
     notif_dict['created_at'] = notif_dict['created_at'].isoformat()
