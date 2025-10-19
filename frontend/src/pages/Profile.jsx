@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "../contexts/ThemeContext";
 import BottomNav from "@/components/BottomNav";
 import KaisLogo from "@/components/KaisLogo";
+import { AchievementsCard } from "@/components/AchievementBadge";
 
 export default function Profile({ user, logout, unreadCount = 0 }) {
   const { userId } = useParams();
